@@ -254,7 +254,7 @@
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
-    <checker.version>3.26.0</checker.version>
+    <checker.version>3.29.1-SNAPSHOT</checker.version>
     <groovy.version>3.0.10</groovy.version>
     <junit.version>5.9.0</junit.version>
     <pitest.version>1.9.9</pitest.version>
@@ -313,6 +313,11 @@
       <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
+        <version>${checker.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker</artifactId>
         <version>${checker.version}</version>
       </dependency>
     </dependencies>
@@ -430,7 +435,7 @@
                 <goal>compile</goal>
               </goals>
               <configuration>
-                <!--  <annotationProcessorPaths>
+                <annotationProcessorPaths>
                   <path>
                     <groupId>org.checkerframework</groupId>
                     <artifactId>checker</artifactId>
@@ -446,7 +451,18 @@
                   <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
                   <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor>
                   <annotationProcessor>org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker</annotationProcessor>
-                </annotationProcessors>-->
+                </annotationProcessors>
+                <compilerArgs combine.children="append">
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                  <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                  <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                </compilerArgs>
               </configuration>
             </execution>
             <execution>
@@ -499,6 +515,7 @@
           <groupId>au.com.acegi</groupId>
           <artifactId>xml-format-maven-plugin</artifactId>
           <version>${xml.format.maven.plugin.version}</version>
+          <!--
           <executions>
             <execution>
               <id>xml-format</id>
@@ -509,8 +526,8 @@
               <configuration>
                 <indentSize>2</indentSize>
               </configuration>
-            </execution>
-          </executions>
+            </execution> 
+          </executions>-->
         </plugin>
         <plugin>
           <groupId>com.coveo</groupId>
@@ -523,6 +540,7 @@
             <skipSortingImports>false</skipSortingImports>
             <style>google</style>
           </configuration>
+          <!--
           <executions>
             <execution>
               <id>format</id>
@@ -531,7 +549,7 @@
                 <goal>format</goal>
               </goals>
             </execution>
-          </executions>
+          </executions> -->
           <dependencies>
             <dependency>
               <groupId>com.google.googlejavaformat</groupId>
