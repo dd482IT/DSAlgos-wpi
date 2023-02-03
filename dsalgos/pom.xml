@@ -468,7 +468,6 @@
                   <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
                   <arg>-Aannotations</arg> 
                   <arg>-Anolocations</arg> 
-
                 </compilerArgs>
               </configuration>
             </execution>
