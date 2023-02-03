@@ -1,0 +1,28 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public interface INode<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    T getData();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setData(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    default  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isSame(INode<T> node) {
+        return this == node;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    INode<T> getPrev();
+
+    @org.checkerframework.dataflow.qual.Pure
+    INode<T> getNext();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setNext(INode<T> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setPrev(INode<T> node);
+}

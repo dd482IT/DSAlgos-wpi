@@ -1,0 +1,34 @@
+package ds.knapsack;
+
+import ds.Generated;
+import ds.ISolve;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public abstract class AbstractKnapsack<T> implements ISolve<T> {
+
+    final @org.checkerframework.checker.optional.qual.MaybePresent Item @org.checkerframework.checker.optional.qual.MaybePresent [] items;
+
+    final  @org.checkerframework.checker.optional.qual.MaybePresent int capacity;
+
+    public AbstractKnapsack(@org.checkerframework.checker.optional.qual.MaybePresent Item @org.checkerframework.checker.optional.qual.MaybePresent [] items,  @org.checkerframework.checker.optional.qual.MaybePresent int capacity) {
+        this.items = items.clone();
+        this.capacity = capacity;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract T solve();
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+        if (items != null && items.length > 0) {
+            sb.append(getClass().getSimpleName()).append(" problem: ").append(lineSeparator).append("Capacity : ").append(capacity).append(lineSeparator).append("Items :").append(lineSeparator);
+            for (Item item : items) sb.append("- ").append(item).append(lineSeparator);
+        }
+        return sb.toString();
+    }
+
+    public void display() {
+        System.out.println(this);
+    }
+}

@@ -1,0 +1,55 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class BracketChecker {
+
+    private final @org.checkerframework.checker.signature.qual.SignatureUnknown String input;
+
+    public BracketChecker(String in) {
+        input = in;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean handleClosingBracket(@org.checkerframework.checker.signature.qual.SignatureUnknown BracketChecker this, @org.checkerframework.checker.signature.qual.SignatureUnknown IStack theStack,  @org.checkerframework.checker.signature.qual.SignatureUnknown char ch) {
+        boolean matchFound = true;
+        if (theStack.isEmpty()) {
+            matchFound = false;
+        } else {
+            char chx = (char) theStack.pop();
+            if (!doesBracketMatch(chx, ch)) {
+                matchFound = false;
+            }
+        }
+        return matchFound;
+    }
+
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean check() {
+        boolean matchFound = true;
+        IStack theStack = new LinkedListStack();
+        for (int j = 0; j < input.length() && matchFound; j++) {
+            char ch = input.charAt(j);
+            switch(ch) {
+                case '{':
+                case '[':
+                case '(':
+                    theStack.push(ch);
+                    break;
+                case '}':
+                case ']':
+                case ')':
+                    matchFound = handleClosingBracket(theStack, ch);
+                    break;
+                default:
+            }
+        }
+        if (!theStack.isEmpty()) {
+            matchFound = false;
+        }
+        return matchFound;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean doesBracketMatch(@org.checkerframework.checker.signature.qual.SignatureUnknown BracketChecker this,  @org.checkerframework.checker.signature.qual.SignatureUnknown char start,  @org.checkerframework.checker.signature.qual.SignatureUnknown char end) {
+        return start == '{' && end == '}' || start == '[' && end == ']' || start == '(' && end == ')';
+    }
+}

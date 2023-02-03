@@ -1,0 +1,46 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class SimpleStack implements IStack {
+
+    private final  @org.checkerframework.checker.optional.qual.MaybePresent int maxSize;
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] stackArray;
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int top;
+
+    public SimpleStack( @org.checkerframework.checker.optional.qual.MaybePresent int s) {
+        maxSize = s;
+        stackArray = new long[maxSize];
+        top = -1;
+    }
+
+    public void push(@org.checkerframework.checker.optional.qual.MaybePresent SimpleStack this,  @org.checkerframework.checker.optional.qual.MaybePresent long j) {
+        stackArray[top + 1] = j;
+        ++top;
+    }
+
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long pop(@org.checkerframework.checker.optional.qual.MaybePresent SimpleStack this) {
+        return stackArray[top--];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long peek(@org.checkerframework.checker.optional.qual.MaybePresent SimpleStack this) {
+        return stackArray[top];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty(@org.checkerframework.checker.optional.qual.MaybePresent SimpleStack this) {
+        return top == -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int size(@org.checkerframework.checker.optional.qual.MaybePresent SimpleStack this) {
+        return top + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isFull(@org.checkerframework.checker.optional.qual.MaybePresent SimpleStack this) {
+        return top == maxSize - 1;
+    }
+}

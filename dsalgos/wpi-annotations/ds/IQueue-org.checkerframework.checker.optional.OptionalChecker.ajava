@@ -1,0 +1,23 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public interface IQueue {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void insert(long j);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long poll();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long peek();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int size();
+}

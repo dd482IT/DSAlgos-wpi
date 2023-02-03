@@ -1,0 +1,44 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public interface IArray {
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned long  [] get( IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned long  [] getExtentArray();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int count( IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void clear();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int findIndex(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned boolean find(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int insert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int syncInsert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned boolean delete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned boolean syncDelete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void display();
+
+    @org.checkerframework.dataflow.qual.Pure
+     IArray copy( IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     IArray sort(ISort sorter);
+}

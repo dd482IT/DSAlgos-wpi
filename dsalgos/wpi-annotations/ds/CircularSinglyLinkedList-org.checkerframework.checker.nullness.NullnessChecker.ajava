@@ -1,0 +1,351 @@
+package ds;
+
+import static java.util.Objects.*;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public class CircularSinglyLinkedList<T> extends AbstractList<T> {
+
+    private static final String DATA_NON_NULL = "Data cannot be null.";
+
+    private int length;
+
+    private INode<T> head;
+
+    private INode<T> tail;
+
+    /**
+     * Add element at end.
+     *
+     * @param data - data to be added to list.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void add(T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        linkLast(data);
+    }
+
+    /**
+     * Add the element at specified index.
+     *
+     * @param data - data to be added at index.
+     * @param index - index at which element to be added.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void add(T data, int index) {
+        requireNonNull(data, DATA_NON_NULL);
+        if (index == 0) {
+            addAtFirst(data);
+            return;
+        }
+        if (index == length)
+            add(data);
+        else if (index < length) {
+            INode<T> rightNode = get(index);
+            linkBefore(data, rightNode);
+        } else
+            throw new IndexOutOfBoundsException("Index not available.");
+    }
+
+    /**
+     * Add element at first node. Set the newly created node as root node.
+     *
+     * @param data Add data node at beginning.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void addAtFirst(T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        linkFirst(data);
+    }
+
+    public INode<T> find(T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        INode<T> node = new SingleNode<>(data);
+        if (head.equals(node))
+            return head;
+        INode<T> startNode = head.getNext();
+        while (!head.isSame(startNode)) {
+            if (startNode.equals(node))
+                return startNode;
+            startNode = next(startNode);
+        }
+        return null;
+    }
+
+    public T deleteAt(int index) {
+        checkIndex(index, length);
+        if (index == 0)
+            return unlinkFirst();
+        else {
+            INode<T> prev = get(index - 1);
+            INode<T> curr = prev.getNext();
+            return unlink(curr);
+        }
+    }
+
+    protected T unlinkFirst() {
+        final T data = head.getData();
+        head.setData(null);
+        if (head.isSame(head.getNext())) {
+            head.setNext(null);
+            head = tail = null;
+        } else {
+            INode<T> next = head.getNext();
+            head.setNext(null);
+            head = next;
+            tail.setNext(head);
+        }
+        --length;
+        return data;
+    }
+
+    protected T unlink(INode<T> node) {
+        INode<T> prev = previous(node);
+        final T data = node.getData();
+        final INode<T> next = node.getNext();
+        prev.setNext(next);
+        node.setData(null);
+        node.setNext(null);
+        --length;
+        return data;
+    }
+
+    protected void linkLast(T data) {
+        INode<T> node = new SingleNode<>(data);
+        INode<T> last = tail;
+        if (nonNull(last)) {
+            last.setNext(node);
+            node.setNext(head);
+            tail = node;
+        } else {
+            head = tail = node;
+            head.setNext(tail);
+        }
+        ++length;
+    }
+
+    protected void linkFirst(T data) {
+        if (isNull(head)) {
+            head = tail = new SingleNode<>(data);
+            head.setNext(tail);
+        } else {
+            INode<T> node = new SingleNode<>(data, head);
+            head = node;
+            tail.setNext(head);
+        }
+        ++length;
+    }
+
+    protected void linkBefore(T data, INode<T> next) {
+        INode<T> node = new SingleNode<>(data, next);
+        INode<T> prev = previous(next);
+        prev.setNext(node);
+        node.setNext(next);
+        if (prev.isSame(tail))
+            head = node;
+        ++length;
+    }
+
+    public boolean delete(T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        if (isNull(head))
+            return false;
+        INode<T> node = new SingleNode<>(data);
+        if (head.equals(node)) {
+            unlinkFirst();
+            return true;
+        }
+        INode<T> prevNode = head;
+        INode<T> currNode = prevNode.getNext();
+        while (!head.isSame(currNode)) {
+            if (currNode.equals(node)) {
+                unlink(currNode);
+                return true;
+            }
+            currNode = currNode.getNext();
+        }
+        return false;
+    }
+
+    public INode<T> get(int index) {
+        checkIndex(index, length);
+        if (index == 0)
+            return head;
+        if (index == length - 1)
+            return tail;
+        int pointer = 0;
+        INode<T> pointerNode = head;
+        while (pointer != index) {
+            pointerNode = next(pointerNode);
+            ++pointer;
+        }
+        return pointerNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private INode<T> previous(INode<T> node) {
+        INode<T> prevNode = head;
+        INode<T> currNode = head.getNext();
+        while (!node.isSame(currNode)) {
+            prevNode = currNode;
+            currNode = currNode.getNext();
+        }
+        return prevNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private INode<T> next(INode<T> node) {
+        return node.getNext();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int size() {
+        return length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean isEmpty() {
+        return length == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public INode<T> getHead() {
+        return head;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public INode<T> getTail() {
+        return tail;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        INode<T> nextNode = head;
+        while (nonNull(head)) {
+            sb.append(nextNode);
+            nextNode = next(nextNode);
+            if (head.isSame(nextNode))
+                break;
+            sb.append(',');
+        }
+        sb.append(']');
+        return sb.toString();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public Iterator<T> iterator() {
+        return getIterator();
+    }
+
+    public ListIterator<T> getIterator() {
+        return new ListIter();
+    }
+
+    public ListIterator<T> getIteratorFromIndex(int idx) {
+        return new ListIter(idx);
+    }
+
+    final class ListIter implements ListIterator<T> {
+
+        private INode<T> lastReturned;
+
+        private INode<T> nextNode;
+
+        private int nextIndex;
+
+        ListIter() {
+            this(0);
+        }
+
+        ListIter(int index) {
+            checkIndex(index, length + 1);
+            nextNode = index == length ? head : get(index);
+            nextIndex = index == length ? 0 : index;
+        }
+
+        public T next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            lastReturned = nextNode = isNull(nextNode) ? head : nextNode;
+            nextNode = nextNode.getNext();
+            ++nextIndex;
+            if (nextIndex >= length)
+                nextIndex -= length;
+            return lastReturned.getData();
+        }
+
+        public T previous() {
+            if (!hasPrevious())
+                throw new NoSuchElementException();
+            lastReturned = nextNode = CircularSinglyLinkedList.this.previous(nextNode);
+            --nextIndex;
+            if (nextIndex < 0)
+                nextIndex = length - 1;
+            return lastReturned.getData();
+        }
+
+        public void add(T data) {
+            lastReturned = null;
+            if (isNull(nextNode))
+                linkLast(data);
+            else
+                linkBefore(data, nextNode);
+            ++nextIndex;
+        }
+
+        public void remove() {
+            if (isNull(lastReturned))
+                throw new IllegalStateException();
+            INode<T> lastNext = lastReturned.getNext();
+            if (lastReturned.isSame(head))
+                unlinkFirst();
+            else
+                unlink(lastReturned);
+            if (lastReturned.isSame(nextNode))
+                nextNode = lastNext;
+            else {
+                --nextIndex;
+                if (nextIndex < 0)
+                    nextIndex = length - 1;
+            }
+            lastReturned = null;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public void set(T data) {
+            if (lastReturned == null)
+                throw new IllegalStateException();
+            lastReturned.setData(data);
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public boolean hasNext() {
+            return !isEmpty();
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public boolean hasPrevious() {
+            return !isEmpty();
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public int nextIndex() {
+            return nextIndex;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public int previousIndex() {
+            return nextIndex > 0 ? nextIndex - 1 : length - 1;
+        }
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder(50);
+            String lineSeparator = System.lineSeparator();
+            sb.append("Last returned = ").append(lastReturned).append(lineSeparator).append("Next node = ").append(nextNode).append(lineSeparator).append("Next index = ").append(nextIndex);
+            return sb.toString();
+        }
+    }
+}

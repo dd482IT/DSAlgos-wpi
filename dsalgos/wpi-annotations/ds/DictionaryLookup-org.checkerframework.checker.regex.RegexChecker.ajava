@@ -1,0 +1,38 @@
+package ds;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.regex.RegexChecker")
+public final class DictionaryLookup {
+
+    private static final @org.checkerframework.checker.regex.qual.Regex String URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+
+    private static final @org.checkerframework.checker.regex.qual.Regex String GET = "GET";
+
+    private static final @org.checkerframework.checker.regex.qual.Regex String USER_AGENT = "Mozilla/5.0";
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private DictionaryLookup() {
+        throw new IllegalStateException(DictionaryLookup.class.getName() + ": Private constructor");
+    }
+
+    public static   boolean isDictionaryWord( String word) throws IOException {
+        return isWordAvailable(word);
+    }
+
+    /**
+     *  <p>Use with caution. Rate limiting applies.
+     *  Proof of Concept(POC).</p>
+     * *
+     */
+    private static   boolean isWordAvailable( String word) throws IOException {
+        String wordUrl = URL + word;
+        URL obj = new URL(wordUrl);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod(GET);
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        return con.getResponseCode() == HttpURLConnection.HTTP_OK;
+    }
+}

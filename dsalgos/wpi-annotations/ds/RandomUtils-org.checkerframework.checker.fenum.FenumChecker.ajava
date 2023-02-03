@@ -1,0 +1,28 @@
+package ds;
+
+import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public final class RandomUtils {
+
+    private static final @org.checkerframework.checker.fenum.qual.FenumUnqualified Random RANDOM = new Random();
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private RandomUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor invoked for class: " + RandomUtils.class);
+    }
+
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified int randomInRange( @org.checkerframework.checker.fenum.qual.FenumUnqualified int low,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int high) {
+        return RANDOM.nextInt(high - low) + low;
+    }
+
+    public static @org.checkerframework.checker.fenum.qual.FenumUnqualified LongStream longStream() {
+        return RANDOM.longs();
+    }
+
+    public static @org.checkerframework.checker.fenum.qual.FenumUnqualified IntStream intStream() {
+        return RANDOM.ints();
+    }
+}

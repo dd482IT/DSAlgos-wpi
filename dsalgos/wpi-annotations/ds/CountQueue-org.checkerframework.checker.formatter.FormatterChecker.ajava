@@ -1,0 +1,66 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public class CountQueue implements IQueue {
+
+    private final   int maxSize;
+
+    private   long  [] queArray;
+
+    private   int front;
+
+    private   int rear;
+
+    private   int nItems;
+
+    public CountQueue(int s) {
+        if (s < 0)
+            throw new IllegalArgumentException("Queue size cannot be negative.");
+        maxSize = s;
+        queArray = new long[maxSize];
+        front = 0;
+        rear = -1;
+        nItems = 0;
+    }
+
+    public void insert( CountQueue this,   long j) {
+        if (isFull())
+            throw new IllegalStateException("Queue is full.");
+        if (rear == maxSize - 1)
+            rear = -1;
+        queArray[++rear] = j;
+        nItems++;
+    }
+
+    public   long poll( CountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue is empty.");
+        long temp = queArray[front++];
+        if (front == maxSize)
+            front = 0;
+        nItems--;
+        return temp;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peek( CountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Empty queue!");
+        return queArray[front];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isEmpty( CountQueue this) {
+        return nItems == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isFull( CountQueue this) {
+        return nItems == maxSize;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int size( CountQueue this) {
+        return nItems;
+    }
+}

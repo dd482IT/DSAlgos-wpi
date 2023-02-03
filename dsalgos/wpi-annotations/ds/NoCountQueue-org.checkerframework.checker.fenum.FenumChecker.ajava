@@ -1,0 +1,71 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class NoCountQueue implements IQueue {
+
+    private final  @org.checkerframework.checker.fenum.qual.FenumUnqualified int maxSize;
+
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] queArray;
+
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int front;
+
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int rear;
+
+    public NoCountQueue(int s) {
+        if (s < 0)
+            throw new IllegalArgumentException("Queue size cannot be negative.");
+        maxSize = s + 1;
+        queArray = new long[maxSize];
+        front = 0;
+        rear = -1;
+    }
+
+    private void initialisePointers(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        front = 0;
+        rear = -1;
+    }
+
+    public void insert(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long j) {
+        if (isFull())
+            throw new IllegalStateException("Queue is full.");
+        queArray[++rear] = j;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isSingleElementQueue(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        return front == rear;
+    }
+
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long poll(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue is empty.");
+        long temp = queArray[front];
+        if (isSingleElementQueue())
+            initialisePointers();
+        else
+            ++front;
+        return temp;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long peek(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Empty queue!");
+        return queArray[front];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isEmpty(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        return (rear + 1) % maxSize == front;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isFull(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        return (rear + 2) % maxSize == front;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int size(@org.checkerframework.checker.fenum.qual.FenumUnqualified NoCountQueue this) {
+        return rear - front + 1;
+    }
+}

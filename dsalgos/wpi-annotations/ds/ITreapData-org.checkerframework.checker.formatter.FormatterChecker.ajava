@@ -1,0 +1,21 @@
+/**
+ * @author : home
+ * @created : 2021-12-27
+ */
+/*
+ * ITreapData.java
+ * Copyright (C) 2021  <@localhost>
+ *
+ * Distributed under terms of the MIT license.
+ */
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public interface ITreapData<T> extends Comparable<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    T data();
+
+    @org.checkerframework.dataflow.qual.Pure
+    int priority();
+}

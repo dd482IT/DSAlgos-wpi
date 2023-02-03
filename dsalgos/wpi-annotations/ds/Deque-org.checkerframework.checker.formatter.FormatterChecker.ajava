@@ -1,0 +1,171 @@
+package ds;
+
+import static ds.ArrayUtils.*;
+import java.util.Arrays;
+
+/**
+ *  <p>Deque implementation in Java.</p>
+ * *
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public class Deque implements IQueue, IStack, IDeque {
+
+    private static final @org.checkerframework.checker.formatter.qual.Format({}) String QUEUE_UNDERFLOW = "Queue underflow.";
+
+      long  [] arr;
+
+      int first;
+
+      int last;
+
+    public Deque(int size) {
+        arr = new long[size];
+        first = -1;
+        last = -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void push( Deque this,  @org.checkerframework.checker.formatter.qual.Format({}) long j) {
+        addFirst(j);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long pop( Deque this) {
+        return poll();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void insert( Deque this,   long j) {
+        addLast(j);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long poll( Deque this) {
+        return pollFirst();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peek( Deque this) {
+        return peekFirst();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isFull( Deque this) {
+        return size() == arr.length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int size( Deque this) {
+        if (arr.length == 0 || first < 0)
+            return 0;
+        return last >= first ? last - first + 1 : arr.length - first + last + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isEmpty( Deque this) {
+        return size() == 0;
+    }
+
+    private void reinitializePointers( Deque this) {
+        first = last = -1;
+    }
+
+    public void addFirst( Deque this,   long key) {
+        if (isFull())
+            doubleCapacity();
+        if (first == -1) {
+            first = 0;
+            last = 0;
+        } else if (first == 0)
+            first = arr.length - 1;
+        else
+            first = first - 1;
+        arr[first] = key;
+    }
+
+    public void addLast( Deque this,   long key) {
+        if (isFull())
+            doubleCapacity();
+        if (first == -1) {
+            first = 0;
+            last = 0;
+        } else if (last == arr.length - 1)
+            last = 0;
+        else
+            last = last + 1;
+        arr[last] = key;
+    }
+
+    public   long pollFirst( Deque this) {
+        if (isEmpty())
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        long val = arr[first];
+        if (first == last) {
+            reinitializePointers();
+            return val;
+        }
+        if (first == arr.length - 1) {
+            first = 0;
+            return val;
+        }
+        ++first;
+        return val;
+    }
+
+    public   long pollLast( Deque this) {
+        if (isEmpty())
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        long val = arr[last];
+        if (first == last) {
+            reinitializePointers();
+            return val;
+        }
+        if (last == 0) {
+            last = arr.length - 1;
+            return val;
+        }
+        --last;
+        return val;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peekFirst( Deque this) {
+        if (isEmpty())
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        return arr[first];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peekLast( Deque this) {
+        if (isEmpty())
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        return arr[last];
+    }
+
+    /**
+     *  <p> Double the capacity of this deque.
+     *  Call only when full, i.e.,
+     *  when head and tail have wrapped around to touch each other. </p>
+     * *
+     */
+    private void doubleCapacity( Deque this) {
+        int n = arr.length;
+        if (n == 0)
+            throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
+        int p = first;
+        int r = n - p;
+        long[] a = getDoubleCapacity(n);
+        System.arraycopy(arr, p, a, 0, r);
+        System.arraycopy(arr, 0, a, r, p);
+        arr = a;
+        first = 0;
+        last = n - 1;
+    }
+
+    public  String toString( Deque this) {
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+        sb.append("First = ").append(first).append(lineSeparator).append("Last = ").append(last).append(lineSeparator).append(Arrays.toString(arr));
+        return sb.toString();
+    }
+}

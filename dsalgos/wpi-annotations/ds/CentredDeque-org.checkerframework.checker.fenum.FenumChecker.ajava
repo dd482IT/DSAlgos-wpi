@@ -1,0 +1,218 @@
+package ds;
+
+import static ds.ArrayUtils.*;
+import static ds.MathUtils.*;
+import java.util.Arrays;
+
+/**
+ *  <p>Centred Deque implementation in Java.</p>
+ * *
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class CentredDeque implements IQueue, IStack, IDeque {
+
+    private static final @org.checkerframework.checker.fenum.qual.FenumUnqualified String QUEUE_UNDERFLOW = "Queue underflow.";
+
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] arr;
+
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int first;
+
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int last;
+
+    public CentredDeque(int size) {
+        arr = new long[size];
+        first = last = -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void push(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long j) {
+        addFirst(j);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long pop(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return poll();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void insert(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long j) {
+        addLast(j);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long poll(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return pollFirst();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long peek(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return peekFirst();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isFull(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return isLeftFull() && isRightFull();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isLeftFull(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        if (arr.length == 0)
+            return true;
+        return first == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isRightFull(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        if (arr.length == 1 || arr.length == 0)
+            return true;
+        return last == arr.length - 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getLeftBoundary(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        if (isOdd(length))
+            return ((length + 1) >> 1) - 1;
+        else
+            return (length >> 1) - 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getRightBoundary(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        if (isOdd(length))
+            return (length + 1) >> 1;
+        else
+            return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getLeftLength(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return first == -1 ? 0 : getLeftBoundary(arr.length) - first + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getRightLength(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return last == -1 ? 0 : last - getRightBoundary(arr.length) + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int size(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        if (arr.length == 0)
+            return 0;
+        return getLeftLength() + getRightLength();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isEmpty(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        return size() == 0;
+    }
+
+    private void reinitializeLeftPointer(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        first = -1;
+    }
+
+    private void reinitializeRightPointer(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        last = -1;
+    }
+
+    public void addFirst(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long key) {
+        if (isLeftFull())
+            doubleCapacity();
+        if (first == -1)
+            first = getLeftBoundary(arr.length);
+        else
+            --first;
+        arr[first] = key;
+    }
+
+    public void addLast(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long key) {
+        if (isRightFull())
+            doubleCapacity();
+        if (last == -1)
+            last = getRightBoundary(arr.length);
+        else
+            ++last;
+        arr[last] = key;
+    }
+
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long pollFirst(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        long val = peekFirst();
+        if (first == -1) {
+            int leftBoundary = getLeftBoundary(arr.length);
+            int rightBoundary = getRightBoundary(arr.length);
+            System.arraycopy(arr, rightBoundary, arr, leftBoundary, getRightLength());
+            first = leftBoundary;
+            --last;
+            if (last < rightBoundary)
+                last = -1;
+        }
+        if (first == getLeftBoundary(arr.length)) {
+            reinitializeLeftPointer();
+            return val;
+        }
+        ++first;
+        return val;
+    }
+
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long pollLast(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        long val = peekLast();
+        if (last == -1) {
+            int leftLength = getLeftLength();
+            System.arraycopy(arr, first++, arr, first, leftLength);
+            last = getRightBoundary(arr.length);
+            if (first > getLeftBoundary(arr.length))
+                first = -1;
+        }
+        if (last == getRightBoundary(arr.length)) {
+            reinitializeRightPointer();
+            return val;
+        }
+        --last;
+        return val;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long peekFirst(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        if (first == -1 && last == -1)
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        if (first == -1)
+            return arr[getRightBoundary(arr.length)];
+        return arr[first];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long peekLast(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        if (last == -1 && first == -1)
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        if (last == -1)
+            return arr[getLeftBoundary(arr.length)];
+        return arr[last];
+    }
+
+    /**
+     *  <p> Double the capacity of this deque. </p>
+     * *
+     */
+    private void doubleCapacity(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        int n = arr.length;
+        if (n == 0)
+            throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
+        long[] a = (n == 1) ? getDoubleCapacity(n * 2) : getDoubleCapacity(n);
+        if (first >= 0) {
+            int startIndex = getLeftBoundary(a.length) - getLeftLength() + 1;
+            System.arraycopy(arr, first, a, startIndex, getLeftLength());
+            first = startIndex;
+        }
+        if (last > 0) {
+            System.arraycopy(arr, getRightBoundary(arr.length), a, a.length >> 1, getRightLength());
+            last = (a.length >> 1) + getRightLength() - 1;
+        }
+        arr = a;
+    }
+
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified String toString(@org.checkerframework.checker.fenum.qual.FenumUnqualified CentredDeque this) {
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+        sb.append("First = ").append(first).append(lineSeparator).append("Last = ").append(last).append(lineSeparator).append(Arrays.toString(arr));
+        return sb.toString();
+    }
+}

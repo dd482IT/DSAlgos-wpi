@@ -1,0 +1,66 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public class CountQueue implements IQueue {
+
+    private final  @org.checkerframework.checker.interning.qual.Interned int maxSize;
+
+    private  @org.checkerframework.checker.interning.qual.Interned long  [] queArray;
+
+    private  @org.checkerframework.checker.interning.qual.Interned int front;
+
+    private  @org.checkerframework.checker.interning.qual.Interned int rear;
+
+    private  @org.checkerframework.checker.interning.qual.Interned int nItems;
+
+    public CountQueue(int s) {
+        if (s < 0)
+            throw new IllegalArgumentException("Queue size cannot be negative.");
+        maxSize = s;
+        queArray = new long[maxSize];
+        front = 0;
+        rear = -1;
+        nItems = 0;
+    }
+
+    public void insert( CountQueue this,  @org.checkerframework.checker.interning.qual.Interned long j) {
+        if (isFull())
+            throw new IllegalStateException("Queue is full.");
+        if (rear == maxSize - 1)
+            rear = -1;
+        queArray[++rear] = j;
+        nItems++;
+    }
+
+    public  @org.checkerframework.checker.interning.qual.Interned long poll( CountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue is empty.");
+        long temp = queArray[front++];
+        if (front == maxSize)
+            front = 0;
+        nItems--;
+        return temp;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.interning.qual.Interned long peek( CountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Empty queue!");
+        return queArray[front];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.interning.qual.Interned boolean isEmpty( CountQueue this) {
+        return nItems == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.interning.qual.Interned boolean isFull( CountQueue this) {
+        return nItems == maxSize;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.interning.qual.Interned int size( CountQueue this) {
+        return nItems;
+    }
+}

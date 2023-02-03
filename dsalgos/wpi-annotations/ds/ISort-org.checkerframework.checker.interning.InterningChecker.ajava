@@ -1,0 +1,20 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public interface ISort {
+
+    @org.checkerframework.dataflow.qual.Pure
+     IArray sort( ISort this,  IArray array);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int getComparisonCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int getSwapCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int getCopyCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int getTimeComplexity();
+}

@@ -1,0 +1,23 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public interface IStack {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void push(@org.checkerframework.checker.signature.qual.SignatureUnknown IStack this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long j);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown long pop(@org.checkerframework.checker.signature.qual.SignatureUnknown IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown long peek();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isEmpty(@org.checkerframework.checker.signature.qual.SignatureUnknown IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int size();
+}

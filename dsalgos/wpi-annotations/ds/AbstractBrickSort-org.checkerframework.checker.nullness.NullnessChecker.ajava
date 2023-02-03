@@ -1,0 +1,21 @@
+package ds;
+
+import static ds.MathUtils.isOdd;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public abstract class AbstractBrickSort extends AbstractSort {
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void sort(long[] a, int length);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int computeMaxComparisons( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        return isOdd(length) ? length * ((length - 1) >> 1) : (length >> 1) * (length - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void bubble( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int i);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isSorted();
+}

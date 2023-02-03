@@ -1,0 +1,37 @@
+package ds;
+
+import static ds.ArrayUtils.swap;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class MaxHeap extends AbstractHeap {
+
+    public MaxHeap(int maxSize) {
+        super(maxSize);
+    }
+
+    protected void heapifyUp(@org.checkerframework.checker.fenum.qual.FenumUnqualified MaxHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int i) {
+        if (i == 0)
+            return;
+        int parent = parent(i);
+        if (a[parent] < a[i]) {
+            swap(i, parent);
+            heapifyUp(parent);
+        }
+    }
+
+    protected void heapifyDown(@org.checkerframework.checker.fenum.qual.FenumUnqualified MaxHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int i) {
+        int left = leftChild(i);
+        int right = rightChild(i);
+        int largest = i;
+        if (left < nElems && a[left] > a[i])
+            largest = left;
+        if (right < nElems && a[right] > a[largest])
+            largest = right;
+        if (largest != i) {
+            // swap with child having greater value
+            swap(i, largest);
+            // call heapify-down on the child
+            heapifyDown(largest);
+        }
+    }
+}

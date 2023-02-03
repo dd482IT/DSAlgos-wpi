@@ -1,0 +1,71 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class NoCountQueue implements IQueue {
+
+    private final  @org.checkerframework.checker.signature.qual.SignatureUnknown int maxSize;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] queArray;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int front;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int rear;
+
+    public NoCountQueue(int s) {
+        if (s < 0)
+            throw new IllegalArgumentException("Queue size cannot be negative.");
+        maxSize = s + 1;
+        queArray = new long[maxSize];
+        front = 0;
+        rear = -1;
+    }
+
+    private void initialisePointers(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        front = 0;
+        rear = -1;
+    }
+
+    public void insert(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long j) {
+        if (isFull())
+            throw new IllegalStateException("Queue is full.");
+        queArray[++rear] = j;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isSingleElementQueue(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        return front == rear;
+    }
+
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown long poll(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue is empty.");
+        long temp = queArray[front];
+        if (isSingleElementQueue())
+            initialisePointers();
+        else
+            ++front;
+        return temp;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown long peek(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Empty queue!");
+        return queArray[front];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isEmpty(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        return (rear + 1) % maxSize == front;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isFull(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        return (rear + 2) % maxSize == front;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int size(@org.checkerframework.checker.signature.qual.SignatureUnknown NoCountQueue this) {
+        return rear - front + 1;
+    }
+}

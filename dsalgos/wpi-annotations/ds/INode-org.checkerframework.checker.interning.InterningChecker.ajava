@@ -1,0 +1,28 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public interface INode<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    T getData( INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setData( INode<T> this, T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    default  @org.checkerframework.checker.interning.qual.Interned boolean isSame( INode<T> this,  INode<T> node) {
+        return this == node;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+     INode<T> getPrev( INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     INode<T> getNext( INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setNext( INode<T> this,  INode<T> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setPrev( INode<T> this,  INode<T> node);
+}

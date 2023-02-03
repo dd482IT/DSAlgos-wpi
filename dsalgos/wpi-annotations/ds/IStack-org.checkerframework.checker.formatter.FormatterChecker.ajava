@@ -1,0 +1,23 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public interface IStack {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void push( IStack this,  @org.checkerframework.checker.formatter.qual.Format({}) long j);
+
+    @org.checkerframework.dataflow.qual.Pure
+      long pop( IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+      long peek();
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isEmpty( IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+      int size();
+}

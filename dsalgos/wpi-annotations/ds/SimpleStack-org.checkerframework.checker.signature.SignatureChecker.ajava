@@ -1,0 +1,46 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class SimpleStack implements IStack {
+
+    private final  @org.checkerframework.checker.signature.qual.SignatureUnknown int maxSize;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] stackArray;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int top;
+
+    public SimpleStack( @org.checkerframework.checker.signature.qual.SignatureUnknown int s) {
+        maxSize = s;
+        stackArray = new long[maxSize];
+        top = -1;
+    }
+
+    public void push(@org.checkerframework.checker.signature.qual.SignatureUnknown SimpleStack this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long j) {
+        stackArray[top + 1] = j;
+        ++top;
+    }
+
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown long pop(@org.checkerframework.checker.signature.qual.SignatureUnknown SimpleStack this) {
+        return stackArray[top--];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown long peek(@org.checkerframework.checker.signature.qual.SignatureUnknown SimpleStack this) {
+        return stackArray[top];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isEmpty(@org.checkerframework.checker.signature.qual.SignatureUnknown SimpleStack this) {
+        return top == -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int size(@org.checkerframework.checker.signature.qual.SignatureUnknown SimpleStack this) {
+        return top + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isFull(@org.checkerframework.checker.signature.qual.SignatureUnknown SimpleStack this) {
+        return top == maxSize - 1;
+    }
+}

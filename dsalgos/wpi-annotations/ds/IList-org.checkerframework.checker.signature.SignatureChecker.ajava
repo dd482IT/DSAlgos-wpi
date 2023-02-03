@@ -1,0 +1,46 @@
+package ds;
+
+import java.util.ListIterator;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public interface IList<T> extends Iterable<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data, int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addAtFirst(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> find(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> get(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    T deleteAt(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean delete(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int size();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ListIterator<T> getIterator();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ListIterator<T> getIteratorFromIndex(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getHead();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getTail();
+}

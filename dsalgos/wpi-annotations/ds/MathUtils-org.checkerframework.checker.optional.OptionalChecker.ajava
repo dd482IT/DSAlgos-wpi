@@ -1,0 +1,77 @@
+package ds;
+
+import static java.lang.Math.abs;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public final class MathUtils {
+
+    private static final @org.checkerframework.checker.optional.qual.MaybePresent String INVALID_ARGUMENT = "Invalid argument: ";
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private MathUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent int computeOddPairCount( @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent int computeEvenPairCount( @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent boolean isOdd( @org.checkerframework.checker.optional.qual.MaybePresent int num) {
+        return (num & 1) == 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent boolean isInRangeInclusive( @org.checkerframework.checker.optional.qual.MaybePresent int min,  @org.checkerframework.checker.optional.qual.MaybePresent int max,  @org.checkerframework.checker.optional.qual.MaybePresent int val) {
+        return Math.max(min, val) == Math.min(val, max);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent boolean isInRange( @org.checkerframework.checker.optional.qual.MaybePresent int min,  @org.checkerframework.checker.optional.qual.MaybePresent int max,  @org.checkerframework.checker.optional.qual.MaybePresent int val) {
+        return Math.max(min, val) == Math.min(val, max - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent boolean isGreaterThan( @org.checkerframework.checker.optional.qual.MaybePresent int min,  @org.checkerframework.checker.optional.qual.MaybePresent int val) {
+        return val > min;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.optional.qual.MaybePresent boolean isLessThan( @org.checkerframework.checker.optional.qual.MaybePresent int max,  @org.checkerframework.checker.optional.qual.MaybePresent int val) {
+        return val < max;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireLessThan(int max, int val) {
+        if (!isLessThan(max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireGreaterThan( @org.checkerframework.checker.optional.qual.MaybePresent int min,  @org.checkerframework.checker.optional.qual.MaybePresent int val) {
+        if (!isGreaterThan(min, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRangeInclusive( @org.checkerframework.checker.optional.qual.MaybePresent int min,  @org.checkerframework.checker.optional.qual.MaybePresent int max,  @org.checkerframework.checker.optional.qual.MaybePresent int val) {
+        if (!isInRangeInclusive(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRange(int min, int max, int val) {
+        if (!isInRange(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+}

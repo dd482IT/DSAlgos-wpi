@@ -1,0 +1,28 @@
+package ds;
+
+import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public final class RandomUtils {
+
+    private static final @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull Random RANDOM = new Random();
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private RandomUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor invoked for class: " + RandomUtils.class);
+    }
+
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int randomInRange( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int low,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int high) {
+        return RANDOM.nextInt(high - low) + low;
+    }
+
+    public static @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull LongStream longStream() {
+        return RANDOM.longs();
+    }
+
+    public static @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull IntStream intStream() {
+        return RANDOM.ints();
+    }
+}

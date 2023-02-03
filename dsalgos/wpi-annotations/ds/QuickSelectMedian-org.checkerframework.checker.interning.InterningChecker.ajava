@@ -1,0 +1,22 @@
+package ds;
+
+import static ds.MathUtils.isOdd;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public class QuickSelectMedian extends QuickSelect {
+
+    public QuickSelectMedian(long... arr) {
+        super(arr);
+    }
+
+    public  @org.checkerframework.checker.interning.qual.Interned double find() {
+        if (array.length == 0)
+            return Double.NaN;
+        if (array.length == 1)
+            return array[0];
+        int mid = array.length >> 1;
+        if (isOdd(array.length))
+            return find(mid);
+        return 0.5f * (find(mid) + find(mid - 1));
+    }
+}

@@ -1,0 +1,97 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public abstract class AbstractHeap implements IQueue {
+
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a;
+
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent int nElems;
+
+    public AbstractHeap( @org.checkerframework.checker.optional.qual.MaybePresent int maxSize) {
+        if (maxSize < 0)
+            throw new IllegalArgumentException("Invalid parameter: " + maxSize);
+        a = new long[maxSize];
+        nElems = 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void heapifyUp(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent int i);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void heapifyDown(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent int i);
+
+    /**
+     * Function to return the position of the parent for the node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent int parent(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent int pos) {
+        return (pos - 1) >> 1;
+    }
+
+    /**
+     * Return position of left child for node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent int leftChild(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent int pos) {
+        return 2 * pos + 1;
+    }
+
+    /**
+     * Return position of right child for node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent int rightChild(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent int pos) {
+        return (pos << 1) + 2;
+    }
+
+    /**
+     * Function to swap two nodes of the heap.
+     */
+    protected void swap(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent int fpos,  @org.checkerframework.checker.optional.qual.MaybePresent int spos) {
+        ArrayUtils.swap(a, fpos, spos);
+    }
+
+    /**
+     * Function to insert a node into the heap.
+     */
+    public void insert(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this,  @org.checkerframework.checker.optional.qual.MaybePresent long element) {
+        if (isFull())
+            throw new IllegalStateException("Queue full: number of elements is " + nElems);
+        a[nElems++] = element;
+        heapifyUp(nElems - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this) {
+        return nElems == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isFull(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this) {
+        return nElems == a.length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int size(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this) {
+        return nElems;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long peek(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue empty: " + nElems + " elements.");
+        return a[0];
+    }
+
+    /**
+     * Function to remove and return the minimum element from the heap.
+     */
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long poll(@org.checkerframework.checker.optional.qual.MaybePresent AbstractHeap this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue empty: " + nElems + " elements.");
+        long root = a[0];
+        a[0] = a[--nElems];
+        heapifyDown(0);
+        return root;
+    }
+}

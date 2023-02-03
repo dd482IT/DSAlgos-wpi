@@ -1,0 +1,48 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class ShellSortByThree extends AbstractSort {
+
+    private static final  @org.checkerframework.checker.optional.qual.MaybePresent int THREE = 3;
+
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent int gapCount;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int getTimeComplexity(@org.checkerframework.checker.optional.qual.MaybePresent ShellSortByThree this) {
+        return innerLoopCount > 0 ? innerLoopCount : outerLoopCount > 0 ? outerLoopCount : gapCount;
+    }
+
+    protected void reset(@org.checkerframework.checker.optional.qual.MaybePresent ShellSortByThree this) {
+        super.reset();
+        gapCount = 0;
+    }
+
+    protected void sort(@org.checkerframework.checker.optional.qual.MaybePresent ShellSortByThree this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        reset();
+        if (length <= 1)
+            return;
+        int n = length;
+        int h = 1;
+        while (h <= n / THREE) h = h * THREE + 1;
+        // decreasing h, until h=1
+        while (h > 0) {
+            ++gapCount;
+            for (int outer = h; outer < n; outer++) {
+                long temp = a[outer];
+                ++outerLoopCount;
+                int inner = outer;
+                while (inner > h - 1 && a[inner - h] >= temp) {
+                    ++innerLoopCount;
+                    ++comparisonCount;
+                    ++copyCount;
+                    System.arraycopy(a, inner - h, a, inner, 1);
+                    inner -= h;
+                }
+                if (inner > h - 1)
+                    ++comparisonCount;
+                a[inner] = temp;
+            }
+            h = (h - 1) / THREE;
+        }
+    }
+}

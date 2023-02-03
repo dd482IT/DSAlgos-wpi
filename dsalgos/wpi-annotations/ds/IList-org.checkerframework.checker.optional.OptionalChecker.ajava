@@ -1,0 +1,46 @@
+package ds;
+
+import java.util.ListIterator;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public interface IList<T> extends Iterable<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data, int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addAtFirst(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent INode<T> find(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent INode<T> get(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    T deleteAt(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean delete(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int size();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ListIterator<T> getIterator();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ListIterator<T> getIteratorFromIndex(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent INode<T> getHead();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent INode<T> getTail();
+}

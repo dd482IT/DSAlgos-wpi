@@ -1,0 +1,110 @@
+package ds.knapsack;
+
+import static ds.MathUtils.*;
+import static java.util.Objects.*;
+import ds.Generated;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public final class Item implements Comparable, Cloneable {
+
+    final @org.checkerframework.checker.optional.qual.MaybePresent String name;
+
+    final  @org.checkerframework.checker.optional.qual.MaybePresent int value;
+
+    final  @org.checkerframework.checker.optional.qual.MaybePresent int weight;
+
+    transient  @org.checkerframework.checker.optional.qual.MaybePresent double bounding = 1;
+
+    public Item(@org.checkerframework.checker.optional.qual.MaybePresent String name,  @org.checkerframework.checker.optional.qual.MaybePresent int value,  @org.checkerframework.checker.optional.qual.MaybePresent int weight) {
+        requireNonNull(name);
+        requireGreaterThan(0, value);
+        requireGreaterThan(0, weight);
+        this.name = name;
+        this.value = value;
+        this.weight = weight;
+    }
+
+    public Item(String name, int value, int weight, int bounding) {
+        this(name, value, weight);
+        this.bounding = bounding;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public @org.checkerframework.checker.optional.qual.MaybePresent Item clone(@org.checkerframework.checker.optional.qual.MaybePresent Item this) {
+        try {
+            return (Item) super.clone();
+        } catch (CloneNotSupportedException cnse) {
+            throw new AssertionError("Shouldn't get here" + cnse.getMessage(), cnse);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.optional.qual.MaybePresent String toString(@org.checkerframework.checker.optional.qual.MaybePresent Item this) {
+        return name + " [value = " + value + ", weight = " + weight + ", bounding = " + bounding + "]";
+    }
+
+    public static @org.checkerframework.checker.optional.qual.MaybePresent List<Item> pack(@org.checkerframework.checker.optional.qual.MaybePresent Collection<Item> items) {
+        Set<Item> set = new HashSet<>(items);
+        for (Item item : set) item.bounding = Collections.frequency(items, item);
+        return List.of(set.toArray(new Item[0]));
+    }
+
+    public static @org.checkerframework.checker.optional.qual.MaybePresent List<Item> unpack(@org.checkerframework.checker.optional.qual.MaybePresent Collection<Item> items) {
+        List<Item> unpackedItems = new ArrayList<>(items.size());
+        for (Item item : items) {
+            double bounding = item.bounding;
+            for (int i = 0; i < bounding; i++) unpackedItems.add(item.clone());
+        }
+        return unpackedItems;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int compareTo(@org.checkerframework.checker.optional.qual.MaybePresent Item this, Object item) {
+        Item i2 = (Item) item;
+        double rate1 = (double) value / (double) weight;
+        double rate2 = (double) i2.value / (double) i2.weight;
+        return rate1 > rate2 ? -1 : rate1 < rate2 ? 1 : 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean equals(final Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Item))
+            return false;
+        final Item other = (Item) o;
+        if (!other.canEqual((Object) this))
+            return false;
+        if (this.value != other.value)
+            return false;
+        if (this.weight != other.weight)
+            return false;
+        final Object this$name = this.name;
+        final Object other$name = other.name;
+        if (this$name == null ? other$name != null : !this$name.equals(other$name))
+            return false;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected boolean canEqual(final Object other) {
+        return other instanceof Item;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        result = result * PRIME + this.value;
+        result = result * PRIME + this.weight;
+        final Object $name = this.name;
+        result = result * PRIME + ($name == null ? 43 : $name.hashCode());
+        return result;
+    }
+}

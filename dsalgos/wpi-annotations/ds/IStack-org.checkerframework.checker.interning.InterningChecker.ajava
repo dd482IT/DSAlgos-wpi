@@ -1,0 +1,23 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public interface IStack {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void push( IStack this,  @org.checkerframework.checker.interning.qual.Interned long j);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned long pop( IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned long peek();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned boolean isEmpty( IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.interning.qual.Interned int size();
+}

@@ -1,0 +1,71 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class NoCountQueue implements IQueue {
+
+    private final  @org.checkerframework.checker.optional.qual.MaybePresent int maxSize;
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] queArray;
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int front;
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int rear;
+
+    public NoCountQueue(int s) {
+        if (s < 0)
+            throw new IllegalArgumentException("Queue size cannot be negative.");
+        maxSize = s + 1;
+        queArray = new long[maxSize];
+        front = 0;
+        rear = -1;
+    }
+
+    private void initialisePointers(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        front = 0;
+        rear = -1;
+    }
+
+    public void insert(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this,  @org.checkerframework.checker.optional.qual.MaybePresent long j) {
+        if (isFull())
+            throw new IllegalStateException("Queue is full.");
+        queArray[++rear] = j;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.optional.qual.MaybePresent boolean isSingleElementQueue(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        return front == rear;
+    }
+
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long poll(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue is empty.");
+        long temp = queArray[front];
+        if (isSingleElementQueue())
+            initialisePointers();
+        else
+            ++front;
+        return temp;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long peek(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        if (isEmpty())
+            throw new IllegalStateException("Empty queue!");
+        return queArray[front];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        return (rear + 1) % maxSize == front;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isFull(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        return (rear + 2) % maxSize == front;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int size(@org.checkerframework.checker.optional.qual.MaybePresent NoCountQueue this) {
+        return rear - front + 1;
+    }
+}

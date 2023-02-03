@@ -1,0 +1,46 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class SimpleStack implements IStack {
+
+    private final  @org.checkerframework.checker.fenum.qual.FenumUnqualified int maxSize;
+
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] stackArray;
+
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int top;
+
+    public SimpleStack( @org.checkerframework.checker.fenum.qual.FenumUnqualified int s) {
+        maxSize = s;
+        stackArray = new long[maxSize];
+        top = -1;
+    }
+
+    public void push(@org.checkerframework.checker.fenum.qual.FenumUnqualified SimpleStack this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long j) {
+        stackArray[top + 1] = j;
+        ++top;
+    }
+
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long pop(@org.checkerframework.checker.fenum.qual.FenumUnqualified SimpleStack this) {
+        return stackArray[top--];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long peek(@org.checkerframework.checker.fenum.qual.FenumUnqualified SimpleStack this) {
+        return stackArray[top];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isEmpty(@org.checkerframework.checker.fenum.qual.FenumUnqualified SimpleStack this) {
+        return top == -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int size(@org.checkerframework.checker.fenum.qual.FenumUnqualified SimpleStack this) {
+        return top + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isFull(@org.checkerframework.checker.fenum.qual.FenumUnqualified SimpleStack this) {
+        return top == maxSize - 1;
+    }
+}

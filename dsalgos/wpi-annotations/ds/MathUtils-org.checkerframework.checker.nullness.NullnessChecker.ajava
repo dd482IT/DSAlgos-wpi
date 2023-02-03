@@ -1,0 +1,77 @@
+package ds;
+
+import static java.lang.Math.abs;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public final class MathUtils {
+
+    private static final @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull String INVALID_ARGUMENT = "Invalid argument: ";
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private MathUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int computeOddPairCount( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int computeEvenPairCount( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isOdd( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int num) {
+        return (num & 1) == 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isInRangeInclusive( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int min,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int max,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int val) {
+        return Math.max(min, val) == Math.min(val, max);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isInRange( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int min,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int max,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int val) {
+        return Math.max(min, val) == Math.min(val, max - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isGreaterThan( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int min,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int val) {
+        return val > min;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isLessThan( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int max,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int val) {
+        return val < max;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireLessThan(int max, int val) {
+        if (!isLessThan(max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireGreaterThan( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int min,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int val) {
+        if (!isGreaterThan(min, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRangeInclusive(int min, int max, int val) {
+        if (!isInRangeInclusive(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRange(int min, int max, int val) {
+        if (!isInRange(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+}

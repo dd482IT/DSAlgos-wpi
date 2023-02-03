@@ -1,0 +1,77 @@
+package ds;
+
+import static java.lang.Math.abs;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.interning.InterningChecker")
+public final class MathUtils {
+
+    private static final @org.checkerframework.checker.interning.qual.Interned String INVALID_ARGUMENT = "Invalid argument: ";
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private MathUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned int computeOddPairCount( @org.checkerframework.checker.interning.qual.Interned int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned int computeEvenPairCount( @org.checkerframework.checker.interning.qual.Interned int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned boolean isOdd( @org.checkerframework.checker.interning.qual.Interned int num) {
+        return (num & 1) == 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned boolean isInRangeInclusive( @org.checkerframework.checker.interning.qual.Interned int min,  @org.checkerframework.checker.interning.qual.Interned int max,  @org.checkerframework.checker.interning.qual.Interned int val) {
+        return Math.max(min, val) == Math.min(val, max);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned boolean isInRange( @org.checkerframework.checker.interning.qual.Interned int min,  @org.checkerframework.checker.interning.qual.Interned int max,  @org.checkerframework.checker.interning.qual.Interned int val) {
+        return Math.max(min, val) == Math.min(val, max - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned boolean isGreaterThan( @org.checkerframework.checker.interning.qual.Interned int min,  @org.checkerframework.checker.interning.qual.Interned int val) {
+        return val > min;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.interning.qual.Interned boolean isLessThan( @org.checkerframework.checker.interning.qual.Interned int max,  @org.checkerframework.checker.interning.qual.Interned int val) {
+        return val < max;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireLessThan(int max, int val) {
+        if (!isLessThan(max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireGreaterThan( @org.checkerframework.checker.interning.qual.Interned int min,  @org.checkerframework.checker.interning.qual.Interned int val) {
+        if (!isGreaterThan(min, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRangeInclusive( @org.checkerframework.checker.interning.qual.Interned int min,  @org.checkerframework.checker.interning.qual.Interned int max,  @org.checkerframework.checker.interning.qual.Interned int val) {
+        if (!isInRangeInclusive(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRange(int min, int max, int val) {
+        if (!isInRange(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+}

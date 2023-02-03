@@ -1,0 +1,59 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public interface ITreeNode<E> extends Cloneable {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void insert(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> find(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> remove(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> left(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setLeft(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this, @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> right(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setRight(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this, @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    E value(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setValue(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this, E val);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int size(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setSize(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this,  @org.checkerframework.checker.optional.qual.MaybePresent int size);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setHeight(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this,  @org.checkerframework.checker.optional.qual.MaybePresent int height);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int height(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int balanceFactor(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int refCount(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void incrementRefCount(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void decrementRefCount(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> clone(@org.checkerframework.checker.optional.qual.MaybePresent ITreeNode<E> this);
+}

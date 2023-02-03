@@ -1,0 +1,32 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker")
+public interface IDeque {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addFirst(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addLast(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+      long pollFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+      long pollLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+      long peekFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+      long peekLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+      int size();
+}

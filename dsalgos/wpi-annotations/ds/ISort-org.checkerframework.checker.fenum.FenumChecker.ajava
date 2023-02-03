@@ -1,0 +1,20 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public interface ISort {
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified IArray sort(@org.checkerframework.checker.fenum.qual.FenumUnqualified ISort this, @org.checkerframework.checker.fenum.qual.FenumUnqualified IArray array);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int getComparisonCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int getSwapCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int getCopyCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int getTimeComplexity();
+}

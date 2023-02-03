@@ -1,0 +1,35 @@
+package ds;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public final class ExecutorUtils {
+
+    private static final  @org.checkerframework.checker.fenum.qual.FenumUnqualified double FRACTION = 0.2;
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private ExecutorUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + ExecutorUtils.class.getName());
+    }
+
+    public static void terminateExecutor(@org.checkerframework.checker.fenum.qual.FenumUnqualified ExecutorService service,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long timeUnits, @org.checkerframework.checker.fenum.qual.FenumUnqualified TimeUnit unit) {
+        service.shutdown();
+        try {
+            if (!service.awaitTermination(timeUnits, unit))
+                service.shutdownNow();
+            if (!service.awaitTermination((long) (timeUnits * FRACTION), unit))
+                service.shutdownNow();
+        } catch (InterruptedException ignored) {
+            service.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void assertServiceTerminated(ExecutorService service) {
+        if (!service.isShutdown())
+            throw new AssertionError("ExecutorService must be shutdown.");
+        if (!Thread.currentThread().isInterrupted() && !service.isTerminated())
+            throw new AssertionError("ExecutorService must terminate cleanly.");
+    }
+}

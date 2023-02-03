@@ -1,0 +1,32 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public interface IDeque {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addFirst(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addLast(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long pollFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long pollLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long peekFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long peekLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int size();
+}

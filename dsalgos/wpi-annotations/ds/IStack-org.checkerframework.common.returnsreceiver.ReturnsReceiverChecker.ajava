@@ -1,0 +1,23 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker")
+public interface IStack {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void push( IStack this,   long j);
+
+    @org.checkerframework.dataflow.qual.Pure
+      long pop( IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+      long peek();
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isEmpty( IStack this);
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+      int size();
+}

@@ -1,0 +1,39 @@
+package ds;
+
+import java.util.concurrent.Callable;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+final class BubbleTask implements Cloneable, Callable<Void> {
+
+     @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a;
+
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int i;
+
+    @org.checkerframework.checker.signature.qual.SignatureUnknown AbstractBrickSort sorter;
+
+    BubbleTask(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractBrickSort sorter,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int i) {
+        this.sorter = sorter;
+        this.a = a;
+        this.i = i;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown BubbleTask clone(@org.checkerframework.checker.signature.qual.SignatureUnknown BubbleTask this) {
+        try {
+            return (BubbleTask) super.clone();
+        } catch (CloneNotSupportedException cnse) {
+            throw new AssertionError("Shouldn't get here.." + cnse.getMessage(), cnse);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public Void call(@org.checkerframework.checker.signature.qual.SignatureUnknown BubbleTask this) {
+        sorter.bubble(a, i);
+        return null;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public static @org.checkerframework.checker.signature.qual.SignatureUnknown BubbleTask createCopy(@org.checkerframework.checker.signature.qual.SignatureUnknown BubbleTask bt) {
+        return bt.clone();
+    }
+}

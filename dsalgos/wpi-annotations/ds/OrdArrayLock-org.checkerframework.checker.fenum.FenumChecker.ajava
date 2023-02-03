@@ -1,0 +1,76 @@
+package ds;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * Demonstrates array class with high-level interface.
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class OrdArrayLock extends AbstractOrdArray {
+
+    private final @org.checkerframework.checker.fenum.qual.FenumUnqualified Lock w = new ReentrantReadWriteLock(true).writeLock();
+
+    public OrdArrayLock() {
+        this(100);
+    }
+
+    public OrdArrayLock( @org.checkerframework.checker.fenum.qual.FenumUnqualified int max) {
+        this(max, false);
+    }
+
+    public OrdArrayLock( @org.checkerframework.checker.fenum.qual.FenumUnqualified int max,  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean strict) {
+        super(max, strict);
+    }
+
+    public OrdArrayLock(@org.checkerframework.checker.fenum.qual.FenumUnqualified OrdArrayLock array) {
+        super(array);
+    }
+
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified IArray copy(@org.checkerframework.checker.fenum.qual.FenumUnqualified OrdArrayLock this) {
+        return new OrdArrayLock(this);
+    }
+
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int syncInsert(@org.checkerframework.checker.fenum.qual.FenumUnqualified OrdArrayLock this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long val) {
+        w.lock();
+        try {
+            return insert(val);
+        } finally {
+            w.unlock();
+        }
+    }
+
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean syncDelete(@org.checkerframework.checker.fenum.qual.FenumUnqualified OrdArrayLock this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long val) {
+        w.lock();
+        try {
+            return delete(val);
+        } finally {
+            w.unlock();
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean equals(final Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof OrdArrayLock))
+            return false;
+        final OrdArrayLock other = (OrdArrayLock) o;
+        if (!other.canEqual((Object) this))
+            return false;
+        if (!super.equals(o))
+            return false;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected boolean canEqual(final Object other) {
+        return other instanceof OrdArrayLock;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int hashCode() {
+        final int result = super.hashCode();
+        return result;
+    }
+}

@@ -1,0 +1,28 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public interface INode<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    T getData(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setData(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this, T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    default  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isSame(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this, @org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> node) {
+        return this == node;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> getPrev(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> getNext(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setNext(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this, @org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setPrev(@org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> this, @org.checkerframework.checker.fenum.qual.FenumUnqualified INode<T> node);
+}

@@ -1,0 +1,42 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class ShellSort extends AbstractSort {
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int gapCount;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getTimeComplexity(@org.checkerframework.checker.fenum.qual.FenumUnqualified ShellSort this) {
+        return innerLoopCount > 0 ? innerLoopCount : outerLoopCount > 0 ? outerLoopCount : gapCount;
+    }
+
+    protected void reset(@org.checkerframework.checker.fenum.qual.FenumUnqualified ShellSort this) {
+        super.reset();
+        gapCount = 0;
+    }
+
+    protected void sort(@org.checkerframework.checker.fenum.qual.FenumUnqualified ShellSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        {
+            reset();
+            int n = length;
+            for (int gap = n >> 1; gap > 0; gap = gap >> 1) {
+                ++gapCount;
+                for (int i = gap; i < n; ++i) {
+                    ++outerLoopCount;
+                    long temp = a[i];
+                    int j = i;
+                    for (; j >= gap && a[j - gap] > temp; j -= gap) {
+                        ++comparisonCount;
+                        ++copyCount;
+                        ++innerLoopCount;
+                        System.arraycopy(a, j - gap, a, j, 1);
+                    }
+                    if (j >= gap)
+                        ++comparisonCount;
+                    if (i != j)
+                        a[j] = temp;
+                }
+            }
+        }
+    }
+}

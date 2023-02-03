@@ -1,0 +1,34 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public class CombSort extends AbstractSort {
+
+    private static final  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull double SHRINK_FACTOR = 1.3;
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int getNextGap( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int gap) {
+        // Shrink gap by Shrink factor
+        int newGap = (int) Math.floor(gap / SHRINK_FACTOR);
+        return newGap <= 1 ? 1 : newGap;
+    }
+
+    protected void sort(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull CombSort this,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        int gap = length;
+        boolean swapped = true;
+        reset();
+        while (gap > 1 || swapped) {
+            ++outerLoopCount;
+            gap = getNextGap(gap);
+            swapped = false;
+            for (int i = 0; i < length - gap; i++) {
+                ++innerLoopCount;
+                ++comparisonCount;
+                if (a[i] > a[i + gap]) {
+                    swap(a, i, i + gap);
+                    swapped = true;
+                    ++swapCount;
+                }
+            }
+        }
+    }
+}

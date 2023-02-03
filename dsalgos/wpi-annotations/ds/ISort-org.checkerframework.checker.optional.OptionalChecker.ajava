@@ -1,0 +1,20 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public interface ISort {
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent IArray sort(@org.checkerframework.checker.optional.qual.MaybePresent ISort this, @org.checkerframework.checker.optional.qual.MaybePresent IArray array);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int getComparisonCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int getSwapCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int getCopyCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int getTimeComplexity();
+}

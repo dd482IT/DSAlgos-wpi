@@ -1,0 +1,66 @@
+package ds;
+
+import static ds.ArrayUtils.swapIfGreaterThan;
+import static ds.MathUtils.isOdd;
+
+/**
+ * Not thread-safe with state variables.
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class BrickSortMaxMin extends AbstractBrickSort {
+
+    protected  @org.checkerframework.checker.optional.qual.MaybePresent boolean sorted;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isSorted(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMin this) {
+        return sorted;
+    }
+
+    protected void reset(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMin this) {
+        super.reset();
+        sorted = false;
+    }
+
+    protected void sort(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMin this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        reset();
+        if (length <= 1) {
+            sorted = true;
+            return;
+        }
+        final int maxComparisons = computeMaxComparisons(length);
+        while (!sorted) {
+            ++outerLoopCount;
+            sorted = true;
+            brickSort(a, length);
+            if (swapCount == maxComparisons)
+                sorted = true;
+        }
+    }
+
+    protected void brickSort(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMin this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        int i = 0;
+        for (int iterations = 0; i < length - 1; i += 2, iterations++) {
+            ++innerLoopCount;
+            bubble(a, i);
+            if (iterations > 0)
+                bubble(a, i - 1);
+        }
+        if (isOdd(length))
+            bubble(a, i - 1);
+    }
+
+    protected void bubble(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMin this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int i) {
+        ++comparisonCount;
+        if (swapIfGreaterThan(a, i, i + 1)) {
+            sorted = false;
+            ++swapCount;
+        }
+    }
+
+    public @org.checkerframework.checker.optional.qual.MaybePresent String toString(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMin this) {
+        StringBuilder sb = new StringBuilder(90);
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("Comparison count: ").append(comparisonCount).append(lineSeparator).append("Swap count: ").append(swapCount).append(lineSeparator).append("Copy count: ").append(copyCount).append(lineSeparator).append("inner loop count: ").append(innerLoopCount).append(lineSeparator).append("outer loop count: ").append(outerLoopCount).append(lineSeparator).append("sorted: ").append(sorted).append(lineSeparator);
+        return sb.toString();
+    }
+}

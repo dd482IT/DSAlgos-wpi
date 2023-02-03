@@ -1,0 +1,28 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public interface INode<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    T getData(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setData(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this, T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    default  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isSame(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node) {
+        return this == node;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getPrev(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getNext(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setNext(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setPrev(@org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node);
+}

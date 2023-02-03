@@ -1,0 +1,42 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public class ShellSort extends AbstractSort {
+
+    protected  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int gapCount;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int getTimeComplexity(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull ShellSort this) {
+        return innerLoopCount > 0 ? innerLoopCount : outerLoopCount > 0 ? outerLoopCount : gapCount;
+    }
+
+    protected void reset(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull ShellSort this) {
+        super.reset();
+        gapCount = 0;
+    }
+
+    protected void sort(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull ShellSort this,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        {
+            reset();
+            int n = length;
+            for (int gap = n >> 1; gap > 0; gap = gap >> 1) {
+                ++gapCount;
+                for (int i = gap; i < n; ++i) {
+                    ++outerLoopCount;
+                    long temp = a[i];
+                    int j = i;
+                    for (; j >= gap && a[j - gap] > temp; j -= gap) {
+                        ++comparisonCount;
+                        ++copyCount;
+                        ++innerLoopCount;
+                        System.arraycopy(a, j - gap, a, j, 1);
+                    }
+                    if (j >= gap)
+                        ++comparisonCount;
+                    if (i != j)
+                        a[j] = temp;
+                }
+            }
+        }
+    }
+}

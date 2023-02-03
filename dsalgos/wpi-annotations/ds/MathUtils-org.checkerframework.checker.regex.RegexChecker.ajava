@@ -1,0 +1,77 @@
+package ds;
+
+import static java.lang.Math.abs;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.regex.RegexChecker")
+public final class MathUtils {
+
+    private static final @org.checkerframework.checker.regex.qual.Regex String INVALID_ARGUMENT = "Invalid argument: ";
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private MathUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   int computeOddPairCount(  int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   int computeEvenPairCount(  int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   boolean isOdd(  int num) {
+        return (num & 1) == 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   boolean isInRangeInclusive(  int min,   int max,   int val) {
+        return Math.max(min, val) == Math.min(val, max);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   boolean isInRange(  int min,   int max,   int val) {
+        return Math.max(min, val) == Math.min(val, max - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   boolean isGreaterThan(  int min,   int val) {
+        return val > min;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static   boolean isLessThan(  int max,   int val) {
+        return val < max;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireLessThan(int max, int val) {
+        if (!isLessThan(max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireGreaterThan(  int min,   int val) {
+        if (!isGreaterThan(min, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRangeInclusive(  int min,   int max,   int val) {
+        if (!isInRangeInclusive(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRange(int min, int max, int val) {
+        if (!isInRange(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+}

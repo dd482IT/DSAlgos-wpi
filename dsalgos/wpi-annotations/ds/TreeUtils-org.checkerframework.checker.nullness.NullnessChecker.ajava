@@ -1,0 +1,23 @@
+package ds;
+
+import static java.util.Objects.isNull;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public final class TreeUtils {
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private TreeUtils() {
+        throw new IllegalStateException("Private constructor");
+    }
+
+    /**
+     * Returns the number of nodes in the subtree.
+     *
+     * @param x the subtree
+     * @return the number of nodes in the subtree
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    public static <T extends Comparable<T>>  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int size(ITreeNode<T> x) {
+        return isNull(x) ? 0 : x.size();
+    }
+}

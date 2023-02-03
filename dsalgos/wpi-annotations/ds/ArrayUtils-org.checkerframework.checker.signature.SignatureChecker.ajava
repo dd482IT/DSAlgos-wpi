@@ -1,0 +1,84 @@
+package ds;
+
+import java.util.Arrays;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public final class ArrayUtils {
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private ArrayUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + ArrayUtils.class.getName());
+    }
+
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] getDoubleCapacity( @org.checkerframework.checker.signature.qual.SignatureUnknown int n) {
+        if (n < 0)
+            throw new IllegalStateException("Sorry, negative size not possible.");
+        int newCapacity = n << 1;
+        if (newCapacity < 0)
+            throw new IllegalStateException("Sorry, deque too big.");
+        long[] arr = new long[newCapacity];
+        Arrays.fill(arr, 0L);
+        return arr;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isSorted(long... a) {
+        return isSorted(a, a.length);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isSorted( @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        if (length < 0 || length > a.length)
+            throw new IllegalArgumentException("Length " + length + " is invalid.");
+        for (int j = 0; j < length - 1; j++) {
+            if (a[j] > a[j + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isSorted(IArray arr) {
+        return isSorted(arr.get(), arr.count());
+    }
+
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean swapIfLessThan(long[] a, int first, int second) {
+        requireValidIndex(a.length, first);
+        requireValidIndex(a.length, second);
+        if (a[first] < a[second])
+            return quickSwap(a, first, second);
+        return false;
+    }
+
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean swapIfGreaterThan( @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int first,  @org.checkerframework.checker.signature.qual.SignatureUnknown int second) {
+        requireValidIndex(a.length, first);
+        requireValidIndex(a.length, second);
+        if (a[first] > a[second])
+            return quickSwap(a, first, second);
+        return false;
+    }
+
+    private static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean quickSwap( @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int first,  @org.checkerframework.checker.signature.qual.SignatureUnknown int second) {
+        if (first == second)
+            return false;
+        long temp = a[first];
+        a[first] = a[second];
+        a[second] = temp;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private static void requireValidIndex( @org.checkerframework.checker.signature.qual.SignatureUnknown int length,  @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+        if (index < 0)
+            throw new IllegalArgumentException("Index cannot be " + index);
+        if (index > length - 1)
+            throw new IllegalArgumentException("Index cannot be " + index);
+    }
+
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean swap( @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int first,  @org.checkerframework.checker.signature.qual.SignatureUnknown int second) {
+        requireValidIndex(a.length, first);
+        requireValidIndex(a.length, second);
+        return quickSwap(a, first, second);
+    }
+}

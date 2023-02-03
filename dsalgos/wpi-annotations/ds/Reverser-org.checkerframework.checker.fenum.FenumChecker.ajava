@@ -1,0 +1,26 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class Reverser {
+
+    private final @org.checkerframework.checker.fenum.qual.FenumUnqualified String input;
+
+    public Reverser(String in) {
+        input = in;
+    }
+
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified String doRev() {
+        int stackSize = input.length();
+        SimpleStack theStack = new SimpleStack(stackSize);
+        for (int j = 0; j < stackSize; j++) {
+            char ch = input.charAt(j);
+            theStack.push(ch);
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!theStack.isEmpty()) {
+            char ch = (char) theStack.pop();
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+}

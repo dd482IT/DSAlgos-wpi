@@ -1,0 +1,59 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public interface ITreeNode<E> extends Cloneable {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void insert(E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    ITreeNode<E> find(E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    ITreeNode<E> remove(E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    ITreeNode<E> left();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setLeft(ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    ITreeNode<E> right();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setRight(ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    E value();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setValue(E val);
+
+    @org.checkerframework.dataflow.qual.Pure
+    int size();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setSize(int size);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setHeight(int height);
+
+    @org.checkerframework.dataflow.qual.Pure
+    int height();
+
+    @org.checkerframework.dataflow.qual.Pure
+    int balanceFactor();
+
+    @org.checkerframework.dataflow.qual.Pure
+    int refCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void incrementRefCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void decrementRefCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+    ITreeNode<E> clone();
+}

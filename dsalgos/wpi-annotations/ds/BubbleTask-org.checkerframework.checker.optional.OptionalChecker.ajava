@@ -1,0 +1,39 @@
+package ds;
+
+import java.util.concurrent.Callable;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+final class BubbleTask implements Cloneable, Callable<Void> {
+
+     @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a;
+
+     @org.checkerframework.checker.optional.qual.MaybePresent int i;
+
+    @org.checkerframework.checker.optional.qual.MaybePresent AbstractBrickSort sorter;
+
+    BubbleTask(@org.checkerframework.checker.optional.qual.MaybePresent AbstractBrickSort sorter,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int i) {
+        this.sorter = sorter;
+        this.a = a;
+        this.i = i;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public @org.checkerframework.checker.optional.qual.MaybePresent BubbleTask clone(@org.checkerframework.checker.optional.qual.MaybePresent BubbleTask this) {
+        try {
+            return (BubbleTask) super.clone();
+        } catch (CloneNotSupportedException cnse) {
+            throw new AssertionError("Shouldn't get here.." + cnse.getMessage(), cnse);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public Void call(@org.checkerframework.checker.optional.qual.MaybePresent BubbleTask this) {
+        sorter.bubble(a, i);
+        return null;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public static @org.checkerframework.checker.optional.qual.MaybePresent BubbleTask createCopy(@org.checkerframework.checker.optional.qual.MaybePresent BubbleTask bt) {
+        return bt.clone();
+    }
+}

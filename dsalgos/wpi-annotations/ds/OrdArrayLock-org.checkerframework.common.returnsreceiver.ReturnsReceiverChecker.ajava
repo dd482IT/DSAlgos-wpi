@@ -1,0 +1,76 @@
+package ds;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * Demonstrates array class with high-level interface.
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker")
+public class OrdArrayLock extends AbstractOrdArray {
+
+    private final  Lock w = new ReentrantReadWriteLock(true).writeLock();
+
+    public OrdArrayLock() {
+        this(100);
+    }
+
+    public OrdArrayLock(  int max) {
+        this(max, false);
+    }
+
+    public OrdArrayLock(  int max,   boolean strict) {
+        super(max, strict);
+    }
+
+    public OrdArrayLock( OrdArrayLock array) {
+        super(array);
+    }
+
+    public  IArray copy( OrdArrayLock this) {
+        return new OrdArrayLock(this);
+    }
+
+    public   int syncInsert( OrdArrayLock this,   long val) {
+        w.lock();
+        try {
+            return insert(val);
+        } finally {
+            w.unlock();
+        }
+    }
+
+    public   boolean syncDelete( OrdArrayLock this,   long val) {
+        w.lock();
+        try {
+            return delete(val);
+        } finally {
+            w.unlock();
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean equals(final Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof OrdArrayLock))
+            return false;
+        final OrdArrayLock other = (OrdArrayLock) o;
+        if (!other.canEqual((Object) this))
+            return false;
+        if (!super.equals(o))
+            return false;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected boolean canEqual(final Object other) {
+        return other instanceof OrdArrayLock;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int hashCode() {
+        final int result = super.hashCode();
+        return result;
+    }
+}

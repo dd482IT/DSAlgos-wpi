@@ -1,0 +1,59 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public interface ITreeNode<E> extends Cloneable {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void insert(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> find(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> remove(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> left(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setLeft(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this, @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> right(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setRight(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this, @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    E value(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setValue(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this, E val);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int size(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setSize(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int size);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setHeight(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int height);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int height(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int balanceFactor(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int refCount(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void incrementRefCount(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void decrementRefCount(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> clone(@org.checkerframework.checker.fenum.qual.FenumUnqualified ITreeNode<E> this);
+}

@@ -1,0 +1,67 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public abstract class AbstractSort implements ISort {
+
+    protected  @org.checkerframework.checker.signature.qual.SignatureUnknown int comparisonCount;
+
+    protected  @org.checkerframework.checker.signature.qual.SignatureUnknown int swapCount;
+
+    protected  @org.checkerframework.checker.signature.qual.SignatureUnknown int copyCount;
+
+    protected  @org.checkerframework.checker.signature.qual.SignatureUnknown int innerLoopCount;
+
+    protected  @org.checkerframework.checker.signature.qual.SignatureUnknown int outerLoopCount;
+
+    protected  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean shouldSort(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal value for length: " + length);
+        reset();
+        return length <= 1 ? false : true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void sort(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] array,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown IArray sort(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this, @org.checkerframework.checker.signature.qual.SignatureUnknown IArray array) {
+        IArray copy = array.copy();
+        sort(copy.get(), copy.count());
+        return copy;
+    }
+
+    protected final  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean swap(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int first,  @org.checkerframework.checker.signature.qual.SignatureUnknown int second) {
+        return ArrayUtils.swap(a, first, second);
+    }
+
+    protected void reset(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this) {
+        copyCount = swapCount = comparisonCount = innerLoopCount = outerLoopCount = 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getCopyCount(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this) {
+        return copyCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getSwapCount(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this) {
+        return swapCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getComparisonCount(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this) {
+        return comparisonCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getTimeComplexity(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this) {
+        return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown String toString(@org.checkerframework.checker.signature.qual.SignatureUnknown AbstractSort this) {
+        StringBuilder sb = new StringBuilder(80);
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("Comparison count: ").append(comparisonCount).append(lineSeparator).append("Swap count: ").append(swapCount).append(lineSeparator).append("Copy count: ").append(copyCount).append(lineSeparator).append("inner loop count: ").append(innerLoopCount).append(lineSeparator).append("outer loop count: ").append(outerLoopCount);
+        return sb.toString();
+    }
+}

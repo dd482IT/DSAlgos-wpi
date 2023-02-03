@@ -1,0 +1,20 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public interface ISort {
+
+    @org.checkerframework.dataflow.qual.Pure
+     IArray sort( ISort this,  IArray array);
+
+    @org.checkerframework.dataflow.qual.Pure
+      int getComparisonCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+      int getSwapCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+      int getCopyCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+      int getTimeComplexity();
+}

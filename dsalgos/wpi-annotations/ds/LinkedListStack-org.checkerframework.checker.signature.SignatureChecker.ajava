@@ -1,0 +1,62 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class LinkedListStack implements IStack {
+
+    @org.checkerframework.checker.signature.qual.SignatureUnknown StackNode @org.checkerframework.checker.signature.qual.SignatureUnknown [] root = new StackNode[0];
+
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int nElems;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isEmpty(@org.checkerframework.checker.signature.qual.SignatureUnknown LinkedListStack this) {
+        return root.length == 0;
+    }
+
+    public void push(@org.checkerframework.checker.signature.qual.SignatureUnknown LinkedListStack this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long data) {
+        StackNode newNode = new StackNode(data);
+        if (isEmpty()) {
+            root = new StackNode[1];
+            root[0] = newNode;
+        } else {
+            StackNode temp = root[0];
+            root[0] = newNode;
+            newNode.next = new StackNode[1];
+            newNode.next[0] = temp;
+        }
+        ++nElems;
+    }
+
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown long pop(@org.checkerframework.checker.signature.qual.SignatureUnknown LinkedListStack this) {
+        StackNode node = root[0];
+        long popped = node.data;
+        root = node.next;
+        --nElems;
+        return popped;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown long peek(@org.checkerframework.checker.signature.qual.SignatureUnknown LinkedListStack this) {
+        return root[0].data;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isFull(@org.checkerframework.checker.signature.qual.SignatureUnknown LinkedListStack this) {
+        return false;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int size(@org.checkerframework.checker.signature.qual.SignatureUnknown LinkedListStack this) {
+        return nElems;
+    }
+
+    static class StackNode {
+
+         @org.checkerframework.checker.signature.qual.SignatureUnknown long data;
+
+        @org.checkerframework.checker.signature.qual.SignatureUnknown StackNode @org.checkerframework.checker.signature.qual.SignatureUnknown [] next = new StackNode[0];
+
+        StackNode( @org.checkerframework.checker.signature.qual.SignatureUnknown long data) {
+            this.data = data;
+        }
+    }
+}

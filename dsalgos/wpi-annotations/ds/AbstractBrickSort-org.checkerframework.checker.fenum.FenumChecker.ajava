@@ -1,0 +1,21 @@
+package ds;
+
+import static ds.MathUtils.isOdd;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public abstract class AbstractBrickSort extends AbstractSort {
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void sort(long[] a, int length);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int computeMaxComparisons(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractBrickSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        return isOdd(length) ? length * ((length - 1) >> 1) : (length >> 1) * (length - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void bubble(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractBrickSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int i);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isSorted();
+}

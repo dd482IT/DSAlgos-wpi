@@ -1,0 +1,77 @@
+package ds;
+
+import static java.lang.Math.abs;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public final class MathUtils {
+
+    private static final @org.checkerframework.checker.fenum.qual.FenumUnqualified String INVALID_ARGUMENT = "Invalid argument: ";
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private MathUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified int computeOddPairCount( @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified int computeEvenPairCount( @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isOdd( @org.checkerframework.checker.fenum.qual.FenumUnqualified int num) {
+        return (num & 1) == 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isInRangeInclusive( @org.checkerframework.checker.fenum.qual.FenumUnqualified int min,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int max,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int val) {
+        return Math.max(min, val) == Math.min(val, max);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isInRange( @org.checkerframework.checker.fenum.qual.FenumUnqualified int min,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int max,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int val) {
+        return Math.max(min, val) == Math.min(val, max - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isGreaterThan( @org.checkerframework.checker.fenum.qual.FenumUnqualified int min,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int val) {
+        return val > min;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isLessThan( @org.checkerframework.checker.fenum.qual.FenumUnqualified int max,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int val) {
+        return val < max;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireLessThan(int max, int val) {
+        if (!isLessThan(max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireGreaterThan( @org.checkerframework.checker.fenum.qual.FenumUnqualified int min,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int val) {
+        if (!isGreaterThan(min, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRangeInclusive( @org.checkerframework.checker.fenum.qual.FenumUnqualified int min,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int max,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int val) {
+        if (!isInRangeInclusive(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static void requireInRange(int min, int max, int val) {
+        if (!isInRange(min, max, val))
+            throw new IllegalArgumentException(INVALID_ARGUMENT + val);
+    }
+}

@@ -1,0 +1,62 @@
+package ds;
+
+import static ds.ArrayUtils.swapIfGreaterThan;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public class BrickSort extends AbstractBrickSort {
+
+    protected  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean sorted;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isSorted(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull BrickSort this) {
+        return sorted;
+    }
+
+    protected void reset(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull BrickSort this) {
+        super.reset();
+        sorted = false;
+    }
+
+    protected void sort(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull BrickSort this,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        reset();
+        if (length <= 1) {
+            sorted = true;
+            return;
+        }
+        final int maxComparisons = computeMaxComparisons(length);
+        while (!sorted) {
+            ++outerLoopCount;
+            sorted = true;
+            oddSort(a, length);
+            if (swapCount == maxComparisons) {
+                sorted = true;
+                break;
+            }
+            evenSort(a, length);
+            if (swapCount == maxComparisons)
+                sorted = true;
+        }
+    }
+
+    protected void oddSort( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        for (int i = 1; i < length - 1; i = i + 2) {
+            ++innerLoopCount;
+            bubble(a, i);
+        }
+    }
+
+    protected void evenSort( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        for (int i = 0; i < length - 1; i = i + 2) {
+            ++innerLoopCount;
+            bubble(a, i);
+        }
+    }
+
+    protected void bubble(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull BrickSort this,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int i) {
+        ++comparisonCount;
+        if (swapIfGreaterThan(a, i, i + 1)) {
+            sorted = false;
+            ++swapCount;
+        }
+    }
+}

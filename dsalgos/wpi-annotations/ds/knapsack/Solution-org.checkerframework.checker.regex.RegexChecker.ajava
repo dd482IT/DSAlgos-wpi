@@ -1,0 +1,48 @@
+package ds.knapsack;
+
+import ds.Generated;
+import java.util.List;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.regex.RegexChecker")
+public class Solution<T> {
+
+    // list of items to put in the bag to have the maximal value
+    final  List<Item> items;
+
+    // maximal value possible
+    final T value;
+
+    public Solution( List<Item> items, T value) {
+        this.items = items;
+        this.value = value;
+    }
+
+    public void display() {
+        System.out.println(this);
+    }
+
+    public  String toString( Solution<T> this) {
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+        if (items != null && !items.isEmpty()) {
+            int totalWeight = 0;
+            sb.append(lineSeparator).append("Knapsack solution").append(lineSeparator).append("Value = ").append(value).append(lineSeparator).append("Items to pick :").append(lineSeparator);
+            for (Item item : items) {
+                sb.append("- ").append(item).append(lineSeparator);
+                totalWeight += item.weight * item.bounding;
+            }
+            sb.append("Total weight = ").append(totalWeight).append(lineSeparator);
+        }
+        return sb.toString();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public T getValue( Solution<T> this) {
+        return value;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  List<Item> getItems( Solution<T> this) {
+        return items;
+    }
+}

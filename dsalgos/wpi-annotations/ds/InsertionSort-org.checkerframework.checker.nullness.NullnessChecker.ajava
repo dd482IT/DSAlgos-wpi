@@ -1,0 +1,26 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public class InsertionSort extends AbstractSort {
+
+    protected void sort(@org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull InsertionSort this,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        if (!shouldSort(length))
+            return;
+        for (int out = 1; out < length; ++out) {
+            long temp = a[out];
+            int in = out;
+            ++outerLoopCount;
+            while (in > 0 && a[in - 1] > temp) {
+                --in;
+                ++comparisonCount;
+                ++innerLoopCount;
+                ++copyCount;
+            }
+            System.arraycopy(a, in, a, in + 1, out - in);
+            if (in > 0)
+                ++comparisonCount;
+            if (in != out)
+                a[in] = temp;
+        }
+    }
+}

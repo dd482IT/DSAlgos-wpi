@@ -1,0 +1,44 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public interface IArray {
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] get(@org.checkerframework.checker.signature.qual.SignatureUnknown IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] getExtentArray();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int count(@org.checkerframework.checker.signature.qual.SignatureUnknown IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void clear();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int findIndex(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean find(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int insert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int syncInsert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean delete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown boolean syncDelete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void display();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown IArray copy(@org.checkerframework.checker.signature.qual.SignatureUnknown IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown IArray sort(ISort sorter);
+}

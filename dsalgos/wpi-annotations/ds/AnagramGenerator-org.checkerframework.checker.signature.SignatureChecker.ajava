@@ -1,0 +1,70 @@
+package ds;
+
+import static java.util.Objects.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class AnagramGenerator {
+
+    private static final  @org.checkerframework.checker.signature.qual.SignatureUnknown int TWO = 2;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown char @org.checkerframework.checker.signature.qual.SignatureUnknown [] arrChar;
+
+    private final @org.checkerframework.checker.signature.qual.SignatureUnknown List<String> anagrams;
+
+    public AnagramGenerator(String input) {
+        requireNonNull(input, "Input cannot be null!");
+        if (!input.matches("^[A-Za-z]*$"))
+            throw new IllegalArgumentException("String should contain only alphabetic characters.");
+        arrChar = input.toCharArray();
+        anagrams = new ArrayList<>();
+    }
+
+    public void generate() {
+        generate(arrChar.length);
+    }
+
+    public void generate(@org.checkerframework.checker.signature.qual.SignatureUnknown AnagramGenerator this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int size) {
+        if (size == 1) {
+            addWordToList();
+            return;
+        }
+        for (int j = 0; j < size; j++) {
+            generate(size - 1);
+            if (size == TWO)
+                addWordToList();
+            rotate(size);
+        }
+    }
+
+    private void rotate(@org.checkerframework.checker.signature.qual.SignatureUnknown AnagramGenerator this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int newSize) {
+        int size = arrChar.length;
+        int position = size - newSize;
+        char temp = arrChar[position];
+        int j = position + 1;
+        for (; j < size; j++) arrChar[j - 1] = arrChar[j];
+        arrChar[j - 1] = temp;
+    }
+
+    private void addWordToList(@org.checkerframework.checker.signature.qual.SignatureUnknown AnagramGenerator this) {
+        String word = new String(arrChar);
+        if (!anagrams.contains(word))
+            anagrams.add(word);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown List<String> getAnagrams() {
+        return anagrams;
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown List<String> getValidAnagrams() throws IOException {
+        List<String> validAnagrams = new ArrayList<>();
+        for (String anagram : anagrams) {
+            if (DictionaryLookup.isDictionaryWord(anagram))
+                validAnagrams.add(anagram);
+        }
+        return validAnagrams;
+    }
+}

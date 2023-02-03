@@ -1,0 +1,62 @@
+package ds;
+
+import static ds.ArrayUtils.swapIfGreaterThan;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class BrickSort extends AbstractBrickSort {
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean sorted;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isSorted(@org.checkerframework.checker.fenum.qual.FenumUnqualified BrickSort this) {
+        return sorted;
+    }
+
+    protected void reset(@org.checkerframework.checker.fenum.qual.FenumUnqualified BrickSort this) {
+        super.reset();
+        sorted = false;
+    }
+
+    protected void sort(@org.checkerframework.checker.fenum.qual.FenumUnqualified BrickSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        reset();
+        if (length <= 1) {
+            sorted = true;
+            return;
+        }
+        final int maxComparisons = computeMaxComparisons(length);
+        while (!sorted) {
+            ++outerLoopCount;
+            sorted = true;
+            oddSort(a, length);
+            if (swapCount == maxComparisons) {
+                sorted = true;
+                break;
+            }
+            evenSort(a, length);
+            if (swapCount == maxComparisons)
+                sorted = true;
+        }
+    }
+
+    protected void oddSort(@org.checkerframework.checker.fenum.qual.FenumUnqualified BrickSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        for (int i = 1; i < length - 1; i = i + 2) {
+            ++innerLoopCount;
+            bubble(a, i);
+        }
+    }
+
+    protected void evenSort(@org.checkerframework.checker.fenum.qual.FenumUnqualified BrickSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        for (int i = 0; i < length - 1; i = i + 2) {
+            ++innerLoopCount;
+            bubble(a, i);
+        }
+    }
+
+    protected void bubble(@org.checkerframework.checker.fenum.qual.FenumUnqualified BrickSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int i) {
+        ++comparisonCount;
+        if (swapIfGreaterThan(a, i, i + 1)) {
+            sorted = false;
+            ++swapCount;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public interface ISort {
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown IArray sort(@org.checkerframework.checker.signature.qual.SignatureUnknown ISort this, @org.checkerframework.checker.signature.qual.SignatureUnknown IArray array);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int getComparisonCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int getSwapCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int getCopyCount();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int getTimeComplexity();
+}

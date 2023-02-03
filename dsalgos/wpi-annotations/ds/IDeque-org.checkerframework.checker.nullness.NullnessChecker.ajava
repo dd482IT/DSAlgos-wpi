@@ -1,0 +1,32 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public interface IDeque {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addFirst(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addLast(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long pollFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long pollLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long peekFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long peekLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int size();
+}

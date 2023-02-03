@@ -1,0 +1,46 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.KeyForSubchecker")
+public class SimpleStack implements IStack {
+
+    private final   int maxSize;
+
+    private   long  [] stackArray;
+
+    private   int top;
+
+    public SimpleStack(  int s) {
+        maxSize = s;
+        stackArray = new long[maxSize];
+        top = -1;
+    }
+
+    public void push( SimpleStack this,   long j) {
+        stackArray[top + 1] = j;
+        ++top;
+    }
+
+    public   long pop( SimpleStack this) {
+        return stackArray[top--];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peek( SimpleStack this) {
+        return stackArray[top];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isEmpty( SimpleStack this) {
+        return top == -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int size( SimpleStack this) {
+        return top + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isFull( SimpleStack this) {
+        return top == maxSize - 1;
+    }
+}

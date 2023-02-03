@@ -1,0 +1,44 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public interface IArray {
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] get(@org.checkerframework.checker.optional.qual.MaybePresent IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] getExtentArray();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int count(@org.checkerframework.checker.optional.qual.MaybePresent IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void clear();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int findIndex(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean find(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int insert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent int syncInsert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean delete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.optional.qual.MaybePresent boolean syncDelete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void display();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent IArray copy(@org.checkerframework.checker.optional.qual.MaybePresent IArray this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.optional.qual.MaybePresent IArray sort(ISort sorter);
+}

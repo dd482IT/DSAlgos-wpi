@@ -1,0 +1,8 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public interface ISolve<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    T solve();
+}

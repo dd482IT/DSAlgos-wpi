@@ -1,0 +1,181 @@
+package ds;
+
+import static ds.ArrayUtils.swapIfGreaterThan;
+import static ds.AssertionUtils.*;
+import static ds.ExecutorUtils.terminateExecutor;
+import static ds.MathUtils.isOdd;
+import static java.lang.Math.abs;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Not thread-safe with state variables.
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class BrickSortUnrolled extends BrickSort {
+
+    private static final  @org.checkerframework.checker.signature.qual.SignatureUnknown int PROC_COUNT = Runtime.getRuntime().availableProcessors() - 1;
+
+    private static final  @org.checkerframework.checker.signature.qual.SignatureUnknown int THRESHOLD = 40;
+
+    protected final @org.checkerframework.checker.signature.qual.SignatureUnknown AtomicInteger innerLoopCount = new AtomicInteger();
+
+    protected final @org.checkerframework.checker.signature.qual.SignatureUnknown AtomicBoolean sorted = new AtomicBoolean();
+
+    protected final @org.checkerframework.checker.signature.qual.SignatureUnknown AtomicInteger swapCount = new AtomicInteger();
+
+    protected final @org.checkerframework.checker.signature.qual.SignatureUnknown AtomicInteger comparisonCount = new AtomicInteger();
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int partitionSize;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int partitionCount;
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int length;
+
+    protected void reset(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this) {
+        super.reset();
+        sorted.getAndSet(false);
+        swapCount.set(0);
+        comparisonCount.set(0);
+        innerLoopCount.set(0);
+    }
+
+    private void sequentialSort(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        super.sort(a, length);
+        sorted.getAndSet(super.sorted);
+        swapCount.set(super.swapCount);
+        comparisonCount.set(super.comparisonCount);
+        innerLoopCount.set(super.innerLoopCount);
+    }
+
+    protected void sort(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        this.length = length;
+        if (!shouldSort(length)) {
+            sorted.getAndSet(true);
+            return;
+        }
+        if (length <= THRESHOLD) {
+            sequentialSort(a, length);
+            return;
+        }
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        try {
+            sortInterruptibly(a, length, service);
+        } catch (ExecutionException | InterruptedException ee) {
+            throw new CompletionException(ee);
+        } finally {
+            terminateExecutor(service, length, TimeUnit.MILLISECONDS);
+        }
+        assertServiceTerminated(service);
+    }
+
+    protected void sortInterruptibly(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length, @org.checkerframework.checker.signature.qual.SignatureUnknown ExecutorService service) throws InterruptedException, ExecutionException {
+        final int maxComparisons = computeMaxComparisons(length);
+        final int oddTaskCount = computeOddTaskCount(length);
+        final int evenTaskCount = computeEvenTaskCount(length);
+        partitionSize = length / PROC_COUNT;
+        if (isOdd(partitionSize))
+            partitionSize = partitionSize + 1;
+        if (partitionSize * PROC_COUNT > length)
+            partitionCount = PROC_COUNT + 1;
+        else
+            partitionCount = PROC_COUNT;
+        while (!sorted.get()) {
+            ++outerLoopCount;
+            sorted.set(true);
+            oddSort(a, length, service, oddTaskCount);
+            if (swapCount.intValue() == maxComparisons) {
+                sorted.set(true);
+                break;
+            }
+            evenSort(a, length, service, evenTaskCount);
+            if (swapCount.intValue() == maxComparisons)
+                sorted.set(true);
+        }
+    }
+
+    protected void oddSort(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int unusedLength, @org.checkerframework.checker.signature.qual.SignatureUnknown ExecutorService service,  @org.checkerframework.checker.signature.qual.SignatureUnknown int unusedOddTaskCount) throws InterruptedException, ExecutionException {
+        List<Future<Void>> futures = new ArrayList<>(partitionCount);
+        BubbleTask bt = new BubbleTask(this, a, 0);
+        int newLength = partitionSize * partitionCount;
+        for (int i = 1; i < newLength - 1; i += partitionSize) {
+            BubbleTask task = BubbleTask.createCopy(bt);
+            task.i = i;
+            futures.add(service.submit(task));
+        }
+        assertEquality(futures.size(), partitionCount);
+        for (Future future : futures) future.get();
+    }
+
+    protected void evenSort(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int unusedLength, @org.checkerframework.checker.signature.qual.SignatureUnknown ExecutorService service,  @org.checkerframework.checker.signature.qual.SignatureUnknown int unusedEvenTaskCount) throws InterruptedException, ExecutionException {
+        List<Future<Void>> futures = new ArrayList<>(partitionCount);
+        BubbleTask bt = new BubbleTask(this, a, 0);
+        int newLength = partitionSize * partitionCount;
+        for (int i = 0; i < newLength - 1; i += partitionSize) {
+            BubbleTask task = BubbleTask.createCopy(bt);
+            task.i = i;
+            futures.add(service.submit(task));
+        }
+        assertEquality(futures.size(), partitionCount);
+        for (Future future : futures) future.get();
+    }
+
+    protected void bubble(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int i) {
+        for (int j = i; j < i + partitionSize - 1 && j < length - 1; j += 2) {
+            innerLoopCount.incrementAndGet();
+            comparisonCount.incrementAndGet();
+            if (swapIfGreaterThan(a, j, j + 1)) {
+                swapCount.incrementAndGet();
+                sorted.set(false);
+            }
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getSwapCount(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this) {
+        return swapCount.intValue();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getTimeComplexity(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this) {
+        return innerLoopCount.intValue();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int getComparisonCount(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this) {
+        return comparisonCount.intValue();
+    }
+
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isSorted(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this) {
+        return sorted.get();
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown String toString(@org.checkerframework.checker.signature.qual.SignatureUnknown BrickSortUnrolled this) {
+        StringBuilder sb = new StringBuilder(90);
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("Comparison count: ").append(comparisonCount).append(lineSeparator).append("Swap count: ").append(swapCount).append(lineSeparator).append("Copy count: ").append(copyCount).append(lineSeparator).append("inner loop count: ").append(innerLoopCount).append(lineSeparator).append("outer loop count: ").append(outerLoopCount).append(lineSeparator).append("sorted: ").append(sorted).append(lineSeparator);
+        return sb.toString();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown int computeOddTaskCount( @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.signature.qual.SignatureUnknown int computeEvenTaskCount( @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal argument value: " + length);
+        return length >> 1;
+    }
+}

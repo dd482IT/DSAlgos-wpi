@@ -1,0 +1,24 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class GnomeSort extends AbstractSort {
+
+    protected void sort(@org.checkerframework.checker.signature.qual.SignatureUnknown GnomeSort this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        if (!shouldSort(length))
+            return;
+        for (int pos = 1; pos < length; ++pos) gnomeSort(a, pos);
+        outerLoopCount = length - 1;
+    }
+
+    private void gnomeSort(@org.checkerframework.checker.signature.qual.SignatureUnknown GnomeSort this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int upper) {
+        int pos = upper;
+        while (pos > 0 && a[pos - 1] > a[pos]) {
+            ++comparisonCount;
+            ++innerLoopCount;
+            swap(a, pos - 1, pos--);
+            ++swapCount;
+        }
+        if (pos != 0)
+            ++comparisonCount;
+    }
+}

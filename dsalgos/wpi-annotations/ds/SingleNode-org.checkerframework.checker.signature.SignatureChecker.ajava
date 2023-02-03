@@ -1,0 +1,84 @@
+package ds;
+
+import java.util.Objects;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class SingleNode<T> implements INode<T> {
+
+    private T data;
+
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> next;
+
+    public SingleNode(T data) {
+        Objects.requireNonNull(data, "Data cannot be null.");
+        this.data = data;
+    }
+
+    public SingleNode(T data, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> next) {
+        this(data);
+        this.next = next;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getNext(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this) {
+        return next;
+    }
+
+    public void setNext(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node) {
+        this.next = node;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public INode<T> getPrev(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this) {
+        throw new UnsupportedOperationException("Operation invalid.");
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void setPrev(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> ignored) {
+        throw new UnsupportedOperationException("Operation invalid.");
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public T getData(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this) {
+        return data;
+    }
+
+    public void setData(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this, T data) {
+        this.data = data;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown String toString(@org.checkerframework.checker.signature.qual.SignatureUnknown SingleNode<T> this) {
+        return Objects.toString(data);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean equals(final Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof SingleNode))
+            return false;
+        final SingleNode<?> other = (SingleNode<?>) o;
+        if (!other.canEqual((Object) this))
+            return false;
+        final Object this$data = this.getData();
+        final Object other$data = other.getData();
+        if (this$data == null ? other$data != null : !this$data.equals(other$data))
+            return false;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected boolean canEqual(final Object other) {
+        return other instanceof SingleNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $data = this.getData();
+        result = result * PRIME + ($data == null ? 43 : $data.hashCode());
+        return result;
+    }
+}

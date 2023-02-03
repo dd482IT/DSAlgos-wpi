@@ -1,0 +1,72 @@
+package ds.knapsack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class NaiveKnapsack extends AbstractKnapsack<Solution<Integer>> {
+
+    public NaiveKnapsack(@org.checkerframework.checker.fenum.qual.FenumUnqualified Item @org.checkerframework.checker.fenum.qual.FenumUnqualified [] items,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int capacity) {
+        super(items, capacity);
+    }
+
+    private void put(@org.checkerframework.checker.fenum.qual.FenumUnqualified NaiveKnapsack this, @org.checkerframework.checker.fenum.qual.FenumUnqualified Map<WeightCountTuple, Integer> vals, @org.checkerframework.checker.fenum.qual.FenumUnqualified WeightCountTuple wct, @org.checkerframework.checker.fenum.qual.FenumUnqualified Integer val) {
+        vals.put(wct, val);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean containsKey(@org.checkerframework.checker.fenum.qual.FenumUnqualified NaiveKnapsack this, @org.checkerframework.checker.fenum.qual.FenumUnqualified Map<WeightCountTuple, Integer> vals, @org.checkerframework.checker.fenum.qual.FenumUnqualified WeightCountTuple wct) {
+        return vals.containsKey(wct);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private Integer get(Map<WeightCountTuple, Integer> vals, WeightCountTuple wct) {
+        return vals.get(wct);
+    }
+
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified Solution<Integer> solve(@org.checkerframework.checker.fenum.qual.FenumUnqualified NaiveKnapsack this) {
+        List<Item> itemsSolution = new ArrayList<>(0);
+        Map<WeightCountTuple, Integer> vals = new HashMap<>();
+        int maximalValue = knapsack(capacity, items.length, itemsSolution, vals);
+        return new Solution<>(itemsSolution, maximalValue);
+    }
+
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int knapsack(@org.checkerframework.checker.fenum.qual.FenumUnqualified NaiveKnapsack this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int totalWeight,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int n, @org.checkerframework.checker.fenum.qual.FenumUnqualified List<Item> solutionItems, @org.checkerframework.checker.fenum.qual.FenumUnqualified Map<WeightCountTuple, Integer> vals) {
+        if (n == 0 || totalWeight == 0)
+            return 0;
+        WeightCountTuple wct = new WeightCountTuple(totalWeight, n - 1);
+        if (containsKey(vals, wct))
+            return get(vals, wct);
+        /**
+         * If weight of nth item is more than capacity W, then this item cannot be included in the
+         * optimal solution.
+         */
+        if (items[n - 1].weight > totalWeight) {
+            //    solutionItems.remove(items[n - 1]);
+            int val = knapsack(totalWeight, n - 1, solutionItems, vals);
+            put(vals, wct, val);
+            return val;
+        }
+        /**
+         * Return the maximum of two cases: (1) nth item included (2) not included *
+         */
+        int notIncludedVal = knapsack(totalWeight, n - 1, solutionItems, vals);
+        int newWeight = totalWeight - items[n - 1].weight;
+        int remainder = knapsack(newWeight, n - 1, solutionItems, vals);
+        int includedVal = items[n - 1].value + remainder;
+        boolean included = includedVal > notIncludedVal;
+        if (included) {
+            if (!solutionItems.contains(items[n - 1])) {
+                solutionItems.add(items[n - 1]);
+            }
+            put(vals, wct, includedVal);
+            return includedVal;
+        } else {
+            solutionItems.remove(items[n - 1]);
+            put(vals, wct, notIncludedVal);
+            return notIncludedVal;
+        }
+    }
+}

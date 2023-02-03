@@ -1,0 +1,48 @@
+package ds;
+
+import static ds.ArrayUtils.swap;
+import static ds.RandomUtils.randomInRange;
+import static java.util.Objects.checkIndex;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class QuickSelect {
+
+    protected final  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] array;
+
+    public QuickSelect( @org.checkerframework.checker.optional.qual.MaybePresent long@org.checkerframework.checker.optional.qual.MaybePresent ... arr) {
+        this.array = arr;
+    }
+
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long find(@org.checkerframework.checker.optional.qual.MaybePresent QuickSelect this,  @org.checkerframework.checker.optional.qual.MaybePresent int index) {
+        checkIndex(index, array.length);
+        return select(0, array.length - 1, index);
+    }
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int partition(@org.checkerframework.checker.optional.qual.MaybePresent QuickSelect this,  @org.checkerframework.checker.optional.qual.MaybePresent int left,  @org.checkerframework.checker.optional.qual.MaybePresent int right,  @org.checkerframework.checker.optional.qual.MaybePresent int pivotIndex) {
+        long pivotValue = array[pivotIndex];
+        // Move pivot to end
+        swap(array, pivotIndex, right);
+        int storeIndex = left;
+        for (int i = left; i < right; i++) {
+            if (array[i] < pivotValue) {
+                swap(array, storeIndex, i);
+                ++storeIndex;
+            }
+        }
+        swap(array, right, storeIndex);
+        return storeIndex;
+    }
+
+    private  @org.checkerframework.checker.optional.qual.MaybePresent long select(@org.checkerframework.checker.optional.qual.MaybePresent QuickSelect this,  @org.checkerframework.checker.optional.qual.MaybePresent int left,  @org.checkerframework.checker.optional.qual.MaybePresent int right,  @org.checkerframework.checker.optional.qual.MaybePresent int k) {
+        if (left == right)
+            return array[left];
+        int pivotIndex = randomInRange(left, right);
+        pivotIndex = partition(left, right, pivotIndex);
+        if (k == pivotIndex)
+            return array[k];
+        else if (k < pivotIndex)
+            return select(left, pivotIndex - 1, k);
+        else
+            return select(pivotIndex + 1, right, k);
+    }
+}

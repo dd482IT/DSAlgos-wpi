@@ -1,0 +1,67 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker")
+public abstract class AbstractSort implements ISort {
+
+    protected   int comparisonCount;
+
+    protected   int swapCount;
+
+    protected   int copyCount;
+
+    protected   int innerLoopCount;
+
+    protected   int outerLoopCount;
+
+    protected   boolean shouldSort( AbstractSort this,   int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal value for length: " + length);
+        reset();
+        return length <= 1 ? false : true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void sort( AbstractSort this,   long  [] array,   int length);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  IArray sort( AbstractSort this,  IArray array) {
+        IArray copy = array.copy();
+        sort(copy.get(), copy.count());
+        return copy;
+    }
+
+    protected final   boolean swap( AbstractSort this,   long  [] a,   int first,   int second) {
+        return ArrayUtils.swap(a, first, second);
+    }
+
+    protected void reset( AbstractSort this) {
+        copyCount = swapCount = comparisonCount = innerLoopCount = outerLoopCount = 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int getCopyCount( AbstractSort this) {
+        return copyCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int getSwapCount( AbstractSort this) {
+        return swapCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int getComparisonCount( AbstractSort this) {
+        return comparisonCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int getTimeComplexity( AbstractSort this) {
+        return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
+    }
+
+    public  String toString( AbstractSort this) {
+        StringBuilder sb = new StringBuilder(80);
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("Comparison count: ").append(comparisonCount).append(lineSeparator).append("Swap count: ").append(swapCount).append(lineSeparator).append("Copy count: ").append(copyCount).append(lineSeparator).append("inner loop count: ").append(innerLoopCount).append(lineSeparator).append("outer loop count: ").append(outerLoopCount);
+        return sb.toString();
+    }
+}

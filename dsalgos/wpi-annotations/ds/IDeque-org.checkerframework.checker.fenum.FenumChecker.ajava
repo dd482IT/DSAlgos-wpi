@@ -1,0 +1,32 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public interface IDeque {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addFirst(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addLast(long key);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified long pollFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified long pollLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified long peekFirst();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified long peekLast();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isFull();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.fenum.qual.FenumUnqualified int size();
+}

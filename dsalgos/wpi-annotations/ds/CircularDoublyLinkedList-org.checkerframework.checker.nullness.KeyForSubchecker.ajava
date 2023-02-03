@@ -1,0 +1,385 @@
+package ds;
+
+import static java.util.Objects.*;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.KeyForSubchecker")
+public class CircularDoublyLinkedList<T> extends AbstractList<T> {
+
+    private static final  String DATA_NON_NULL = "Data cannot be null.";
+
+    private   int length;
+
+    private  INode<T> head;
+
+    private  INode<T> tail;
+
+    protected void linkFirst( CircularDoublyLinkedList<T> this, T data) {
+        if (isNull(head)) {
+            head = tail = new DoubleNode<>(data);
+            head.setPrev(tail);
+            tail.setNext(head);
+        } else {
+            INode<T> node = new DoubleNode<>(data, head);
+            head.setPrev(node);
+            head = node;
+        }
+        ++length;
+    }
+
+    protected void linkBefore( CircularDoublyLinkedList<T> this, T data,  INode<T> next) {
+        INode<T> prev = next.getPrev();
+        INode<T> node = new DoubleNode<>(prev, data, next);
+        next.setPrev(node);
+        prev.setNext(node);
+        ++length;
+    }
+
+    protected void linkLast( CircularDoublyLinkedList<T> this, T data) {
+        INode<T> node = new DoubleNode<>(data);
+        INode<T> last = tail;
+        if (nonNull(last)) {
+            last.setNext(node);
+            node.setPrev(last);
+            node.setNext(head);
+            head.setPrev(node);
+            tail = node;
+        } else {
+            head = tail = node;
+            head.setPrev(tail);
+            tail.setNext(head);
+        }
+        ++length;
+    }
+
+    protected T unlinkFirst( CircularDoublyLinkedList<T> this) {
+        INode<T> node = head;
+        final T data = node.getData();
+        final INode<T> next = node.getNext();
+        if (isHead(next)) {
+            head = tail = null;
+        } else {
+            head = next;
+            tail.setNext(head);
+            head.setPrev(tail);
+        }
+        node.setPrev(null);
+        node.setNext(null);
+        node.setData(null);
+        --length;
+        return data;
+    }
+
+    protected T unlink( CircularDoublyLinkedList<T> this,  INode<T> node) {
+        INode<T> prev = node.getPrev();
+        final T data = node.getData();
+        final INode<T> next = node.getNext();
+        prev.setNext(next);
+        next.setPrev(prev);
+        if (isTail(node))
+            tail = prev;
+        node.setData(null);
+        node.setNext(null);
+        node.setPrev(null);
+        --length;
+        return data;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private boolean isTail(INode<T> node) {
+        return tail == node;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private boolean isHead(INode<T> node) {
+        return head == node;
+    }
+
+    /**
+     * Add element at end.
+     *
+     * @param data - data to be added to list.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void add( CircularDoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        linkLast(data);
+    }
+
+    /**
+     * Add the element at specified index.
+     *
+     * @param data - data to be added at index.
+     * @param index - index at which element to be added.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void add( CircularDoublyLinkedList<T> this, T data,   int index) {
+        requireNonNull(data, DATA_NON_NULL);
+        if (index == 0) {
+            addAtFirst(data);
+            return;
+        }
+        if (index == this.length)
+            add(data);
+        else if (index < this.length) {
+            INode<T> rightNode = get(index);
+            linkBefore(data, rightNode);
+        } else
+            throw new IndexOutOfBoundsException("Index not available.");
+    }
+
+    /**
+     * Add element at first node. Set the newly created node as root node.
+     *
+     * @param data Add data node at beginning.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void addAtFirst( CircularDoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        linkFirst(data);
+    }
+
+    public  INode<T> find( CircularDoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        INode<T> node = new DoubleNode<>(data);
+        if (head.equals(node))
+            return head;
+        INode<T> startNode = head.getNext();
+        while (!head.isSame(startNode)) {
+            if (startNode.equals(node))
+                return startNode;
+            startNode = next(startNode);
+        }
+        return null;
+    }
+
+    public   boolean delete( CircularDoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        if (isNull(head))
+            return false;
+        INode<T> node = new DoubleNode<>(data);
+        if (head.equals(node)) {
+            unlinkFirst();
+            return true;
+        }
+        INode<T> prevNode = head;
+        INode<T> currNode = prevNode.getNext();
+        while (!head.isSame(currNode)) {
+            if (currNode.equals(node)) {
+                unlink(currNode);
+                return true;
+            }
+            currNode = currNode.getNext();
+        }
+        return false;
+    }
+
+    public T deleteAt( CircularDoublyLinkedList<T> this,   int index) {
+        checkIndex(index, length);
+        if (index == 0)
+            return unlinkFirst();
+        else {
+            INode<T> prev = get(index - 1);
+            INode<T> curr = prev.getNext();
+            return unlink(curr);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  INode<T> get( CircularDoublyLinkedList<T> this,   int index) {
+        if (index < 0 || index > this.length - 1)
+            throw new IndexOutOfBoundsException("Index not available: " + index);
+        if (index == 0)
+            return this.head;
+        if (index == this.length - 1)
+            return tail;
+        int midPoint = this.length >> 1;
+        if (index < midPoint)
+            return getFromHead(index);
+        else
+            return getFromTail(index);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  INode<T> getFromHead( CircularDoublyLinkedList<T> this,   int index) {
+        int pointer = 0;
+        INode<T> pointerNode = this.head;
+        while (pointer != index) {
+            pointerNode = next(pointerNode);
+            ++pointer;
+        }
+        return pointerNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  INode<T> getFromTail( CircularDoublyLinkedList<T> this,   int index) {
+        int pointer = length - 1;
+        INode<T> pointerNode = this.tail;
+        while (pointer != index) {
+            pointerNode = prev(pointerNode);
+            --pointer;
+        }
+        return pointerNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  INode<T> next( CircularDoublyLinkedList<T> this,  INode<T> node) {
+        return node.getNext();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  INode<T> prev( CircularDoublyLinkedList<T> this,  INode<T> node) {
+        return node.getPrev();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int size( CircularDoublyLinkedList<T> this) {
+        return this.length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isEmpty( CircularDoublyLinkedList<T> this) {
+        return this.length == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  INode<T> getHead( CircularDoublyLinkedList<T> this) {
+        return head;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  INode<T> getTail( CircularDoublyLinkedList<T> this) {
+        return tail;
+    }
+
+    public  String toString( CircularDoublyLinkedList<T> this) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        INode<T> nextNode = this.head;
+        while (nonNull(head)) {
+            sb.append(nextNode);
+            nextNode = next(nextNode);
+            if (head.isSame(nextNode))
+                break;
+            sb.append(',');
+        }
+        sb.append(']');
+        return sb.toString();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  Iterator<T> iterator( CircularDoublyLinkedList<T> this) {
+        return getIterator();
+    }
+
+    public  ListIterator<T> getIterator( CircularDoublyLinkedList<T> this) {
+        return new ListIter();
+    }
+
+    public  ListIterator<T> getIteratorFromIndex( CircularDoublyLinkedList<T> this,   int idx) {
+        return new ListIter(idx);
+    }
+
+    final class ListIter implements ListIterator<T> {
+
+        private  INode<T> lastReturned;
+
+        private  INode<T> nextNode;
+
+        private   int nextIndex;
+
+        ListIter() {
+            this(0);
+        }
+
+        ListIter(  int index) {
+            checkIndex(index, length + 1);
+            nextNode = index == length ? head : get(index);
+            nextIndex = index == length ? 0 : index;
+        }
+
+        public T next( ListIter this) {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            lastReturned = nextNode = isNull(nextNode) ? head : nextNode;
+            nextNode = nextNode.getNext();
+            ++nextIndex;
+            if (nextIndex >= length)
+                nextIndex -= length;
+            return lastReturned.getData();
+        }
+
+        public T previous( ListIter this) {
+            if (!hasPrevious())
+                throw new NoSuchElementException();
+            lastReturned = nextNode = nextNode.getPrev();
+            --nextIndex;
+            if (nextIndex < 0)
+                nextIndex = length - 1;
+            return lastReturned.getData();
+        }
+
+        public void add( ListIter this, T data) {
+            lastReturned = null;
+            if (isNull(nextNode))
+                linkLast(data);
+            else
+                linkBefore(data, nextNode);
+            ++nextIndex;
+        }
+
+        public void remove( ListIter this) {
+            if (isNull(lastReturned))
+                throw new IllegalStateException();
+            INode<T> lastNext = lastReturned.getNext();
+            if (lastReturned.isSame(head))
+                unlinkFirst();
+            else
+                unlink(lastReturned);
+            if (lastReturned.isSame(nextNode))
+                nextNode = lastNext;
+            else {
+                --nextIndex;
+                if (nextIndex < 0)
+                    nextIndex = length - 1;
+            }
+            lastReturned = null;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public void set( ListIter this, T data) {
+            if (lastReturned == null)
+                throw new IllegalStateException();
+            lastReturned.setData(data);
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public   boolean hasNext( ListIter this) {
+            return !isEmpty();
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public   boolean hasPrevious( ListIter this) {
+            return !isEmpty();
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public   int nextIndex( ListIter this) {
+            return nextIndex;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public   int previousIndex( ListIter this) {
+            return nextIndex > 0 ? nextIndex - 1 : length - 1;
+        }
+
+        public  String toString( ListIter this) {
+            StringBuilder sb = new StringBuilder(50);
+            String lineSeparator = System.lineSeparator();
+            sb.append("Last returned = ").append(lastReturned).append(lineSeparator).append("Next node = ").append(nextNode).append(lineSeparator).append("Next index = ").append(nextIndex);
+            return sb.toString();
+        }
+    }
+}

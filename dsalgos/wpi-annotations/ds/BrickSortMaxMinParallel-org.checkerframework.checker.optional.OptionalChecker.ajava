@@ -1,0 +1,123 @@
+package ds;
+
+import static ds.ArrayUtils.swapIfGreaterThan;
+import static ds.AssertionUtils.*;
+import static ds.ExecutorUtils.terminateExecutor;
+import static ds.MathUtils.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Not thread-safe with state variables.
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class BrickSortMaxMinParallel extends BrickSort {
+
+    private static final  @org.checkerframework.checker.optional.qual.MaybePresent int THRESHOLD = 40;
+
+    private final @org.checkerframework.checker.optional.qual.MaybePresent AtomicBoolean sorted = new AtomicBoolean();
+
+    private final @org.checkerframework.checker.optional.qual.MaybePresent AtomicInteger swapCount = new AtomicInteger();
+
+    protected void reset(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this) {
+        super.reset();
+        sorted.getAndSet(false);
+        swapCount.set(0);
+    }
+
+    private void sequentialSort(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        super.sort(a, length);
+        sorted.getAndSet(super.sorted);
+        swapCount.set(super.swapCount);
+    }
+
+    protected void sort(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        if (!shouldSort(length)) {
+            sorted.getAndSet(true);
+            return;
+        }
+        if (length <= THRESHOLD) {
+            sequentialSort(a, length);
+            return;
+        }
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        try {
+            sortInterruptibly(a, length, service);
+        } catch (ExecutionException | InterruptedException ee) {
+            throw new CompletionException(ee);
+        } finally {
+            terminateExecutor(service, length, TimeUnit.MILLISECONDS);
+        }
+        assertServiceTerminated(service);
+    }
+
+    protected void sortInterruptibly(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length, @org.checkerframework.checker.optional.qual.MaybePresent ExecutorService service) throws InterruptedException, ExecutionException {
+        final int maxComparisons = computeMaxComparisons(length);
+        while (!sorted.get()) {
+            ++outerLoopCount;
+            sorted.set(true);
+            brickSort(a, length, service);
+            if (swapCount.intValue() >= maxComparisons)
+                sorted.set(true);
+        }
+    }
+
+    protected void brickSort(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int length, @org.checkerframework.checker.optional.qual.MaybePresent ExecutorService service) throws InterruptedException, ExecutionException {
+        int taskCount = computeOddPairCount(length) + computeEvenPairCount(length);
+        List<Future<Void>> futures = new ArrayList<>(taskCount);
+        BubbleTask bt = new BubbleTask(this, a, 0);
+        int i = 0;
+        for (int iterations = 0; i < length - 1; i += 2, iterations++) {
+            ++innerLoopCount;
+            ++comparisonCount;
+            BubbleTask task = BubbleTask.createCopy(bt);
+            task.i = i;
+            futures.add(service.submit(task));
+            if (iterations > 0) {
+                ++comparisonCount;
+                BubbleTask oddTask = BubbleTask.createCopy(bt);
+                oddTask.i = i - 1;
+                futures.add(service.submit(oddTask));
+            }
+        }
+        if (isOdd(length)) {
+            ++comparisonCount;
+            BubbleTask oddTask = BubbleTask.createCopy(bt);
+            oddTask.i = i - 1;
+            futures.add(service.submit(oddTask));
+        }
+        assertEquality(futures.size(), taskCount);
+        for (Future future : futures) future.get();
+    }
+
+    protected void bubble(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this,  @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] a,  @org.checkerframework.checker.optional.qual.MaybePresent int i) {
+        if (swapIfGreaterThan(a, i, i + 1)) {
+            swapCount.incrementAndGet();
+            sorted.set(false);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int getSwapCount(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this) {
+        return swapCount.intValue();
+    }
+
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isSorted(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this) {
+        return sorted.get();
+    }
+
+    public @org.checkerframework.checker.optional.qual.MaybePresent String toString(@org.checkerframework.checker.optional.qual.MaybePresent BrickSortMaxMinParallel this) {
+        StringBuilder sb = new StringBuilder(90);
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("Comparison count: ").append(comparisonCount).append(lineSeparator).append("Swap count: ").append(swapCount).append(lineSeparator).append("Copy count: ").append(copyCount).append(lineSeparator).append("inner loop count: ").append(innerLoopCount).append(lineSeparator).append("outer loop count: ").append(outerLoopCount).append(lineSeparator).append("sorted: ").append(sorted).append(lineSeparator);
+        return sb.toString();
+    }
+}

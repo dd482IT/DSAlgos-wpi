@@ -1,0 +1,150 @@
+package ds;
+
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.KeyForSubchecker")
+public abstract class AbstractArray implements IArray {
+
+    protected final   long  [] a;
+
+    protected final  AtomicInteger nElems;
+
+    protected final  Object lock = new Object();
+
+    protected   boolean strict;
+
+    protected  AtomicInteger modCount;
+
+    public AbstractArray(  int max,   boolean strict) {
+        if (max <= 0)
+            throw new IllegalArgumentException("Invalid size: " + max);
+        a = new long[max];
+        nElems = new AtomicInteger();
+        modCount = new AtomicInteger();
+        this.strict = strict;
+    }
+
+    /**
+     * Constructs an array of default size 100.
+     */
+    public AbstractArray() {
+        this(100, false);
+    }
+
+    public AbstractArray( AbstractArray arr) {
+        this.a = arr.a.clone();
+        this.nElems = new AtomicInteger(arr.nElems.intValue());
+        this.strict = arr.strict;
+        this.modCount = new AtomicInteger();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  IArray copy();
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long  [] get( AbstractArray this) {
+        return a;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public   long  [] getExtentArray( AbstractArray this) {
+        return Arrays.copyOfRange(a, 0, nElems.intValue());
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   int findIndex(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   boolean find(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   int insert( AbstractArray this,   long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   boolean delete( AbstractArray this,   long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int syncInsert( AbstractArray this,   long value) {
+        synchronized (lock) {
+            return insert(value);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  IArray sort( AbstractArray this,  ISort sorter) {
+        return sorter.sort(this);
+    }
+
+    public void clear( AbstractArray this) {
+        int length = nElems.intValue();
+        if (length == 0)
+            return;
+        modCount.incrementAndGet();
+        Arrays.fill(a, 0, length, 0L);
+        nElems.set(0);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean syncDelete( AbstractArray this,   long value) {
+        synchronized (lock) {
+            return delete(value);
+        }
+    }
+
+    public void display( AbstractArray this) {
+        System.out.println(this);
+    }
+
+    public  String toString( AbstractArray this) {
+        int length = nElems.intValue();
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("nElems = ").append(length).append(lineSeparator);
+        long[] newArray = a.clone();
+        for (int j = 0; j < length; j++) {
+            sb.append(newArray[j]).append(' ');
+            if ((j + 1) % 10 == 0)
+                sb.append(lineSeparator);
+        }
+        return sb.toString();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int count( AbstractArray this) {
+        return nElems.intValue();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean equals(final Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof AbstractArray))
+            return false;
+        final AbstractArray other = (AbstractArray) o;
+        if (!other.canEqual((Object) this))
+            return false;
+        if (!java.util.Arrays.equals(this.a, other.a))
+            return false;
+        final Object this$nElems = this.nElems;
+        final Object other$nElems = other.nElems;
+        if (this$nElems == null ? other$nElems != null : !this$nElems.equals(other$nElems))
+            return false;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected boolean canEqual(final Object other) {
+        return other instanceof AbstractArray;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        result = result * PRIME + java.util.Arrays.hashCode(this.a);
+        final Object $nElems = this.nElems;
+        result = result * PRIME + ($nElems == null ? 43 : $nElems.hashCode());
+        return result;
+    }
+}

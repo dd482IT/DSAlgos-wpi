@@ -1,0 +1,62 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker")
+public class LinkedListStack implements IStack {
+
+     StackNode  [] root = new StackNode[0];
+
+      int nElems;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isEmpty( LinkedListStack this) {
+        return root.length == 0;
+    }
+
+    public void push( LinkedListStack this,   long data) {
+        StackNode newNode = new StackNode(data);
+        if (isEmpty()) {
+            root = new StackNode[1];
+            root[0] = newNode;
+        } else {
+            StackNode temp = root[0];
+            root[0] = newNode;
+            newNode.next = new StackNode[1];
+            newNode.next[0] = temp;
+        }
+        ++nElems;
+    }
+
+    public   long pop( LinkedListStack this) {
+        StackNode node = root[0];
+        long popped = node.data;
+        root = node.next;
+        --nElems;
+        return popped;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peek( LinkedListStack this) {
+        return root[0].data;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isFull( LinkedListStack this) {
+        return false;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int size( LinkedListStack this) {
+        return nElems;
+    }
+
+    static class StackNode {
+
+          long data;
+
+         StackNode  [] next = new StackNode[0];
+
+        StackNode(  long data) {
+            this.data = data;
+        }
+    }
+}

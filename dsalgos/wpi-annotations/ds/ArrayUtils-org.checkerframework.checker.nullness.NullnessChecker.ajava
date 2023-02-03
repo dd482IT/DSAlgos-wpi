@@ -1,0 +1,84 @@
+package ds;
+
+import java.util.Arrays;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public final class ArrayUtils {
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    private ArrayUtils() throws InstantiationException {
+        throw new InstantiationException("Private constructor for: " + ArrayUtils.class.getName());
+    }
+
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] getDoubleCapacity( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int n) {
+        if (n < 0)
+            throw new IllegalStateException("Sorry, negative size not possible.");
+        int newCapacity = n << 1;
+        if (newCapacity < 0)
+            throw new IllegalStateException("Sorry, deque too big.");
+        long[] arr = new long[newCapacity];
+        Arrays.fill(arr, 0L);
+        return arr;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isSorted(long... a) {
+        return isSorted(a, a.length);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isSorted( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length) {
+        if (length < 0 || length > a.length)
+            throw new IllegalArgumentException("Length " + length + " is invalid.");
+        for (int j = 0; j < length - 1; j++) {
+            if (a[j] > a[j + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean isSorted(IArray arr) {
+        return isSorted(arr.get(), arr.count());
+    }
+
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean swapIfLessThan(long[] a, int first, int second) {
+        requireValidIndex(a.length, first);
+        requireValidIndex(a.length, second);
+        if (a[first] < a[second])
+            return quickSwap(a, first, second);
+        return false;
+    }
+
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean swapIfGreaterThan( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int first,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int second) {
+        requireValidIndex(a.length, first);
+        requireValidIndex(a.length, second);
+        if (a[first] > a[second])
+            return quickSwap(a, first, second);
+        return false;
+    }
+
+    private static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean quickSwap( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int first,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int second) {
+        if (first == second)
+            return false;
+        long temp = a[first];
+        a[first] = a[second];
+        a[second] = temp;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private static void requireValidIndex( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int length,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int index) {
+        if (index < 0)
+            throw new IllegalArgumentException("Index cannot be " + index);
+        if (index > length - 1)
+            throw new IllegalArgumentException("Index cannot be " + index);
+    }
+
+    public static  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean swap( @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] a,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int first,  @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int second) {
+        requireValidIndex(a.length, first);
+        requireValidIndex(a.length, second);
+        return quickSwap(a, first, second);
+    }
+}

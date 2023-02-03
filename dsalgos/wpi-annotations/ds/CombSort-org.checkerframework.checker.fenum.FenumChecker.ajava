@@ -1,0 +1,34 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class CombSort extends AbstractSort {
+
+    private static final  @org.checkerframework.checker.fenum.qual.FenumUnqualified double SHRINK_FACTOR = 1.3;
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getNextGap(@org.checkerframework.checker.fenum.qual.FenumUnqualified CombSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int gap) {
+        // Shrink gap by Shrink factor
+        int newGap = (int) Math.floor(gap / SHRINK_FACTOR);
+        return newGap <= 1 ? 1 : newGap;
+    }
+
+    protected void sort(@org.checkerframework.checker.fenum.qual.FenumUnqualified CombSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        int gap = length;
+        boolean swapped = true;
+        reset();
+        while (gap > 1 || swapped) {
+            ++outerLoopCount;
+            gap = getNextGap(gap);
+            swapped = false;
+            for (int i = 0; i < length - gap; i++) {
+                ++innerLoopCount;
+                ++comparisonCount;
+                if (a[i] > a[i + gap]) {
+                    swap(a, i, i + gap);
+                    swapped = true;
+                    ++swapCount;
+                }
+            }
+        }
+    }
+}

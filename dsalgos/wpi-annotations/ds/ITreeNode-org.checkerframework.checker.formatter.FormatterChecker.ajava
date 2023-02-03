@@ -1,0 +1,59 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public interface ITreeNode<E> extends Cloneable {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void insert( ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+     ITreeNode<E> find( ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+     ITreeNode<E> remove( ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+     ITreeNode<E> left( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setLeft( ITreeNode<E> this,  ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+     ITreeNode<E> right( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setRight( ITreeNode<E> this,  ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    E value( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setValue( ITreeNode<E> this, E val);
+
+    @org.checkerframework.dataflow.qual.Pure
+      int size( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setSize( ITreeNode<E> this,   int size);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setHeight( ITreeNode<E> this,   int height);
+
+    @org.checkerframework.dataflow.qual.Pure
+      int height( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+      int balanceFactor( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+      int refCount( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void incrementRefCount( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void decrementRefCount( ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     ITreeNode<E> clone( ITreeNode<E> this);
+}

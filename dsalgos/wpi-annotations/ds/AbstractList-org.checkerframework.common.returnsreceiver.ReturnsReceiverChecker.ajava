@@ -1,0 +1,58 @@
+package ds;
+
+import java.util.ListIterator;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker")
+public abstract class AbstractList<T> implements IList<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract void add(T data, int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract void add(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract void addAtFirst(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  INode<T> find(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  INode<T> get(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   boolean delete(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract T deleteAt(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   int size();
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract   boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  ListIterator<T> getIterator();
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  INode<T> getHead();
+
+    @org.checkerframework.dataflow.qual.Pure
+    public abstract  INode<T> getTail();
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void linkBefore(T data, INode<T> next);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void linkFirst(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void linkLast(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract T unlink(INode<T> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract T unlinkFirst();
+}

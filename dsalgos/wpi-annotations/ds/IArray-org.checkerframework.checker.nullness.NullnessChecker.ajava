@@ -1,0 +1,44 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.NullnessChecker")
+public interface IArray {
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] get();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull long @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull [] getExtentArray();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int count();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void clear();
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int findIndex(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean find(long searchKey);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int insert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull int syncInsert(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean delete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull boolean syncDelete(long value);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void display();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull IArray copy();
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.initialization.qual.Initialized @org.checkerframework.checker.nullness.qual.NonNull IArray sort(ISort sorter);
+}

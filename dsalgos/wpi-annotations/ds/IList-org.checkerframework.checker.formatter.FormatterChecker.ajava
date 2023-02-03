@@ -1,0 +1,46 @@
+package ds;
+
+import java.util.ListIterator;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.formatter.FormatterChecker")
+public interface IList<T> extends Iterable<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data, int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void addAtFirst(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+     INode<T> find(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+     INode<T> get(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+    T deleteAt(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean delete(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+      int size();
+
+    @org.checkerframework.dataflow.qual.Pure
+      boolean isEmpty();
+
+    @org.checkerframework.dataflow.qual.Pure
+     ListIterator<T> getIterator();
+
+    @org.checkerframework.dataflow.qual.Pure
+     ListIterator<T> getIteratorFromIndex(int index);
+
+    @org.checkerframework.dataflow.qual.Pure
+     INode<T> getHead();
+
+    @org.checkerframework.dataflow.qual.Pure
+     INode<T> getTail();
+}

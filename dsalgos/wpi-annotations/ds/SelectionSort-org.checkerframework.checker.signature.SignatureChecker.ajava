@@ -1,0 +1,23 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class SelectionSort extends AbstractSort {
+
+    protected void sort(@org.checkerframework.checker.signature.qual.SignatureUnknown SelectionSort this,  @org.checkerframework.checker.signature.qual.SignatureUnknown long @org.checkerframework.checker.signature.qual.SignatureUnknown [] a,  @org.checkerframework.checker.signature.qual.SignatureUnknown int length) {
+        reset();
+        for (int out = 0; out < length - 1; ++out) {
+            int min = out;
+            ++outerLoopCount;
+            for (int in = out + 1; in < length; ++in) {
+                ++comparisonCount;
+                ++innerLoopCount;
+                if (a[in] < a[min])
+                    min = in;
+            }
+            if (min != out) {
+                swap(a, out, min);
+                ++swapCount;
+            }
+        }
+    }
+}

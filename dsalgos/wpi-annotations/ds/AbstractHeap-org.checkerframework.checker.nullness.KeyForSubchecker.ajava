@@ -1,0 +1,97 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.KeyForSubchecker")
+public abstract class AbstractHeap implements IQueue {
+
+    protected   long  [] a;
+
+    protected   int nElems;
+
+    public AbstractHeap(  int maxSize) {
+        if (maxSize < 0)
+            throw new IllegalArgumentException("Invalid parameter: " + maxSize);
+        a = new long[maxSize];
+        nElems = 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void heapifyUp( AbstractHeap this,   int i);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void heapifyDown( AbstractHeap this,   int i);
+
+    /**
+     * Function to return the position of the parent for the node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected   int parent( AbstractHeap this,   int pos) {
+        return (pos - 1) >> 1;
+    }
+
+    /**
+     * Return position of left child for node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected   int leftChild( AbstractHeap this,   int pos) {
+        return 2 * pos + 1;
+    }
+
+    /**
+     * Return position of right child for node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected   int rightChild( AbstractHeap this,   int pos) {
+        return (pos << 1) + 2;
+    }
+
+    /**
+     * Function to swap two nodes of the heap.
+     */
+    protected void swap( AbstractHeap this,   int fpos,   int spos) {
+        ArrayUtils.swap(a, fpos, spos);
+    }
+
+    /**
+     * Function to insert a node into the heap.
+     */
+    public void insert( AbstractHeap this,   long element) {
+        if (isFull())
+            throw new IllegalStateException("Queue full: number of elements is " + nElems);
+        a[nElems++] = element;
+        heapifyUp(nElems - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isEmpty( AbstractHeap this) {
+        return nElems == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isFull( AbstractHeap this) {
+        return nElems == a.length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   int size( AbstractHeap this) {
+        return nElems;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   long peek( AbstractHeap this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue empty: " + nElems + " elements.");
+        return a[0];
+    }
+
+    /**
+     * Function to remove and return the minimum element from the heap.
+     */
+    public   long poll( AbstractHeap this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue empty: " + nElems + " elements.");
+        long root = a[0];
+        a[0] = a[--nElems];
+        heapifyDown(0);
+        return root;
+    }
+}

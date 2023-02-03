@@ -1,0 +1,356 @@
+package ds;
+
+import static java.util.Objects.*;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public class DoublyLinkedList<T> extends AbstractList<T> {
+
+    private static final @org.checkerframework.checker.signature.qual.SignatureUnknown String DATA_NON_NULL = "Data cannot be null.";
+
+    private  @org.checkerframework.checker.signature.qual.SignatureUnknown int length;
+
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> head;
+
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> tail;
+
+    protected void linkFirst(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data) {
+        if (isNull(head))
+            head = tail = new DoubleNode<>(data);
+        else {
+            INode<T> node = new DoubleNode<>(data, head);
+            head.setPrev(node);
+            head = node;
+        }
+        ++length;
+    }
+
+    protected void linkBefore(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> next) {
+        INode<T> prev = next.getPrev();
+        INode<T> node = new DoubleNode<>(prev, data, next);
+        next.setPrev(node);
+        if (isNull(prev)) {
+            head = node;
+        } else {
+            prev.setNext(node);
+        }
+        ++length;
+    }
+
+    protected void linkLast(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data) {
+        INode<T> node = new DoubleNode<>(data);
+        INode<T> last = tail;
+        if (nonNull(last)) {
+            last.setNext(node);
+            node.setPrev(last);
+            tail = node;
+        } else
+            head = tail = node;
+        ++length;
+    }
+
+    protected T unlinkFirst(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        INode<T> node = head;
+        final T data = node.getData();
+        final INode<T> next = node.getNext();
+        if (isNull(next))
+            head = tail = null;
+        else
+            head = next;
+        node.setPrev(null);
+        node.setNext(null);
+        node.setData(null);
+        --length;
+        return data;
+    }
+
+    protected T unlink(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node) {
+        INode<T> prev = node.getPrev();
+        final T data = node.getData();
+        final INode<T> next = node.getNext();
+        if (nonNull(prev)) {
+            prev.setNext(next);
+            if (nonNull(next))
+                next.setPrev(prev);
+            else
+                tail = prev;
+        } else if (isNull(next))
+            head = tail = null;
+        else {
+            head = next;
+            head.setPrev(null);
+        }
+        node.setData(null);
+        node.setNext(null);
+        node.setPrev(null);
+        --length;
+        return data;
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> find(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        INode<T> node = new DoubleNode<>(data);
+        if (head.equals(node))
+            return head;
+        INode<T> startNode = next(head);
+        while (!node.equals(startNode) && nonNull(startNode)) startNode = next(startNode);
+        return startNode;
+    }
+
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean delete(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        if (isEmpty())
+            return false;
+        INode<T> node = new DoubleNode<>(data);
+        if (head.equals(node)) {
+            unlinkFirst();
+            return true;
+        }
+        INode<T> currNode = next(head);
+        while (!node.equals(currNode) && nonNull(currNode)) {
+            currNode = next(currNode);
+        }
+        if (isNull(currNode))
+            return false;
+        unlink(currNode);
+        return true;
+    }
+
+    public T deleteAt(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+        checkIndex(index, length);
+        if (index == 0)
+            return unlinkFirst();
+        return unlink(get(index));
+    }
+
+    /**
+     * Add element at end.
+     *
+     * @param data - data to be added to list.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void add(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        linkLast(data);
+    }
+
+    /**
+     * Add element at specified index.
+     *
+     * @param data - data to be added at index.
+     * @param index - index at which element to be added.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void add(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data,  @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+        requireNonNull(data, DATA_NON_NULL);
+        if (index == 0) {
+            addAtFirst(data);
+            return;
+        }
+        if (index == this.length)
+            add(data);
+        else if (index < this.length) {
+            INode<T> rightNode = get(index);
+            linkBefore(data, rightNode);
+        } else
+            throw new IndexOutOfBoundsException("Index not available.");
+    }
+
+    /**
+     * Add element at first node. Set the newly created node as root node.
+     *
+     * @param data Add data node at beginning.
+     */
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public void addAtFirst(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, T data) {
+        requireNonNull(data, DATA_NON_NULL);
+        linkFirst(data);
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> get(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+        checkIndex(index, this.length);
+        if (index == 0)
+            return this.head;
+        if (index == this.length - 1)
+            return this.tail;
+        int midPoint = this.length >> 1;
+        if (index < midPoint)
+            return getFromHead(index);
+        else
+            return getFromTail(index);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getFromHead(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+        int pointer = 0;
+        INode<T> pointerNode = this.head;
+        while (pointer != index) {
+            pointerNode = next(pointerNode);
+            ++pointer;
+        }
+        return pointerNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getFromTail(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+        int pointer = length - 1;
+        INode<T> pointerNode = this.tail;
+        while (pointer != index) {
+            pointerNode = prev(pointerNode);
+            --pointer;
+        }
+        return pointerNode;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> next(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node) {
+        return node.getNext();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> prev(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this, @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> node) {
+        return node.getPrev();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown int size(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        return this.length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean isEmpty(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        return this.length == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getHead(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        return head;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> getTail(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        return tail;
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown String toString(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        INode<T> nextNode = this.head;
+        while (nonNull(nextNode)) {
+            sb.append(nextNode);
+            nextNode = next(nextNode);
+            if (nonNull(nextNode))
+                sb.append(',');
+        }
+        sb.append(']');
+        return sb.toString();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown Iterator<T> iterator(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        return getIterator();
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown ListIterator<T> getIterator(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this) {
+        return new ListIter();
+    }
+
+    public @org.checkerframework.checker.signature.qual.SignatureUnknown ListIterator<T> getIteratorFromIndex(@org.checkerframework.checker.signature.qual.SignatureUnknown DoublyLinkedList<T> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int idx) {
+        return new ListIter(idx);
+    }
+
+    final class ListIter implements ListIterator<T> {
+
+        private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> lastReturned;
+
+        private @org.checkerframework.checker.signature.qual.SignatureUnknown INode<T> nextNode;
+
+        private  @org.checkerframework.checker.signature.qual.SignatureUnknown int nextIndex;
+
+        ListIter() {
+            this(0);
+        }
+
+        ListIter( @org.checkerframework.checker.signature.qual.SignatureUnknown int index) {
+            checkIndex(index, length + 1);
+            nextNode = (index == length) ? null : get(index);
+            nextIndex = index;
+        }
+
+        public T next(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            if (!hasNext())
+                throw new NoSuchElementException();
+            lastReturned = nextNode;
+            nextNode = nextNode.getNext();
+            nextIndex++;
+            return lastReturned.getData();
+        }
+
+        public T previous(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            if (!hasPrevious())
+                throw new NoSuchElementException();
+            lastReturned = nextNode = isNull(nextNode) ? tail : nextNode.getPrev();
+            nextIndex--;
+            return lastReturned.getData();
+        }
+
+        @org.checkerframework.framework.qual.EnsuresQualifier(expression = { "this.lastReturned" }, qualifier = org.checkerframework.checker.signature.qual.SignatureBottom.class)
+        public void add(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this, T data) {
+            lastReturned = null;
+            if (isNull(nextNode))
+                linkLast(data);
+            else
+                linkBefore(data, nextNode);
+            nextIndex++;
+        }
+
+        @org.checkerframework.framework.qual.EnsuresQualifier(expression = { "this.lastReturned" }, qualifier = org.checkerframework.checker.signature.qual.SignatureBottom.class)
+        public void remove(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            if (isNull(lastReturned))
+                throw new IllegalStateException();
+            INode<T> lastNext = lastReturned.getNext();
+            unlink(lastReturned);
+            if (lastReturned.isSame(nextNode))
+                nextNode = lastNext;
+            else
+                nextIndex--;
+            lastReturned = null;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public void set(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this, T data) {
+            if (isNull(lastReturned))
+                throw new IllegalStateException();
+            lastReturned.setData(data);
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean hasNext(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            return nextIndex < length;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public  @org.checkerframework.checker.signature.qual.SignatureUnknown boolean hasPrevious(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            return nextIndex > 0;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public  @org.checkerframework.checker.signature.qual.SignatureUnknown int nextIndex(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            return nextIndex;
+        }
+
+        @org.checkerframework.dataflow.qual.Pure
+        public  @org.checkerframework.checker.signature.qual.SignatureUnknown int previousIndex(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            return nextIndex - 1;
+        }
+
+        public @org.checkerframework.checker.signature.qual.SignatureUnknown String toString(@org.checkerframework.checker.signature.qual.SignatureUnknown ListIter this) {
+            StringBuilder sb = new StringBuilder(50);
+            String lineSeparator = System.lineSeparator();
+            sb.append("Last returned = ").append(lastReturned).append(lineSeparator).append("Next node = ").append(nextNode).append(lineSeparator).append("Next index = ").append(nextIndex);
+            return sb.toString();
+        }
+    }
+}

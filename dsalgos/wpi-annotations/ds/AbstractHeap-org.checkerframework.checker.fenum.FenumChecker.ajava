@@ -1,0 +1,97 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public abstract class AbstractHeap implements IQueue {
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a;
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int nElems;
+
+    public AbstractHeap( @org.checkerframework.checker.fenum.qual.FenumUnqualified int maxSize) {
+        if (maxSize < 0)
+            throw new IllegalArgumentException("Invalid parameter: " + maxSize);
+        a = new long[maxSize];
+        nElems = 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void heapifyUp(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int i);
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void heapifyDown(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int i);
+
+    /**
+     * Function to return the position of the parent for the node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int parent(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int pos) {
+        return (pos - 1) >> 1;
+    }
+
+    /**
+     * Return position of left child for node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int leftChild(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int pos) {
+        return 2 * pos + 1;
+    }
+
+    /**
+     * Return position of right child for node currently at pos.
+     */
+    @org.checkerframework.dataflow.qual.Pure
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int rightChild(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int pos) {
+        return (pos << 1) + 2;
+    }
+
+    /**
+     * Function to swap two nodes of the heap.
+     */
+    protected void swap(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int fpos,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int spos) {
+        ArrayUtils.swap(a, fpos, spos);
+    }
+
+    /**
+     * Function to insert a node into the heap.
+     */
+    public void insert(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long element) {
+        if (isFull())
+            throw new IllegalStateException("Queue full: number of elements is " + nElems);
+        a[nElems++] = element;
+        heapifyUp(nElems - 1);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isEmpty(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this) {
+        return nElems == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean isFull(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this) {
+        return nElems == a.length;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int size(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this) {
+        return nElems;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long peek(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue empty: " + nElems + " elements.");
+        return a[0];
+    }
+
+    /**
+     * Function to remove and return the minimum element from the heap.
+     */
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified long poll(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractHeap this) {
+        if (isEmpty())
+            throw new IllegalStateException("Queue empty: " + nElems + " elements.");
+        long root = a[0];
+        a[0] = a[--nElems];
+        heapifyDown(0);
+        return root;
+    }
+}

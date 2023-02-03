@@ -1,0 +1,53 @@
+package ds;
+
+/**
+ * Demonstrates array class with high-level interface.
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public class OrdArray extends AbstractOrdArray {
+
+    public OrdArray() {
+        // empty constructor
+    }
+
+    public OrdArray(int max) {
+        this(max, false);
+    }
+
+    public OrdArray( @org.checkerframework.checker.fenum.qual.FenumUnqualified int max,  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean strict) {
+        super(max, strict);
+    }
+
+    public OrdArray(@org.checkerframework.checker.fenum.qual.FenumUnqualified OrdArray array) {
+        super(array);
+    }
+
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified IArray copy(@org.checkerframework.checker.fenum.qual.FenumUnqualified OrdArray this) {
+        return new OrdArray(this);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public boolean equals(final Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof OrdArray))
+            return false;
+        final OrdArray other = (OrdArray) o;
+        if (!other.canEqual((Object) this))
+            return false;
+        if (!super.equals(o))
+            return false;
+        return true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected boolean canEqual(final Object other) {
+        return other instanceof OrdArray;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public int hashCode() {
+        final int result = super.hashCode();
+        return result;
+    }
+}

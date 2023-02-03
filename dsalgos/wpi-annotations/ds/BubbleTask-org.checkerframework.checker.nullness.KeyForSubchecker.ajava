@@ -1,0 +1,39 @@
+package ds;
+
+import java.util.concurrent.Callable;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.nullness.KeyForSubchecker")
+final class BubbleTask implements Cloneable, Callable<Void> {
+
+      long  [] a;
+
+      int i;
+
+     AbstractBrickSort sorter;
+
+    BubbleTask( AbstractBrickSort sorter,   long  [] a,   int i) {
+        this.sorter = sorter;
+        this.a = a;
+        this.i = i;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public  BubbleTask clone( BubbleTask this) {
+        try {
+            return (BubbleTask) super.clone();
+        } catch (CloneNotSupportedException cnse) {
+            throw new AssertionError("Shouldn't get here.." + cnse.getMessage(), cnse);
+        }
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public Void call( BubbleTask this) {
+        sorter.bubble(a, i);
+        return null;
+    }
+
+    @org.checkerframework.dataflow.qual.SideEffectFree
+    public static  BubbleTask createCopy( BubbleTask bt) {
+        return bt.clone();
+    }
+}

@@ -1,0 +1,35 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.regex.RegexChecker")
+public interface Iterator<T> {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void reset();
+
+    @org.checkerframework.dataflow.qual.Pure
+    T next();
+
+    @org.checkerframework.dataflow.qual.Pure
+    boolean hasNext();
+
+    @org.checkerframework.dataflow.qual.Pure
+    T previous();
+
+    @org.checkerframework.dataflow.qual.Pure
+    boolean hasPrevious();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void add(T data);
+
+    @org.checkerframework.dataflow.qual.Pure
+    int nextIndex();
+
+    @org.checkerframework.dataflow.qual.Pure
+    int previousIndex();
+
+    @org.checkerframework.dataflow.qual.Pure
+    T remove();
+
+    @org.checkerframework.dataflow.qual.Pure
+    void set(T data);
+}

@@ -1,0 +1,218 @@
+package ds;
+
+import static ds.ArrayUtils.*;
+import static ds.MathUtils.*;
+import java.util.Arrays;
+
+/**
+ *  <p>Centred Deque implementation in Java.</p>
+ * *
+ */
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.optional.OptionalChecker")
+public class CentredDeque implements IQueue, IStack, IDeque {
+
+    private static final @org.checkerframework.checker.optional.qual.MaybePresent String QUEUE_UNDERFLOW = "Queue underflow.";
+
+     @org.checkerframework.checker.optional.qual.MaybePresent long @org.checkerframework.checker.optional.qual.MaybePresent [] arr;
+
+     @org.checkerframework.checker.optional.qual.MaybePresent int first;
+
+     @org.checkerframework.checker.optional.qual.MaybePresent int last;
+
+    public CentredDeque(int size) {
+        arr = new long[size];
+        first = last = -1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void push(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this,  @org.checkerframework.checker.optional.qual.MaybePresent long j) {
+        addFirst(j);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long pop(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return poll();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public void insert(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this,  @org.checkerframework.checker.optional.qual.MaybePresent long j) {
+        addLast(j);
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long poll(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return pollFirst();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long peek(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return peekFirst();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isFull(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return isLeftFull() && isRightFull();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isLeftFull(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        if (arr.length == 0)
+            return true;
+        return first == 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isRightFull(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        if (arr.length == 1 || arr.length == 0)
+            return true;
+        return last == arr.length - 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int getLeftBoundary(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        if (isOdd(length))
+            return ((length + 1) >> 1) - 1;
+        else
+            return (length >> 1) - 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int getRightBoundary(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this,  @org.checkerframework.checker.optional.qual.MaybePresent int length) {
+        if (isOdd(length))
+            return (length + 1) >> 1;
+        else
+            return length >> 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int getLeftLength(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return first == -1 ? 0 : getLeftBoundary(arr.length) - first + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    private  @org.checkerframework.checker.optional.qual.MaybePresent int getRightLength(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return last == -1 ? 0 : last - getRightBoundary(arr.length) + 1;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent int size(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        if (arr.length == 0)
+            return 0;
+        return getLeftLength() + getRightLength();
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent boolean isEmpty(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        return size() == 0;
+    }
+
+    private void reinitializeLeftPointer(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        first = -1;
+    }
+
+    private void reinitializeRightPointer(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        last = -1;
+    }
+
+    public void addFirst(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this,  @org.checkerframework.checker.optional.qual.MaybePresent long key) {
+        if (isLeftFull())
+            doubleCapacity();
+        if (first == -1)
+            first = getLeftBoundary(arr.length);
+        else
+            --first;
+        arr[first] = key;
+    }
+
+    public void addLast(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this,  @org.checkerframework.checker.optional.qual.MaybePresent long key) {
+        if (isRightFull())
+            doubleCapacity();
+        if (last == -1)
+            last = getRightBoundary(arr.length);
+        else
+            ++last;
+        arr[last] = key;
+    }
+
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long pollFirst(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        long val = peekFirst();
+        if (first == -1) {
+            int leftBoundary = getLeftBoundary(arr.length);
+            int rightBoundary = getRightBoundary(arr.length);
+            System.arraycopy(arr, rightBoundary, arr, leftBoundary, getRightLength());
+            first = leftBoundary;
+            --last;
+            if (last < rightBoundary)
+                last = -1;
+        }
+        if (first == getLeftBoundary(arr.length)) {
+            reinitializeLeftPointer();
+            return val;
+        }
+        ++first;
+        return val;
+    }
+
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long pollLast(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        long val = peekLast();
+        if (last == -1) {
+            int leftLength = getLeftLength();
+            System.arraycopy(arr, first++, arr, first, leftLength);
+            last = getRightBoundary(arr.length);
+            if (first > getLeftBoundary(arr.length))
+                first = -1;
+        }
+        if (last == getRightBoundary(arr.length)) {
+            reinitializeRightPointer();
+            return val;
+        }
+        --last;
+        return val;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long peekFirst(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        if (first == -1 && last == -1)
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        if (first == -1)
+            return arr[getRightBoundary(arr.length)];
+        return arr[first];
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.optional.qual.MaybePresent long peekLast(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        if (last == -1 && first == -1)
+            throw new IllegalStateException(QUEUE_UNDERFLOW);
+        if (last == -1)
+            return arr[getLeftBoundary(arr.length)];
+        return arr[last];
+    }
+
+    /**
+     *  <p> Double the capacity of this deque. </p>
+     * *
+     */
+    private void doubleCapacity(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        int n = arr.length;
+        if (n == 0)
+            throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
+        long[] a = (n == 1) ? getDoubleCapacity(n * 2) : getDoubleCapacity(n);
+        if (first >= 0) {
+            int startIndex = getLeftBoundary(a.length) - getLeftLength() + 1;
+            System.arraycopy(arr, first, a, startIndex, getLeftLength());
+            first = startIndex;
+        }
+        if (last > 0) {
+            System.arraycopy(arr, getRightBoundary(arr.length), a, a.length >> 1, getRightLength());
+            last = (a.length >> 1) + getRightLength() - 1;
+        }
+        arr = a;
+    }
+
+    public @org.checkerframework.checker.optional.qual.MaybePresent String toString(@org.checkerframework.checker.optional.qual.MaybePresent CentredDeque this) {
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.lineSeparator();
+        sb.append("First = ").append(first).append(lineSeparator).append("Last = ").append(last).append(lineSeparator).append(Arrays.toString(arr));
+        return sb.toString();
+    }
+}

@@ -1,0 +1,67 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.fenum.FenumChecker")
+public abstract class AbstractSort implements ISort {
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int comparisonCount;
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int swapCount;
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int copyCount;
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int innerLoopCount;
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified int outerLoopCount;
+
+    protected  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean shouldSort(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length) {
+        if (length < 0)
+            throw new IllegalArgumentException("Illegal value for length: " + length);
+        reset();
+        return length <= 1 ? false : true;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    protected abstract void sort(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] array,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int length);
+
+    @org.checkerframework.dataflow.qual.Pure
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified IArray sort(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this, @org.checkerframework.checker.fenum.qual.FenumUnqualified IArray array) {
+        IArray copy = array.copy();
+        sort(copy.get(), copy.count());
+        return copy;
+    }
+
+    protected final  @org.checkerframework.checker.fenum.qual.FenumUnqualified boolean swap(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this,  @org.checkerframework.checker.fenum.qual.FenumUnqualified long @org.checkerframework.checker.fenum.qual.FenumUnqualified [] a,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int first,  @org.checkerframework.checker.fenum.qual.FenumUnqualified int second) {
+        return ArrayUtils.swap(a, first, second);
+    }
+
+    protected void reset(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this) {
+        copyCount = swapCount = comparisonCount = innerLoopCount = outerLoopCount = 0;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getCopyCount(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this) {
+        return copyCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getSwapCount(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this) {
+        return swapCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getComparisonCount(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this) {
+        return comparisonCount;
+    }
+
+    @org.checkerframework.dataflow.qual.Pure
+    public  @org.checkerframework.checker.fenum.qual.FenumUnqualified int getTimeComplexity(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this) {
+        return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
+    }
+
+    public @org.checkerframework.checker.fenum.qual.FenumUnqualified String toString(@org.checkerframework.checker.fenum.qual.FenumUnqualified AbstractSort this) {
+        StringBuilder sb = new StringBuilder(80);
+        String lineSeparator = System.lineSeparator();
+        sb.append(getClass().getName()).append(lineSeparator).append("Comparison count: ").append(comparisonCount).append(lineSeparator).append("Swap count: ").append(swapCount).append(lineSeparator).append("Copy count: ").append(copyCount).append(lineSeparator).append("inner loop count: ").append(innerLoopCount).append(lineSeparator).append("outer loop count: ").append(outerLoopCount);
+        return sb.toString();
+    }
+}

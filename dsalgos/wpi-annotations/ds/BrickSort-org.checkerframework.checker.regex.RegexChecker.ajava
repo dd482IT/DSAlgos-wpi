@@ -1,0 +1,62 @@
+package ds;
+
+import static ds.ArrayUtils.swapIfGreaterThan;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.regex.RegexChecker")
+public class BrickSort extends AbstractBrickSort {
+
+    protected   boolean sorted;
+
+    @org.checkerframework.dataflow.qual.Pure
+    public   boolean isSorted( BrickSort this) {
+        return sorted;
+    }
+
+    protected void reset( BrickSort this) {
+        super.reset();
+        sorted = false;
+    }
+
+    protected void sort( BrickSort this,   long  [] a,   int length) {
+        reset();
+        if (length <= 1) {
+            sorted = true;
+            return;
+        }
+        final int maxComparisons = computeMaxComparisons(length);
+        while (!sorted) {
+            ++outerLoopCount;
+            sorted = true;
+            oddSort(a, length);
+            if (swapCount == maxComparisons) {
+                sorted = true;
+                break;
+            }
+            evenSort(a, length);
+            if (swapCount == maxComparisons)
+                sorted = true;
+        }
+    }
+
+    protected void oddSort( BrickSort this,   long  [] a,   int length) {
+        for (int i = 1; i < length - 1; i = i + 2) {
+            ++innerLoopCount;
+            bubble(a, i);
+        }
+    }
+
+    protected void evenSort( BrickSort this,   long  [] a,   int length) {
+        for (int i = 0; i < length - 1; i = i + 2) {
+            ++innerLoopCount;
+            bubble(a, i);
+        }
+    }
+
+    protected void bubble( BrickSort this,   long  [] a,   int i) {
+        ++comparisonCount;
+        if (swapIfGreaterThan(a, i, i + 1)) {
+            sorted = false;
+            ++swapCount;
+        }
+    }
+}

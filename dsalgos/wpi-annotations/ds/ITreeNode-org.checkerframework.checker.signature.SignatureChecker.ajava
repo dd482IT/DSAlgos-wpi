@@ -1,0 +1,59 @@
+package ds;
+
+@org.checkerframework.framework.qual.AnnotatedFor("org.checkerframework.checker.signature.SignatureChecker")
+public interface ITreeNode<E> extends Cloneable {
+
+    @org.checkerframework.dataflow.qual.Pure
+    void insert(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> find(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> remove(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this, E obj);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> left(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setLeft(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this, @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> right(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setRight(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this, @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> node);
+
+    @org.checkerframework.dataflow.qual.Pure
+    E value(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setValue(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this, E val);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int size(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setSize(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int size);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void setHeight(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this,  @org.checkerframework.checker.signature.qual.SignatureUnknown int height);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int height(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int balanceFactor(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+     @org.checkerframework.checker.signature.qual.SignatureUnknown int refCount(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void incrementRefCount(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    void decrementRefCount(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+
+    @org.checkerframework.dataflow.qual.Pure
+    @org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> clone(@org.checkerframework.checker.signature.qual.SignatureUnknown ITreeNode<E> this);
+}
