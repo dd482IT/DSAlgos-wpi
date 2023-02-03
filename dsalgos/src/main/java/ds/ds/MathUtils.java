@@ -6,7 +6,6 @@ public final class MathUtils {
 
   private static final String INVALID_ARGUMENT = "Invalid argument: ";
 
-  @Generated
   private MathUtils() throws InstantiationException {
     throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
   }

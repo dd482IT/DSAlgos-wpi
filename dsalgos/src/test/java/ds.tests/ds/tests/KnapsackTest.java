@@ -19,9 +19,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("KnapsackTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class KnapsackTest {
   private static final String VALUES_EQUAL = "Values must be equal.";
   private final Item[] items;
@@ -88,8 +85,6 @@ class KnapsackTest {
         };
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testKnapsack")
   void testKnapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(items, 15);
     knapsack.display();
@@ -98,8 +93,6 @@ class KnapsackTest {
     assertEquals(15, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testFractionalKnapsack")
   void testFractionalKnapsack() {
     AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(fractionalItems, 150);
     knapsack.display();
@@ -108,8 +101,6 @@ class KnapsackTest {
     assertEquals(349, Math.round(solution.getValue()), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testFractionalKnapsack2")
   void testFractionalKnapsack2() {
     AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(fractionalItems, 343);
     knapsack.display();
@@ -118,8 +109,6 @@ class KnapsackTest {
     assertEquals(560, Math.round(solution.getValue()), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testFractionalKnapsackZeroCapacity")
   void testFractionalKnapsackZeroCapacity() {
     AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(fractionalItems, 0);
     knapsack.display();
@@ -128,8 +117,6 @@ class KnapsackTest {
     assertEquals(0, Math.round(solution.getValue()), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testFractionalKnapsackNegativeCapacity")
   void testFractionalKnapsackNegativeCapacity() {
     AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(fractionalItems, -10);
     knapsack.display();
@@ -138,8 +125,6 @@ class KnapsackTest {
     assertEquals(0, Math.round(solution.getValue()), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testFractionalKnapsackEmptyList")
   void testFractionalKnapsackEmptyList() {
     AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(new Item[0], 10);
     knapsack.display();
@@ -148,8 +133,6 @@ class KnapsackTest {
     assertEquals(0, Math.round(solution.getValue()), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testBoundedKnapsack")
   void testBoundedKnapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new BoundedKnapsack(boundedItems, 400);
     knapsack.display();
@@ -158,8 +141,6 @@ class KnapsackTest {
     assertEquals(1010, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testBoundedNaiveKnapsack")
   void testBoundedNaiveKnapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new BoundedNaiveKnapsack(boundedItems, 400);
     knapsack.display();
@@ -168,8 +149,6 @@ class KnapsackTest {
     assertEquals(1010, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testUnboundedKnapsack")
   void testUnboundedKnapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new UnboundedKnapsack(unboundedItems, 100);
     knapsack.display();
@@ -178,8 +157,6 @@ class KnapsackTest {
     assertEquals(300, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testUnbounded2Knapsack")
   void testUnbounded2Knapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new UnboundedKnapsack(unboundedItems2, 45);
     knapsack.display();
@@ -188,8 +165,6 @@ class KnapsackTest {
     assertEquals(150, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testKnapsackNoItems")
   void testKnapsackNoItems() {
     AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(new Item[0], 15);
     knapsack.display();
@@ -198,8 +173,6 @@ class KnapsackTest {
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testKnapsackOneItem")
   void testKnapsackOneItem() {
     Item[] oneItems = {new Item("Elt1", 4, 12)};
     AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(oneItems, 12);
@@ -209,8 +182,6 @@ class KnapsackTest {
     assertEquals(4, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testKnapsackWeightZero")
   void testKnapsackWeightZero() {
     AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(items, 0);
     knapsack.display();
@@ -219,8 +190,6 @@ class KnapsackTest {
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testNaiveKnapsack")
   void testNaiveKnapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new NaiveKnapsack(items, 15);
     knapsack.display();
@@ -229,8 +198,6 @@ class KnapsackTest {
     assertEquals(15, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testNaiveKnapsackWeightZero")
   void testNaiveKnapsackWeightZero() {
     AbstractKnapsack<Solution<Integer>> knapsack = new NaiveKnapsack(items, 0);
     knapsack.display();
@@ -239,8 +206,6 @@ class KnapsackTest {
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }
 
-  @Test
-  @DisplayName("KnapsackTest.testNaiveKnapsackNoItems")
   void testNaiveKnapsackNoItems() {
     AbstractKnapsack<Solution<Integer>> knapsack = new NaiveKnapsack(new Item[0], 15);
     knapsack.display();

@@ -25,17 +25,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("OrdArrayLockTest")
 class OrdArrayLockTest {
-  @Nested
-  @DisplayName("OrdArrayLockTest.ConstructorTests")
   class ConstructorTests {
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-    @Test
-    @DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterNegative")
     void testConstructorParameterNegative() {
       IllegalArgumentException iae =
           assertThrows(
@@ -47,15 +40,11 @@ class OrdArrayLockTest {
       assertTrue(val.contains("-1"), "Parameter -1 expected");
     }
 
-    @Test
-    @DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterOK")
     void testConstructorParameterOK() {
       IArray arr = new OrdArrayLock(TEN);
       assertEquals(TEN, arr.get().length, "Length " + TEN + " expected");
     }
 
-    @Test
-    @DisplayName("OrdArrayLockTest.ConstructorTests.testEmptyConstructor")
     void testEmptyConstructor() {
       IArray arr = new OrdArrayLock();
       boolean strict = (boolean) on(arr).get(STRICT);
@@ -65,8 +54,6 @@ class OrdArrayLockTest {
     }
 
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-    @Test
-    @DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterZero")
     void testConstructorParameterZero() {
       IllegalArgumentException iae =
           assertThrows(
@@ -79,34 +66,20 @@ class OrdArrayLockTest {
     }
   }
 
-  @Nested
-  @DisplayName("OrdArrayLockTest.InsertTests")
   class InsertTests {
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.insertDuplicate")
-    void insertDuplicate(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void insertDuplicate(IArray arr) {
       assertTrue(6 == arr.syncInsert(66L) && isSorted(arr), "Index 6 expected.");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DUPLICATE_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.insertDuplicateElements")
-    void insertDuplicateElements(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void insertDuplicateElements(IArray arr) {
       assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsert")
-    void testInsert(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsert(IArray arr) {
       assertTrue(TEN == arr.count() && isSorted(arr), TEN + " elements inserted and sorted.");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtStartExists")
-    void testInsertAtStartExists(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsertAtStartExists(IArray arr) {
       int count = arr.count();
       long val = 0L;
       int index = arr.findIndex(val);
@@ -119,10 +92,7 @@ class OrdArrayLockTest {
           "11 elements expected, indexes 0 or 1 expected.");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtEndExists")
-    void testInsertAtEndExists(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsertAtEndExists(IArray arr) {
       int count = arr.count();
       long val = 99L;
       int index = arr.findIndex(val);
@@ -135,10 +105,7 @@ class OrdArrayLockTest {
           "11 elements expected, indexes 9 or 10 expected.");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtEnd")
-    void testInsertAtEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsertAtEnd(IArray arr) {
       int count = arr.count();
       long val = HUNDRED;
       int insertIndex = arr.syncInsert(val);
@@ -147,10 +114,7 @@ class OrdArrayLockTest {
           () -> (count + 1) + " elements expected, index " + count + " expected.");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtStart")
-    void testInsertAtStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsertAtStart(IArray arr) {
       int count = arr.count();
       long val = -1L;
       int insertIndex = arr.syncInsert(val);
@@ -160,29 +124,20 @@ class OrdArrayLockTest {
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @ParameterizedTest
-    @CsvSource(INIT_SORTED_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsertSorted")
-    void testInsertSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsertSorted(IArray arr) {
       int count = arr.count();
       int res = arr.syncInsert(99L);
       assertTrue(res == 8 && arr.count() == count + 1, "Sorted and insert at 8 expected.");
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @ParameterizedTest
-    @CsvSource(INIT_ALL_SAME_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAllSameSorted")
-    void testInsertAllSameSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testInsertAllSameSorted(IArray arr) {
       int count = arr.count();
       int res = arr.syncInsert(99L);
       assertTrue(res == TEN && arr.count() == count + 1, "Insert must succeed.");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_EXCEPTION_DATA)
-    @DisplayName("OrdArrayLockTest.InsertTests.testException")
-    void testException(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray ordArray) {
+    void testException(IArray ordArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
           () -> {
@@ -191,15 +146,10 @@ class OrdArrayLockTest {
     }
   }
 
-  @Nested
-  @DisplayName("OrdArrayLockTest.DeleteTests")
   class DeleteTests {
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
-    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteTrue")
-    void testDeleteTrue(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testDeleteTrue(IArray arr) {
       int count = arr.count();
       assertTrue(
           arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
@@ -208,21 +158,15 @@ class OrdArrayLockTest {
       assertTrue(isSorted(arr), "Array must be sorted");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteFalse")
-    void testDeleteFalse(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testDeleteFalse(IArray arr) {
       int count = arr.count();
       assertFalse(
           arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L) && arr.count() != count,
           "Elements 12, 6, 5 found and deleted");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteStart")
-    void testDeleteStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testDeleteStart(IArray arr) {
       int count = arr.count();
       long searchKey = 00L;
       assertTrue(
@@ -230,10 +174,7 @@ class OrdArrayLockTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteEnd")
-    void testDeleteEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testDeleteEnd(IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -241,10 +182,7 @@ class OrdArrayLockTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteOverflow")
-    void testDeleteOverflow(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testDeleteOverflow(IArray arr) {
       long searchKey = 0L;
       arr.syncDelete(searchKey);
       int count = arr.count();
@@ -252,10 +190,7 @@ class OrdArrayLockTest {
           arr.syncDelete(searchKey) && arr.count() != count, () -> searchKey + " still available");
     }
 
-    @ParameterizedTest
-    @CsvSource(INIT_FULL_DATA)
-    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteEndArray")
-    void testDeleteEndArray(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
+    void testDeleteEndArray(IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -264,11 +199,7 @@ class OrdArrayLockTest {
     }
   }
 
-  @Nested
-  @DisplayName("OrdArrayLockTest.ModCountTests")
   class ModCountTests {
-    @Test
-    @DisplayName("OrdArrayLockTest.ModCountTests.testInsertModCount")
     void testInsertModCount() {
       IArray arr = new OrdArrayLock(HUNDRED);
       int count = arr.count();
@@ -280,8 +211,6 @@ class OrdArrayLockTest {
           "modcount incremented.");
     }
 
-    @Test
-    @DisplayName("OrdArrayLockTest.ModCountTests.testClearModCount")
     void testClearModCount() {
       IArray arr = new OrdArrayLock(HUNDRED);
       arr.syncInsert(TEN);
@@ -292,8 +221,6 @@ class OrdArrayLockTest {
           modCount < newModCount && newModCount == 2 && arr.count() == 0, "modcount incremented.");
     }
 
-    @Test
-    @DisplayName("OrdArrayLockTest.ModCountTests.testClearEmptyModCount")
     void testClearEmptyModCount() {
       IArray arr = new OrdArrayLock(HUNDRED);
       int modCount = getModCount(arr);
@@ -304,8 +231,6 @@ class OrdArrayLockTest {
           "modcount must not be incremented.");
     }
 
-    @Test
-    @DisplayName("OrdArrayLockTest.ModCountTests.testDeleteModCount")
     void testDeleteModCount() {
       IArray arr = new OrdArrayLock(HUNDRED);
       arr.syncInsert(TEN);
@@ -316,8 +241,6 @@ class OrdArrayLockTest {
           modCount < newModCount && newModCount == 2 && arr.count() == 0, "modcount incremented.");
     }
 
-    @Test
-    @DisplayName("OrdArrayLockTest.ModCountTests.testDeleteNotFoundModCount")
     void testDeleteNotFoundModCount() {
       IArray arr = new OrdArrayLock(HUNDRED);
       int count = arr.count();
@@ -330,13 +253,9 @@ class OrdArrayLockTest {
     }
   }
 
-  @Nested
-  @DisplayName("OrdArrayLockTest.EqualsVerifierTests")
   class EqualsVerifierTests {
     /** Added tests for code coverage completeness. */
-    @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-    @DisplayName("OrdArrayLockTest.EqualsVerifierTests.equalsContract")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayLock.class)
           .withIgnoredFields(MOD_COUNT, LOCK, STRICT, WRITE)
@@ -350,9 +269,7 @@ class OrdArrayLockTest {
           .verify();
     }
 
-    @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-    @DisplayName("OrdArrayLockTest.EqualsVerifierTests.leafNodeEquals")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArrayLock.class)
           .withIgnoredFields(MOD_COUNT, LOCK, STRICT, WRITE)

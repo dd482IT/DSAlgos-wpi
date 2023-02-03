@@ -198,14 +198,12 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     return t;
   }
 
-  @Generated
   @SuppressWarnings("PMD.UnnecessaryFullyQualifiedName")
   @Override
   public String toString() {
     return Objects.toString(val);
   }
 
-  @Generated
   @Override
   public ITreeNode<T> clone() {
     try {

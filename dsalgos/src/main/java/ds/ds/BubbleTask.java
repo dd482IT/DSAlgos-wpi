@@ -14,7 +14,6 @@ final class BubbleTask implements Cloneable, Callable<Void> {
     this.i = i;
   }
 
-  @Generated
   @SuppressWarnings("checkstyle:NoClone")
   @Override
   public BubbleTask clone() {

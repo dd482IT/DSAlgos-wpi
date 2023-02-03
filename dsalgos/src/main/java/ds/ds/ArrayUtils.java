@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public final class ArrayUtils {
 
-  @Generated
   private ArrayUtils() throws InstantiationException {
     throw new InstantiationException("Private constructor for: " + ArrayUtils.class.getName());
   }

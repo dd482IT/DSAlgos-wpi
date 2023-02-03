@@ -9,13 +9,11 @@ public final class AssertionUtils {
     throw new InstantiationException("Private constructor for: " + AssertionUtils.class.getName());
   }
 
-  @Generated
   public static void assertEquality(int first, int second) {
     if (first != second)
       throw new AssertionError(Integer.toString(first) + " is not the same as " + second);
   }
 
-  @Generated
   public static void assertServiceTerminated(ExecutorService service) {
     if (!service.isShutdown()) throw new AssertionError("ExecutorService must be shutdown.");
     if (!Thread.currentThread().isInterrupted() && !service.isTerminated())

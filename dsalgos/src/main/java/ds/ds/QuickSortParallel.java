@@ -95,7 +95,6 @@ public class QuickSortParallel extends AbstractSort {
       this.high = high;
     }
 
-    @Generated
     @SuppressWarnings("checkstyle:NoClone")
     @Override
     public QuickSortAction clone() {

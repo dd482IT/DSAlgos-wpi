@@ -22,16 +22,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("BubbleSortTest")
 class BubbleSortTest implements SortProvider {
 
-  @ParameterizedTest
-  @CsvSource(INIT_DATA)
-  @DisplayName("BubbleSortTest.testSort")
-  void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSort(IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new BubbleSort();
     IArray sorted = arr.sort(sorter);
@@ -39,10 +33,7 @@ class BubbleSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_DUPLICATE_DATA)
-  @DisplayName("BubbleSortTest.testSortDuplicates")
-  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortDuplicates(IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(arr);
@@ -50,10 +41,7 @@ class BubbleSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_ALL_SAME_DATA)
-  @DisplayName("BubbleSortTest.testSortAllSame")
-  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortAllSame(IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(arr);
@@ -62,10 +50,7 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_BUBBLE_SORT_DATA)
-  @DisplayName("BubbleSortTest.testSortSmallData")
-  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortSmallData(IArray arr) {
     ISort sorter = new BubbleSort();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
@@ -78,8 +63,6 @@ class BubbleSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -97,8 +80,6 @@ class BubbleSortTest implements SortProvider {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -115,8 +96,6 @@ class BubbleSortTest implements SortProvider {
         SCORE - 1, sorter.getComparisonCount(), "Comparison count must be " + (SCORE - 1) + ".");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -126,8 +105,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(SCORE - 1, compCount, "Comparison count must be " + (SCORE - 1) + ".");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).parallel().unordered().forEach(i -> high.insert(i));
@@ -143,8 +120,6 @@ class BubbleSortTest implements SortProvider {
             + ".");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, SCORE).forEach(i -> high.insert(i));
@@ -156,8 +131,6 @@ class BubbleSortTest implements SortProvider {
         "Comparison count must be same as swap count in reverse ordered array.");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -174,8 +147,6 @@ class BubbleSortTest implements SortProvider {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -184,8 +155,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -195,8 +164,6 @@ class BubbleSortTest implements SortProvider {
         SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be " + (SCORE - 1) + ".");
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BubbleSort();
     String className = BubbleSort.class.getName();
@@ -204,8 +171,6 @@ class BubbleSortTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new BubbleSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -214,8 +179,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testSortEmptyArray")
   void testSortEmptyArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     sorter.sortEmptyArray();
@@ -225,8 +188,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testSortSingleElementArray")
   void testSortSingleElementArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     sorter.sortSingleElementArray();
@@ -236,8 +197,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testSortTwoElementArraySorted")
   void testSortTwoElementArraySorted() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     sorter.sortTwoLengthArraySorted();
@@ -247,8 +206,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testSortTwoElementArrayUnsorted")
   void testSortTwoElementArrayUnsorted() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     sorter.sortTwoLengthArrayUnsorted();
@@ -258,8 +215,6 @@ class BubbleSortTest implements SortProvider {
     assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("BubbleSortTest.testSortNegativeLengthArray")
   void testSortNegativeLengthArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     assertThrows(

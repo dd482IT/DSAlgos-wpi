@@ -17,9 +17,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("HuffmanTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class HuffmanTest {
 
   private static final String ABRA_FILE = "abra.txt";
@@ -44,8 +41,6 @@ class HuffmanTest {
     return new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
   }
 
-  @Test
-  @DisplayName("HuffmanTest.testAbraFile")
   public void testAbraFile() throws IOException {
     HuffmanCompressor hfc = new HuffmanCompressor(new File(ABRA_FILE), new File("abra.huf"));
     hfc.compress();
@@ -55,8 +50,6 @@ class HuffmanTest {
     assertEquals(abra, expanded, MSG);
   }
 
-  @Test
-  @DisplayName("HuffmanTest.testTalesFile")
   public void testTalesFile() throws IOException {
     HuffmanCompressor hfc = new HuffmanCompressor(new File(TALES_FILE), new File("tales.huf"));
     hfc.compress();
@@ -66,8 +59,6 @@ class HuffmanTest {
     assertEquals(tales, expanded, MSG);
   }
 
-  @Test
-  @DisplayName("HuffmanTest.testTinyTalesFile")
   public void testTinyTalesFile() throws IOException {
     HuffmanCompressor hfc =
         new HuffmanCompressor(new File(TINY_TALES_FILE), new File("tinytales.huf"));
@@ -79,8 +70,6 @@ class HuffmanTest {
     assertEquals(tinyTales, expanded, MSG);
   }
 
-  @Test
-  @DisplayName("HuffmanTest.testMedTaleFile")
   public void testMedTaleFile() throws IOException {
     HuffmanCompressor hfc = new HuffmanCompressor(new File(MED_TALE_FILE), new File("medtale.huf"));
     hfc.compress();

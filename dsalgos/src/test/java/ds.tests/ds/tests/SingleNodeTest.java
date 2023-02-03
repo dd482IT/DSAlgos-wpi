@@ -12,14 +12,9 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("SingleNodeTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class SingleNodeTest {
   private static final String EXCEPTION_EXPECTED = "Exception expected.";
 
-  @Test
-  @DisplayName("SingleNodeTest.testConstructor")
   void testConstructor() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     assertEquals(SCORE, node.getData(), "Value equals constructor parameter.");
@@ -28,15 +23,11 @@ class SingleNodeTest {
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
-  @Test
-  @DisplayName("SingleNodeTest.testSetPrev")
   void testSetPrev() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     assertThrows(UnsupportedOperationException.class, () -> node.setPrev(null), EXCEPTION_EXPECTED);
   }
 
-  @Test
-  @DisplayName("SingleNodeTest.testSetNext")
   void testSetNext() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     SingleNode<Integer> next = new SingleNode<>(TEN);
@@ -44,24 +35,18 @@ class SingleNodeTest {
     assertEquals(TEN, node.getNext().getData(), () -> "Value must be " + TEN + ".");
   }
 
-  @Test
-  @DisplayName("SingleNodeTest.testSetData")
   void testSetData() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     node.setData(TEN);
     assertEquals(TEN, node.getData(), () -> "Value must be " + TEN + ".");
   }
 
-  @Test
-  @DisplayName("SingleNodeTest.testIsSameFalse")
   void testIsSameFalse() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     SingleNode<Integer> next = new SingleNode<>(TEN);
     assertFalse(node.isSame(next), () -> "Two different objects.");
   }
 
-  @Test
-  @DisplayName("SingleNodeTest.testIsSameTrue")
   void testIsSameTrue() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     assertTrue(node.isSame(node), () -> "Same object.");

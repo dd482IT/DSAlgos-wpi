@@ -26,7 +26,6 @@ public class BoundedNaiveKnapsack extends NaiveKnapsack {
   }
 
   @SuppressWarnings("all")
-  @Generated
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

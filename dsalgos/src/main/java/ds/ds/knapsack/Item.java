@@ -32,7 +32,6 @@ public final class Item implements Comparable, Cloneable {
     this.bounding = bounding;
   }
 
-  @Generated
   @SuppressWarnings("checkstyle:NoClone")
   @Override
   public Item clone() {
@@ -71,7 +70,6 @@ public final class Item implements Comparable, Cloneable {
     return rate1 > rate2 ? -1 : rate1 < rate2 ? 1 : 0;
   }
 
-  @Generated
   @Override
   @SuppressWarnings("all")
   public boolean equals(final Object o) {
@@ -87,13 +85,11 @@ public final class Item implements Comparable, Cloneable {
     return true;
   }
 
-  @Generated
   @SuppressWarnings("all")
   protected boolean canEqual(final Object other) {
     return other instanceof Item;
   }
 
-  @Generated
   @Override
   @SuppressWarnings("all")
   public int hashCode() {

@@ -18,9 +18,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("BinaryStreamsTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class BinaryStreamsTest {
   private static final String ABRA_FILE = "abra.txt";
   private static final String TEST_FILE = "test";
@@ -36,7 +33,6 @@ class BinaryStreamsTest {
   double[] doubles = new double[TEN];
   boolean[] bools = new boolean[TEN];
 
-  @BeforeAll
   public void init() {
     Random random = new Random();
     for (int i = 0; i < TEN; i++) {
@@ -66,8 +62,6 @@ class BinaryStreamsTest {
     out.flush();
   }
 
-  @Test
-  @DisplayName("BinaryStreamsTest.testAbraFile")
   public void testAbraFile() throws IOException {
     BinaryInputStream in = new BinaryInputStream(ABRA_FILE);
     BinaryOutputStream out = new BinaryOutputStream(ABRA_FILE + SUFFIX);
@@ -83,8 +77,6 @@ class BinaryStreamsTest {
   }
 
   @SuppressWarnings("PMD")
-  @Test
-  @DisplayName("BinaryStreamsTest.testBinary")
   public void testBinary() throws IOException {
     BinaryInputStream in = new BinaryInputStream(TEST_FILE + SUFFIX);
 

@@ -14,9 +14,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@DisplayName("MaxHeapTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class MaxHeapTest implements SortProvider {
 
   private static final String SIZE_ZERO = "Size must be zero.";
@@ -27,31 +24,23 @@ class MaxHeapTest implements SortProvider {
   private static final String PEEK_MAX_VALUE = "Peek returns max value present.";
   private static final long VAL = 20;
 
-  @Test
-  @DisplayName("MaxHeapTest.testConstructorException")
   void testConstructorException() {
     assertThrows(
         IllegalArgumentException.class, () -> new MaxHeap(-1), "Constructor throws exception.");
   }
 
-  @Test
-  @DisplayName("MaxHeapTest.testPollEmpty")
   void testPollEmpty() {
     IQueue queue = new MaxHeap(0);
     assertThrows(
         IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPollEmptyOne")
-  @Test
   void testPollEmptyOne() {
     IQueue queue = new MaxHeap(1);
     assertThrows(
         IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPoll")
-  @Test
   void testPoll() {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
@@ -60,8 +49,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testInsertPollInsert")
-  @Test
   void testInsertPollInsert() {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
@@ -72,8 +59,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(val, queue.peek(), "Value must be " + val);
   }
 
-  @DisplayName("MaxHeapTest.testInsertPollTwice")
-  @Test
   void testInsertPollTwice() {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
@@ -84,8 +69,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testInsert")
-  @Test
   void testInsertSizeOne() {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
@@ -94,8 +77,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testInsertException")
-  @Test
   void testInsertException() {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
@@ -103,24 +84,18 @@ class MaxHeapTest implements SortProvider {
     assertThrows(IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testInsertZeroSizeException")
-  @Test
   void testInsertZeroSizeException() {
     IQueue queue = new MaxHeap(0);
     long val = VAL;
     assertThrows(IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testIsEmpty")
-  @Test
   void testIsEmpty() {
     IQueue queue = new MaxHeap(0);
     assertTrue(queue.isEmpty(), QUEUE_EMPTY);
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testIsNotEmpty")
-  @Test
   void testIsNotEmpty() {
     IQueue queue = new MaxHeap(1);
     queue.insert(VAL);
@@ -129,8 +104,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testIsEmptySizeOne")
-  @Test
   void testIsEmptySizeOne() {
     IQueue queue = new MaxHeap(1);
     assertTrue(queue.isEmpty(), QUEUE_EMPTY);
@@ -138,8 +111,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testIsFull")
-  @Test
   void testIsFull() {
     IQueue queue = new MaxHeap(0);
     assertTrue(queue.isFull(), "Queue must be full.");
@@ -147,8 +118,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testIsFullSizeOne")
-  @Test
   void testIsFullSizeOne() {
     IQueue queue = new MaxHeap(1);
     assertFalse(queue.isFull(), QUEUE_EMPTY);
@@ -156,24 +125,18 @@ class MaxHeapTest implements SortProvider {
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @Test
-  @DisplayName("MaxHeapTest.testPeekEmpty")
   void testPeekEmpty() {
     IQueue queue = new MaxHeap(0);
     assertThrows(
         IllegalStateException.class, () -> queue.peek(), "Empty queue peep throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPeekEmptyOne")
-  @Test
   void testPeekEmptyOne() {
     IQueue queue = new MaxHeap(1);
     assertThrows(
         IllegalStateException.class, () -> queue.peek(), "Empty queue peek throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPeek")
-  @Test
   void testPeek() {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
@@ -182,8 +145,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testTwoElementQueueInsert")
-  @Test
   void testTwoElementQueueInsert() {
     IQueue queue = new MaxHeap(2);
     long val = VAL;
@@ -193,8 +154,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(2, queue.size(), "Size must be two.");
   }
 
-  @DisplayName("MaxHeapTest.testTwoElementQueuePoll")
-  @Test
   void testTwoElementQueuePoll() {
     IQueue queue = new MaxHeap(2);
     long val = VAL;
@@ -204,8 +163,6 @@ class MaxHeapTest implements SortProvider {
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testTwoElementQueuePollTwice")
-  @Test
   void testTwoElementQueuePollTwice() {
     IQueue queue = new MaxHeap(2);
     long val = VAL;
@@ -217,8 +174,6 @@ class MaxHeapTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  @DisplayName("MaxHeapTest.testRandomInsertsMaximum")
-  @Test
   void testRandomInsertsMaximum() {
     IQueue queue = new MaxHeap(MYRIAD);
     long val = Long.MAX_VALUE;
@@ -231,8 +186,6 @@ class MaxHeapTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  @DisplayName("MaxHeapTest.testReverse")
-  @Test
   void testReverse() {
     IQueue queue = new MaxHeap(MYRIAD);
     revRange(1, MYRIAD).forEach(i -> queue.insert(i));
@@ -242,8 +195,6 @@ class MaxHeapTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  @DisplayName("MaxHeapTest.testDuplicates")
-  @Test
   void testDuplicates() {
     long maxVal = 1023L;
     IQueue queue = new MaxHeap(MYRIAD);
@@ -254,8 +205,6 @@ class MaxHeapTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  @DisplayName("MaxHeapTest.testSingleValue")
-  @Test
   void testSingleValue() {
     final long maxVal = 1023L;
     IQueue queue = new MaxHeap(MYRIAD);

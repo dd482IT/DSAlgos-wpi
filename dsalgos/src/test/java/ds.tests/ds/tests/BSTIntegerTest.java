@@ -18,16 +18,12 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.UseDiamondOperator"})
-@DisplayName("BinaryTreeTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   private static final String TREE_MUST_NOT_PASS_CHECKS = "Tree must not pass all checks.";
   Tree<Integer> leftSidedTree;
   Tree<Integer> rightSidedTree;
 
-  @BeforeAll
   public void init() {
     randomTree = new BinaryTree<Integer>();
     anotherRandomTree = new BinaryTree<Integer>();
@@ -55,7 +51,6 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
     duplicateThreeElementList = asList(new Integer[] {1, 1, 1});
   }
 
-  @BeforeEach
   public void setup() {
     empty = new BinaryTree<Integer>();
     one = new BinaryTree<Integer>();
@@ -77,8 +72,6 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
     duplicates.add(10);
   }
 
-  @Test
-  @DisplayName("BSTIntegerTest.testTree")
   public void testTrees() {
     assertFalse(TreeChecks.check(leftSidedTree), TREE_MUST_NOT_PASS_CHECKS);
     assertFalse(TreeChecks.check(duplicates), TREE_MUST_NOT_PASS_CHECKS);

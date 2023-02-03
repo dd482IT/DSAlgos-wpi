@@ -103,7 +103,6 @@ public final class BinaryOutputStream {
     if (n == 8) clearBuffer();
   }
 
-  @Generated
   private void assertByteValue(int x) {
     if (x < 0 || x > 255) throw new AssertionError("Invalid byte");
   }

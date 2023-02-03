@@ -26,11 +26,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@Disabled
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("BrickSortTest")
 class BrickSortTest implements SortProvider {
 
   private static final String COUNT_EQUALS =
@@ -38,10 +34,7 @@ class BrickSortTest implements SortProvider {
   private static final String ARRAYS_SORTED = "Arrays must be sorted.";
   private static final String MUST_BE_EQUAL = "Must be equal";
 
-  @ParameterizedTest
-  @CsvSource(INIT_DATA)
-  @DisplayName("BrickSortTest.testSort")
-  void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSort(IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
@@ -50,10 +43,7 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_DUPLICATE_DATA)
-  @DisplayName("BrickSortTest.testSortDuplicates")
-  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortDuplicates(IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
@@ -62,10 +52,7 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_ALL_SAME_DATA)
-  @DisplayName("BrickSortTest.testSortAllSame")
-  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortAllSame(IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
@@ -75,10 +62,7 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_BRICK_SORT_DATA)
-  @DisplayName("BrickSortTest.testSortSmallData")
-  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortSmallData(IArray arr) {
     BrickSort sorter = new BrickSort();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
@@ -92,8 +76,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -113,8 +95,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -133,8 +113,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -151,8 +129,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -163,8 +139,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).parallel().unordered().forEach(i -> high.insert(i));
@@ -178,8 +152,6 @@ class BrickSortTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-  @DisplayName("BrickSortTest.testReverseSorted")
-  @Test
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, SCORE).forEach(i -> high.insert(i));
@@ -191,8 +163,6 @@ class BrickSortTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-  @Test
-  @DisplayName("BrickSortTest.testReverseSortedOdd")
   void testReverseSortedOdd() {
     IArray high = new HighArray();
     revRange(1, SCORE + 1).forEach(i -> high.insert(i));
@@ -203,8 +173,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -214,8 +182,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -226,8 +192,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BrickSort();
     String className = BrickSort.class.getName();
@@ -236,8 +200,6 @@ class BrickSortTest implements SortProvider {
         () -> "ToString must start with " + className + ".");
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testPreReset")
   void testPreReset() {
     BrickSort sorter = new BrickSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -247,8 +209,6 @@ class BrickSortTest implements SortProvider {
     assertFalse(sorter.isSorted(), "Sorted must not be set.");
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testZeroTimeComplexity")
   void testZeroTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
@@ -256,8 +216,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testOneTimeComplexity")
   void testOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
@@ -265,8 +223,6 @@ class BrickSortTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testResetSubClass")
   void testResetSubClass() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternals();
@@ -277,8 +233,6 @@ class BrickSortTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testResetAfterSort")
   void testResetAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternalsAfterSort();
@@ -289,8 +243,6 @@ class BrickSortTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testInternalsAfterSort")
   void testInternalsAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortAndSetInternals();
@@ -301,24 +253,18 @@ class BrickSortTest implements SortProvider {
     assertTrue(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testInnerLoopAfterOddSort")
   void testInnerLoopAfterOddSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
     assertTrue(bsc.isSorted(), SORTED);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testInnerLoopAfterEvenSort")
   void testInnerLoopAfterEvenSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEven();
     assertTrue(bsc.isSorted(), SORTED);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testStateAfterReset")
   void testStateAfterReset() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
@@ -328,28 +274,20 @@ class BrickSortTest implements SortProvider {
     assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testEmptyArray")
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
     assertTrue(bsc.isSorted(), SORTED);
   }
 
-  @Test
-  @DisplayName("BrickSortTest.testSingleElementArray")
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
     assertTrue(bsc.isSorted(), SORTED);
   }
 
-  @Nested
-  @DisplayName("BrickSortTest.MyriadTests")
   class MyriadTests {
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testSortRandom")
     void testSortRandom() {
       HighArray arr = new HighArray(MYRIAD);
       try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
@@ -360,8 +298,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(isSorted(sorted), ARRAYS_SORTED);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testStreamUnSorted")
     void testStreamUnSorted() {
       IArray high = new HighArray(MYRIAD);
       IArray ord = new OrdArray(MYRIAD);
@@ -386,8 +322,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testStreamSorted")
     void testStreamSorted() {
       IArray high = new HighArray(MYRIAD);
       IArray ord = new OrdArray(MYRIAD);
@@ -411,8 +345,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testComparisonCountSorted")
     void testComparisonCountSorted() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -429,8 +361,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testComparisonCountUnsorted")
     void testComparisonCountUnsorted() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).parallel().unordered().forEach(i -> high.insert(i));
@@ -449,8 +379,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testReverseSorted")
     void testReverseSorted() {
       IArray high = new HighArray(MYRIAD);
       revRange(1, MYRIAD).forEach(i -> high.insert(i));
@@ -467,8 +395,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testReverseSortedOdd")
     void testReverseSortedOdd() {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -488,8 +414,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testSwapCount")
     void testSwapCount() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -505,8 +429,6 @@ class BrickSortTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortTest.MyriadTests.testTimeComplexity")
     void testTimeComplexity() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));

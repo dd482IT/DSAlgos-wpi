@@ -345,7 +345,6 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       return nextIndex > 0 ? nextIndex - 1 : length - 1;
     }
 
-    @Generated
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder(50);

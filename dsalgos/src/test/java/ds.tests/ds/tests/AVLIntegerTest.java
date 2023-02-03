@@ -14,12 +14,8 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.UseDiamondOperator"})
-@DisplayName("BinaryTreeTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class AVLIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
-  @BeforeAll
   public void init() {
     randomTree = new AVLTree<Integer>();
     anotherRandomTree = new AVLTree<Integer>();
@@ -44,7 +40,6 @@ class AVLIntegerTest extends AbstractBinaryTreeTest<Integer> {
     duplicateThreeElementList = asList(new Integer[] {1, 1, 1});
   }
 
-  @BeforeEach
   public void setup() {
     empty = new AVLTree<Integer>();
     one = new AVLTree<Integer>();

@@ -17,7 +17,6 @@ public abstract class AbstractKnapsack<T> implements ISolve<T> {
   public abstract T solve();
 
   @SuppressWarnings("all")
-  @Generated
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -36,7 +35,6 @@ public abstract class AbstractKnapsack<T> implements ISolve<T> {
     return sb.toString();
   }
 
-  @Generated
   @SuppressWarnings("all")
   public void display() {
     System.out.println(this);

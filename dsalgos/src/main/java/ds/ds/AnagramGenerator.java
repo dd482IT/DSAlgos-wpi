@@ -54,7 +54,6 @@ public class AnagramGenerator {
     return anagrams;
   }
 
-  @Generated
   public List<String> getValidAnagrams() throws IOException {
     List<String> validAnagrams = new ArrayList<>();
     for (String anagram : anagrams) {

@@ -3,7 +3,6 @@ package ds;
 import static java.util.Objects.isNull;
 
 public final class TreeUtils {
-  @Generated
   private TreeUtils() {
     throw new IllegalStateException("Private constructor");
   }

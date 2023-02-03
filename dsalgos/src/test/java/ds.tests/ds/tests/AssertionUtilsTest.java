@@ -16,14 +16,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@DisplayName("AssertionUtilsTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class AssertionUtilsTest {
 
-  @Test
-  @DisplayName("AssertionUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
     assertThrows(
         ReflectException.class,
@@ -31,15 +26,11 @@ class AssertionUtilsTest {
         "Private constructor throws exception.");
   }
 
-  @Test
-  @DisplayName("AssertionUtilsTest.testInequality")
   void testInequality() {
     assertThrows(
         AssertionError.class, () -> assertEquality(SCORE, MYRIAD), "Inequality throws exception.");
   }
 
-  @Test
-  @DisplayName("AssertionUtilsTest.testServiceTerminated")
   void testServiceTerminated() {
     ExecutorService service =
         Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);

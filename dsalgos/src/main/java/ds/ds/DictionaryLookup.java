@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@Generated
 public final class DictionaryLookup {
 
   private static final String URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";

@@ -22,16 +22,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("CombSortTest")
 class CombSortTest {
 
-  @ParameterizedTest
-  @CsvSource(INIT_DATA)
-  @DisplayName("CombSortTest.testSort")
-  void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSort(IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new CombSort();
     IArray sorted = sorter.sort(arr);
@@ -39,10 +33,7 @@ class CombSortTest {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_DUPLICATE_DATA)
-  @DisplayName("CombSortTest.testSortDuplicates")
-  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortDuplicates(IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new CombSort();
     IArray sorted = sorter.sort(arr);
@@ -50,10 +41,7 @@ class CombSortTest {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_ALL_SAME_DATA)
-  @DisplayName("CombSortTest.testSortAllSame")
-  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortAllSame(IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new CombSort();
     IArray sorted = sorter.sort(arr);
@@ -62,10 +50,7 @@ class CombSortTest {
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_COMB_SORT_DATA)
-  @DisplayName("CombSortTest.testSortSmallData")
-  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortSmallData(IArray arr) {
     ISort sorter = new CombSort();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
@@ -78,8 +63,6 @@ class CombSortTest {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @Test
-  @DisplayName("CombSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -95,8 +78,6 @@ class CombSortTest {
     assertEquals(110, sorter.getComparisonCount(), "Comparison count must be " + 110 + ".");
   }
 
-  @Test
-  @DisplayName("CombSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -114,8 +95,6 @@ class CombSortTest {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("CombSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -132,8 +111,6 @@ class CombSortTest {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("CombSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -148,8 +125,6 @@ class CombSortTest {
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("CombSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new CombSort();
     String className = CombSort.class.getName();
@@ -158,8 +133,6 @@ class CombSortTest {
         () -> "ToString must start with " + className + ".");
   }
 
-  @Test
-  @DisplayName("CombSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new CombSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);

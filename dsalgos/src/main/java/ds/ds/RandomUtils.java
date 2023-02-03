@@ -16,12 +16,10 @@ public final class RandomUtils {
     return RANDOM.nextInt(high - low) + low;
   }
 
-  @Generated
   public static LongStream longStream() {
     return RANDOM.longs();
   }
 
-  @Generated
   public static IntStream intStream() {
     return RANDOM.ints();
   }

@@ -216,12 +216,10 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     }
   }
 
-  @Generated
   private void popRightChild() {
     if (visitingRightChild.pop()) throw new AssertionError("Shouldn't be here...");
   }
 
-  @Generated
   private void assertNonNull(ITreeNode<E> node) {
     if (isNull(node)) throw new AssertionError("Node shouldn't be null.");
   }

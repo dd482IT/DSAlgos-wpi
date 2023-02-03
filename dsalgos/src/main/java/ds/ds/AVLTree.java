@@ -123,7 +123,6 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
     return balance(x);
   }
 
-  @Generated
   private void assertChecks() {
     if (!TreeChecks.check(this)) throw new AssertionError("Invalid state");
   }

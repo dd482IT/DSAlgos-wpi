@@ -12,9 +12,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidFieldNameMatchingMethodName", "PMD.TooManyFields"})
-@DisplayName("AbstractBinaryTreeTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeTest<T> {
 
   Tree<T> empty;
@@ -37,106 +34,74 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   List<T> duplicateTwoElementList;
   List<T> duplicateThreeElementList;
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testRandomInserts")
   public void testRandomInserts() {
     for (T s : randomTree.values()) assertEquals(s, randomTree.find(s).value(), "Value not found!");
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testRandomRemoves")
   public void testRandomRemoves() {
     for (T s : randomTree.values()) randomTree.remove(s);
     assertTreeEmpty(randomTree);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testMoreRandomRemoves")
   public void testMoreRandomRemoves() {
     for (T s : anotherRandomTree.valuesLevelOrder()) anotherRandomTree.remove(s);
     assertTreeEmpty(anotherRandomTree);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testEmptyContainsZeroItems")
   public void testEmptyContainsZeroItems() {
     assertTreeEmpty(empty);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testEmptyTreeIteratorException")
   public void testEmptyTreeIteratorException() {
     assertTreeEmptyIteratorException(empty);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testOneContainsOneItem")
   public void testOneContainsOneItem() {
     assertTrue(one.contains(singleElement), () -> "One should contain " + singleElement);
     assertIterationValid(one, singleElementList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testSeveralContainsSixItems")
   public void testSeveralContainsSixItems() {
     assertContains(several, severalElementsList);
     assertIterationValid(several, severalElementsInOrderList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testPreOrderIteration")
   public void testPreOrderIteration() {
     assertPreOrderIterationValid(several, severalElementsPreOrderList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testPostOrderIteration")
   public void testPostOrderIteration() {
     assertPostOrderIterationValid(several, severalElementsPostOrderList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testBreadthFirstOrderIteration")
   public void testBreadthFirstOrderIteration() {
     assertBreadthFirstOrderIterationValid(several, severalElementsLevelOrderList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testSeveralDoesNotContain")
   public void testSeveralDoesNotContain() {
     assertDoesNotContain(several, severalNonExistentList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testRemoveFromEmpty")
   public void testRemoveFromEmpty() {
     empty.remove(singleElement);
     assertTreeEmpty(empty);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testRemoveFromOne")
   public void testRemoveFromOne() {
     one.remove(singleElement);
     assertFalse(one.contains(singleElement), () -> singleElement + "not removed from one");
     assertTreeEmpty(one);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testRemoveByLeaf")
   public void testRemoveByLeaf() {
     assertRemoveAll(several, severalElementsList);
   }
 
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testRemoveByRoot")
   public void testRemoveByRoot() {
     assertRemoveAll(several, severalElementsList);
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-  @Test
-  @DisplayName("AbstractBinaryTreeTest.testDuplicates")
   public void testDuplicates() {
     empty.add(duplicateElement);
     empty.add(duplicateElement);

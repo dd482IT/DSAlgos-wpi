@@ -17,16 +17,11 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@DisplayName("ExecutorUtilsTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class ExecutorUtilsTest {
 
   private static final String EXECUTOR_SHUTDOWN = "Executor is shutdown!";
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
     assertThrows(
         ReflectException.class,
@@ -34,16 +29,12 @@ class ExecutorUtilsTest {
         "Private constructor throws exception.");
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testNormalTerminate")
   void testNormalTerminate() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     terminateExecutor(es, THOUSAND, TimeUnit.MILLISECONDS);
     assertTrue(es.isTerminated(), "All tasks completed!");
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testImmediateTerminate")
   void testImmediateTerminate() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     terminateExecutor(es, 0, TimeUnit.NANOSECONDS);
@@ -51,8 +42,6 @@ class ExecutorUtilsTest {
     assertTrue(es.isTerminated(), "All tasks completed!");
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testForceShutdown")
   void testForceShutdown() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.execute(
@@ -71,8 +60,6 @@ class ExecutorUtilsTest {
   }
 
   @SuppressWarnings("PMD.SystemPrintln")
-  @Test
-  @DisplayName("ExecutorUtilsTest.testForceShutdownNormal")
   void testForceShutdownNormal() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(
@@ -84,8 +71,6 @@ class ExecutorUtilsTest {
     assertTrue(es.isTerminated(), "All tasks complete expected!");
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testInterruptedAwait")
   void testInterruptedAwait() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new InterruptThread(Thread.currentThread()));
@@ -103,8 +88,6 @@ class ExecutorUtilsTest {
     assertTrue(Thread.interrupted(), "Thread interrupted!");
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testAwaitTerminatedTrue")
   void testAwaitTerminationTrue() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new InterruptThread(Thread.currentThread()));
@@ -113,8 +96,6 @@ class ExecutorUtilsTest {
     assertTrue(Thread.interrupted(), "Thread interrupted!");
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testAwaitTerminatedLong")
   void testAwaitTerminatedLong() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new LongThread());
@@ -122,8 +103,6 @@ class ExecutorUtilsTest {
     assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
   }
 
-  @Test
-  @DisplayName("ExecutorUtilsTest.testAwaitTerminatedLongImmediate")
   void testAwaitTerminatedLongImmediate() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new LongThread());

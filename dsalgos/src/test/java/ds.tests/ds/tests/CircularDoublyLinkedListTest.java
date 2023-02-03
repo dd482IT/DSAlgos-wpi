@@ -18,9 +18,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts", "PMD.GodClass"})
-@DisplayName("CircularDoublyLinkedListTest")
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 class CircularDoublyLinkedListTest {
   private static final String SIZE_MUST_BE = "Size must be ";
   private static final String SIZE_ZERO = "Size must be zero.";
@@ -33,8 +30,6 @@ class CircularDoublyLinkedListTest {
   private static final String ELEMENTS = "More elements expected.";
   private static final int THREE = 3;
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testConstructor")
   void testConstructor() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertEquals(0, list.size(), SIZE_ZERO);
@@ -42,8 +37,6 @@ class CircularDoublyLinkedListTest {
     assertNull(list.getTail(), "List tail must be null.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAdd")
   void testAdd() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     list.add(SCORE);
@@ -58,15 +51,11 @@ class CircularDoublyLinkedListTest {
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddNull")
   void testAddNull() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(NullPointerException.class, () -> list.add(null), NULL_POINTER);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddIndex")
   void testAddIndex() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     list.add(SCORE, 0);
@@ -80,29 +69,21 @@ class CircularDoublyLinkedListTest {
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddIndexNull")
   void testAddIndexNull() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(NullPointerException.class, () -> list.add(null, 0), NULL_POINTER);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddIndexException")
   void testAddIndexException() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, -1), EXCEPTION);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddIndexExcessException")
   void testAddIndexExcessException() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), EXCEPTION);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testFind")
   void testFind() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     list.add(SCORE, 0);
@@ -113,16 +94,12 @@ class CircularDoublyLinkedListTest {
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testFindNull")
   void testFindNull() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     list.add(SCORE, 0);
     assertThrows(NullPointerException.class, () -> list.find(null), NULL_POINTER);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testFindMultiple")
   void testFindMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -131,8 +108,6 @@ class CircularDoublyLinkedListTest {
     assertEquals(TEN + 1, list.size(), () -> SIZE_MUST_BE + (TEN + 1));
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteMultiple")
   void testDeleteMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -140,8 +115,6 @@ class CircularDoublyLinkedListTest {
     assertEquals(0, list.size(), SIZE_ZERO);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteMultipleReverse")
   void testDeleteMultipleReverse() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -151,23 +124,17 @@ class CircularDoublyLinkedListTest {
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteNull")
   void testDeleteNull() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(NullPointerException.class, () -> list.delete(null), NULL_POINTER);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteNotFound")
   void testDeleteNotFound() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertFalse(list.delete(SCORE), "Not found expected.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteAt")
   void testDeleteAt() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -179,53 +146,39 @@ class CircularDoublyLinkedListTest {
     assertEquals(0, list.size(), SIZE_ZERO);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteAtBefore")
   void testDeleteAtBefore() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1), EXCEPTION);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteAtAfter")
   void testDeleteAtAfter() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteAtEmpty")
   void testDeleteAtEmpty() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(0), EXCEPTION);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testFindNotFound")
   void testFindNotFound() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertNull(list.find(SCORE), "Not found expected.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testDeleteNotFoundEmpty")
   void testDeleteNotFoundEmpty() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertFalse(list.delete(SCORE), "Not found expected.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testEmptyToString")
   void testEmptyToString() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertEquals("[]", list.toString(), "Empty array string expected.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testGetMultiple")
   void testGetMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -234,8 +187,6 @@ class CircularDoublyLinkedListTest {
     assertEquals(TEN + 1, list.size(), () -> SIZE_MUST_BE + (TEN + 1));
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddAtFirstMultiple")
   void testAddFirstMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN - i));
@@ -244,8 +195,6 @@ class CircularDoublyLinkedListTest {
     assertEquals(TEN + 1, list.size(), () -> SIZE_MUST_BE + (TEN + 1));
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddMultiple")
   void testAddMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -253,8 +202,6 @@ class CircularDoublyLinkedListTest {
     assertEquals(TEN + SCORE, list.size(), () -> SIZE_MUST_BE + (TEN + SCORE));
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testAddEndMultiple")
   void testAddEndMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -264,40 +211,29 @@ class CircularDoublyLinkedListTest {
     assertEquals(TEN + SCORE, list.size(), () -> SIZE_MUST_BE + (TEN + SCORE));
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testToStringMultiple")
   void testToStringMultiple() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertEquals("[0,1,2,3,4,5,6,7,8,9,10]", list.toString(), "Strings must be equal.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testToStringSingle")
   void testToStringSingle() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     IntStream.range(0, 1).forEach(i -> list.add(i));
     assertEquals("[0]", list.toString(), "Strings must be equal.");
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testGetNegativeIndex")
   void testGetNegativeIndex() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1), EXCEPTION);
   }
 
-  @Test
-  @DisplayName("CircularDoublyLinkedListTest.testGetExcessIndex")
   void testGetExcessIndex() {
     IList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
   }
 
-  @Nested
   class IteratorTests {
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testEmptyIterator")
     void testEmptyIterator() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       ListIterator<Integer> iter = list.getIterator();
@@ -309,8 +245,6 @@ class CircularDoublyLinkedListTest {
       assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddEmpty")
     void testAddEmpty() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       ListIterator<Integer> iter = list.getIterator();
@@ -325,8 +259,6 @@ class CircularDoublyLinkedListTest {
       assertFalse(iter.hasNext(), NO_ELEMENTS);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddIterated")
     void testAddIterated() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       list.add(TEN);
@@ -345,8 +277,6 @@ class CircularDoublyLinkedListTest {
       assertTrue(iter.hasNext(), ELEMENTS);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddIteratedCheck")
     void testAddIteratedCheck() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       list.add(TEN);
@@ -365,8 +295,6 @@ class CircularDoublyLinkedListTest {
       assertTrue(iter.hasNext(), "More elements expected.");
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testPrevious")
     void testPrevious() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -384,8 +312,6 @@ class CircularDoublyLinkedListTest {
       }
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testSinglePrevious")
     void testSinglePrevious() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       list.add(TEN);
@@ -396,8 +322,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(list.getTail().getData(), iter.previous(), VALUES_EQUAL);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testNext")
     void testNext() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -410,8 +334,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testRemove")
     void testRemove() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -424,8 +346,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(0, list.size(), SIZE_ZERO);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAdd")
     void testAdd() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -439,8 +359,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testSet")
     void testSet() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -456,8 +374,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(SCORE, list.size(), SIZE_MUST_BE + SCORE);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testNextIndex")
     void testNextIndex() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -471,8 +387,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(0, iter.nextIndex(), VALUES_EQUAL);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testPreviousIndex")
     void testPreviousIndex() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -491,8 +405,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testIndexedIterator")
     void testIndexedIterator() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -508,8 +420,6 @@ class CircularDoublyLinkedListTest {
       }
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testIterable")
     void testIterable() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -520,8 +430,6 @@ class CircularDoublyLinkedListTest {
       }
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddAfterIteration")
     void testAddAfterIteration() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -534,8 +442,6 @@ class CircularDoublyLinkedListTest {
       assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
     }
 
-    @Test
-    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
     void testIndexedIteratorReversed() {
       IList<Integer> list = new CircularDoublyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));

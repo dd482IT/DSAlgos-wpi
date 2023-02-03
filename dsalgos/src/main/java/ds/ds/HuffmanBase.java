@@ -117,7 +117,6 @@ public abstract class HuffmanBase {
     }
 
     // is the node a leaf node?
-    @Generated
     boolean isLeaf() {
       return left == null && right == null;
     }
@@ -128,7 +127,6 @@ public abstract class HuffmanBase {
       return this.freq - that.freq;
     }
 
-    @Generated
     @SuppressWarnings("checkstyle:NoClone")
     @Override
     public Node clone() {

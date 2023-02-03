@@ -23,18 +23,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("CycleSortTest")
 class CycleSortTest implements SortProvider {
 
   private static final String COPY_COUNT_ZERO = "Copy count must be zero.";
 
-  @ParameterizedTest
-  @CsvSource(INIT_DATA)
-  @DisplayName("CycleSortTest.testSort")
-  void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSort(IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new CycleSort();
     IArray sorted = sorter.sort(arr);
@@ -42,8 +36,6 @@ class CycleSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
     HighArray high = new HighArray(MYRIAD);
@@ -55,10 +47,7 @@ class CycleSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_DUPLICATE_DATA)
-  @DisplayName("CycleSortTest.testSortDuplicates")
-  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortDuplicates(IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new CycleSort();
     IArray sorted = sorter.sort(arr);
@@ -66,10 +55,7 @@ class CycleSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_INSERTION_SORT_DATA)
-  @DisplayName("CycleSortTest.testSortSmallData")
-  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortSmallData(IArray arr) {
     ISort sorter = new CycleSort();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
@@ -82,10 +68,7 @@ class CycleSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_ALL_SAME_DATA)
-  @DisplayName("CycleSortTest.testSortAllSame")
-  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortAllSame(IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new CycleSort();
     IArray sorted = sorter.sort(arr);
@@ -94,8 +77,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -111,8 +92,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -130,8 +109,6 @@ class CycleSortTest implements SortProvider {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -148,8 +125,6 @@ class CycleSortTest implements SortProvider {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testCopyCount")
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -164,8 +139,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -177,8 +150,6 @@ class CycleSortTest implements SortProvider {
         "Time complexity must be n * n - 1 / 2.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
     revRange(1, SCORE).forEach(i -> high.insert(i));
@@ -187,8 +158,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(335, sorter.getTimeComplexity(), "Time complexity must be 335.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, SCORE).forEach(i -> high.insert(i));
@@ -198,8 +167,6 @@ class CycleSortTest implements SortProvider {
         SCORE, sorter.getCopyCount(), "Copy count must be same as n in reverse ordered array.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testSingleElementArray")
   void testSingleElementArray() {
     IArray high = new HighArray(1);
     high.insert(1L);
@@ -211,8 +178,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testTwoElementArray")
   void testTwoElementArray() {
     IArray high = new HighArray(2);
     high.insert(1L);
@@ -225,8 +190,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(1, sorter.getComparisonCount(), "Comparison count must be one.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testEmptyArray")
   void testEmptyArray() {
     long[] a = {};
     CycleSortSub sorter = new CycleSortSub();
@@ -237,8 +200,6 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testIllegalArgumentException")
   void testIllegalArgumentException() {
     long[] a = {};
     CycleSortSub sorter = new CycleSortSub();
@@ -248,8 +209,6 @@ class CycleSortTest implements SortProvider {
         "IllegalArgumentException expected.");
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new CycleSort();
     String className = CycleSort.class.getName();
@@ -257,8 +216,6 @@ class CycleSortTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Test
-  @DisplayName("CycleSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new CycleSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);

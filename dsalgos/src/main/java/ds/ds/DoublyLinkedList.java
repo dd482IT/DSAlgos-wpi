@@ -339,7 +339,6 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
       return nextIndex - 1;
     }
 
-    @Generated
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder(50);

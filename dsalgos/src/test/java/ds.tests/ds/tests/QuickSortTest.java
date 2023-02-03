@@ -23,16 +23,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
-@DisplayName("QuickSortTest")
 @SuppressWarnings("PMD.LawOfDemeter")
 class QuickSortTest implements SortProvider {
 
-  @ParameterizedTest
-  @CsvSource(INIT_DATA)
-  @DisplayName("QuickSortTest.testSort")
-  void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSort(IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new QuickSort();
     IArray sorted = sorter.sort(arr);
@@ -40,8 +34,6 @@ class QuickSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testSortRandom")
   void testSortRandom() {
     HighArray high = new HighArray(MYRIAD);
     Random random = new Random();
@@ -53,10 +45,7 @@ class QuickSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Elements are sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_DUPLICATE_DATA)
-  @DisplayName("QuickSortTest.testSortDuplicates")
-  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortDuplicates(IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new QuickSort();
     IArray sorted = sorter.sort(arr);
@@ -64,8 +53,6 @@ class QuickSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testSortBigDuplicates")
   void testSortBigDuplicates() {
     HighArray high = new HighArray(MYRIAD);
     for (int i = 0; i < MYRIAD; i++) high.insert(i & 1023);
@@ -74,10 +61,7 @@ class QuickSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Elements are sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_INSERTION_SORT_DATA)
-  @DisplayName("QuickSortTest.testSortSmallData")
-  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortSmallData(IArray arr) {
     ISort sorter = new QuickSort();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
@@ -89,10 +73,7 @@ class QuickSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_ALL_SAME_DATA)
-  @DisplayName("QuickSortTest.testSortAllSame")
-  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortAllSame(IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new QuickSort();
     IArray sorted = sorter.sort(arr);
@@ -101,8 +82,6 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -121,8 +100,6 @@ class QuickSortTest implements SortProvider {
         "Comparison count must be in range nlogn to n(n-1)");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testStreamUnsorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -140,8 +117,6 @@ class QuickSortTest implements SortProvider {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -159,8 +134,6 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -175,8 +148,6 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
@@ -185,8 +156,6 @@ class QuickSortTest implements SortProvider {
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
     revRange(1, SCORE).forEach(i -> high.insert(i));
@@ -195,8 +164,6 @@ class QuickSortTest implements SortProvider {
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, SCORE).forEach(i -> high.insert(i));
@@ -205,8 +172,6 @@ class QuickSortTest implements SortProvider {
     assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testSingleElementArray")
   void testSingleElementArray() {
     IArray high = new HighArray(1);
     high.insert(1L);
@@ -218,8 +183,6 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testEmptyArray")
   void testEmptyArray() {
     long[] a = {};
     QuickSortSub sorter = new QuickSortSub();
@@ -230,8 +193,6 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testIllegalArgumentException")
   void testIllegalArgumentException() {
     long[] a = {};
     QuickSortSub sorter = new QuickSortSub();
@@ -241,8 +202,6 @@ class QuickSortTest implements SortProvider {
         "IllegalArgumentException expected.");
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new QuickSort();
     String className = QuickSort.class.getName();
@@ -250,8 +209,6 @@ class QuickSortTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Test
-  @DisplayName("QuickSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new QuickSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);

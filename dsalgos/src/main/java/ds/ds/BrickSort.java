@@ -2,7 +2,6 @@ package ds;
 
 import static ds.ArrayUtils.swapIfGreaterThan;
 
-@Generated
 public class BrickSort extends AbstractBrickSort {
 
   protected boolean sorted;

@@ -9,7 +9,6 @@ import java.util.List;
 
 @SuppressWarnings({"nullness", "PMD.SystemPrintln", "PMD.LawOfDemeter"})
 public final class TreeChecks {
-  @Generated
   private TreeChecks() {
     throw new IllegalStateException("Private constructor");
   }

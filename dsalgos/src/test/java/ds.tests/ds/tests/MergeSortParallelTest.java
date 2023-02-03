@@ -23,14 +23,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
-@DisplayName("MergeSortParallelTest")
 @SuppressWarnings("PMD.LawOfDemeter")
 class MergeSortParallelTest implements SortProvider {
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
     HighArray high = new HighArray(MYRIAD);
@@ -42,10 +37,7 @@ class MergeSortParallelTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_DUPLICATE_DATA)
-  @DisplayName("MergeSortParallelTest.testSortDuplicates")
-  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortDuplicates(IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new MergeSortParallel();
     IArray sorted = sorter.sort(arr);
@@ -53,10 +45,7 @@ class MergeSortParallelTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_INSERTION_SORT_DATA)
-  @DisplayName("MergeSortParallelTest.testSortSmallData")
-  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortSmallData(IArray arr) {
     ISort sorter = new MergeSortParallel();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
@@ -68,10 +57,7 @@ class MergeSortParallelTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
-  @ParameterizedTest
-  @CsvSource(INIT_ALL_SAME_DATA)
-  @DisplayName("MergeSortParallelTest.testSortAllSame")
-  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+  void testSortAllSame(IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new MergeSortParallel();
     IArray sorted = sorter.sort(arr);
@@ -80,8 +66,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testSortAllSameBigData")
   void testSortAllSameBigData() {
     HighArray arr = new HighArray(MYRIAD);
     try (LongStream stream =
@@ -101,8 +85,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testReset")
   void testReset() {
     IArray high = new HighArray(MYRIAD);
     IArray ord = new OrdArray(MYRIAD);
@@ -119,8 +101,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(MYRIAD - 1, comparisonCount, "Comparison count must be n-1.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testStreamUnsorted")
   void testStreamUnSorted() {
     IArray high = new HighArray(MYRIAD);
     IArray ord = new OrdArray(MYRIAD);
@@ -138,8 +118,6 @@ class MergeSortParallelTest implements SortProvider {
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray(MYRIAD);
     IArray ord = new OrdArray(MYRIAD);
@@ -157,8 +135,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testSwapCount")
   void testCopyCount() {
     IArray high = new HighArray(MYRIAD);
     IArray ord = new OrdArray(MYRIAD);
@@ -173,8 +149,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), "Swap count must be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray(MYRIAD);
     LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -183,8 +157,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray(MYRIAD);
     revRange(1, MYRIAD).forEach(i -> high.insert(i));
@@ -193,8 +165,6 @@ class MergeSortParallelTest implements SortProvider {
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray(MYRIAD);
     revRange(1, MYRIAD).forEach(i -> high.insert(i));
@@ -203,8 +173,6 @@ class MergeSortParallelTest implements SortProvider {
     assertNotEquals(0, sorter.getCopyCount(), "Copy count must not be zero.");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new MergeSortParallel();
     String className = MergeSortParallel.class.getName();
@@ -212,8 +180,6 @@ class MergeSortParallelTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testPreReset")
   void testPreReset() {
     ISort sorter = new MergeSortParallel();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -221,8 +187,6 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testSortEmptyArray")
   void testSortEmptyArray() {
     long[] a = {};
     MergeSortSimple mss = new MergeSortSimple();
@@ -230,8 +194,6 @@ class MergeSortParallelTest implements SortProvider {
     assertTrue(isSorted(a, 0), "Empty array is sorted!");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testSortSingleElementArray")
   void testSortSingleElementArray() {
     long[] a = {1};
     MergeSortSimple mss = new MergeSortSimple();
@@ -239,8 +201,6 @@ class MergeSortParallelTest implements SortProvider {
     assertTrue(isSorted(a, 1), "Single element array is sorted!");
   }
 
-  @Test
-  @DisplayName("MergeSortParallelTest.testNegativeLengthException")
   void testNegativeLengthException() {
     long[] a = {1};
     MergeSortSimple mss = new MergeSortSimple();

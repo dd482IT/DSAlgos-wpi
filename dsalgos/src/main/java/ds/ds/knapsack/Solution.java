@@ -15,14 +15,12 @@ public class Solution<T> {
     this.value = value;
   }
 
-  @Generated
   @SuppressWarnings("all")
   public void display() {
     System.out.println(this);
   }
 
   @SuppressWarnings("fenum")
-  @Generated
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

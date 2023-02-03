@@ -25,11 +25,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@Disabled
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:classfanoutcomplexity"})
-@DisplayName("BrickSortMaxMinParallelTest")
 class BrickSortMaxMinParallelTest implements SortProvider {
 
   private static final String ZERO_TASKS_EXPECTED = "Zero tasks expected.";
@@ -37,8 +33,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
   private static final String ILLEGAL_LENGTH_EXPECTED = "Illegal length expected.";
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testReverseSortedOdd255")
   void testReverseSortedOdd255() {
     IArray high = new HighArray(255);
     revRange(1, 255).forEach(i -> high.insert(i));
@@ -48,8 +42,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BrickSortMaxMinParallel();
     String className = BrickSortMaxMinParallel.class.getName();
@@ -57,8 +49,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testZeroTimeComplexity")
   void testZeroTimeComplexity() {
     BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
     bsc.sortZeroLengthArray();
@@ -66,8 +56,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testOneTimeComplexity")
   void testOneTimeComplexity() {
     BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
     bsc.sortOneLengthArray();
@@ -75,8 +63,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testNMinusOneTimeComplexity")
   void testNMinusOneTimeComplexity() {
     BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
     bsc.sortNMinusOneLengthArray();
@@ -84,8 +70,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testReset")
   void testReset() {
     BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
     bsc.resetInternals();
@@ -96,8 +80,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testResetAfterSort")
   void testResetAfterSort() {
     BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
     bsc.resetInternalsAfterSort();
@@ -108,8 +90,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortMaxMinParallelTest.testStateAfterReset")
   void testStateAfterReset() {
     BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
     bsc.sortOdd();
@@ -122,10 +102,7 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
   }
 
-  @Nested
   class MyriadTests {
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testSortRandom")
     void testSortRandom() {
       HighArray arr = new HighArray(MYRIAD);
       try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
@@ -136,8 +113,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(isSorted(sorted), "Array must be sorted.");
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testStreamUnSorted")
     void testStreamUnSorted() {
       IArray high = new HighArray(MYRIAD);
       IArray ord = new OrdArray(MYRIAD);
@@ -156,8 +131,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testStreamSorted")
     void testStreamSorted() {
       IArray high = new HighArray(MYRIAD);
       IArray ord = new OrdArray(MYRIAD);
@@ -175,8 +148,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testComparisonCountSorted")
     void testComparisonCountSorted() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -187,8 +158,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testComparisonCountUnsorted")
     void testComparisonCountUnsorted() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).parallel().unordered().forEach(i -> high.insert(i));
@@ -201,8 +170,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testReverseSorted")
     void testReverseSorted() {
       IArray high = new HighArray(MYRIAD);
       revRange(1, MYRIAD).forEach(i -> high.insert(i));
@@ -212,8 +179,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testReverseSortedOdd")
     void testReverseSortedOdd() {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -223,8 +188,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testSwapCount")
     void testSwapCount() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -234,8 +197,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testTimeComplexity")
     void testTimeComplexity() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -244,8 +205,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testReverseSortedOddException")
     void testReverseSortedOddException() {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -254,8 +213,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
           CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.testReverseSortedOddInterruption")
     void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -265,18 +222,13 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     }
   }
 
-  @Nested
   class CornerCasesTest {
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.CornerCasesTest.testEmptyArray")
     void testEmptyArray() {
       BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
       bsc.sortEmptyArray();
       assertTrue(bsc.isSorted(), SORTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.CornerCasesTest.testSingleElementArray")
     void testSingleElementArray() {
       BrickSortMaxMinParallelComplex bsc = new BrickSortMaxMinParallelComplex();
       bsc.sortSingleElementArray();
@@ -284,19 +236,13 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     }
   }
 
-  @Nested
-  @DisplayName("BrickSortMaxMinParallelTest.ComputeCountTest")
   class ComputeTaskCountTest {
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testZeroLength")
     void testZeroLength() {
       assertEquals(0, computeOddPairCount(0), ZERO_TASKS_EXPECTED);
       assertEquals(0, computeEvenPairCount(0), ZERO_TASKS_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMinusOneLength")
     void testMinusOneLength() {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddPairCount(-1), ILLEGAL_LENGTH_EXPECTED);
@@ -304,8 +250,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
           IllegalArgumentException.class, () -> computeEvenPairCount(-1), ILLEGAL_LENGTH_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMinusTwoLength")
     void testMinusTwoLength() {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddPairCount(-2), ILLEGAL_LENGTH_EXPECTED);
@@ -313,8 +257,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
           IllegalArgumentException.class, () -> computeEvenPairCount(-2), ILLEGAL_LENGTH_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMinValueLength")
     void testMinValueLength() {
       assertThrows(
           IllegalArgumentException.class,
@@ -326,36 +268,26 @@ class BrickSortMaxMinParallelTest implements SortProvider {
           ILLEGAL_LENGTH_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testOneValueLength")
     void testOneValueLength() {
       assertEquals(0, computeOddPairCount(1), ZERO_TASKS_EXPECTED);
       assertEquals(0, computeEvenPairCount(1), ZERO_TASKS_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testTwoValueLength")
     void testTwoValueLength() {
       assertEquals(0, computeOddPairCount(2), ZERO_TASKS_EXPECTED);
       assertEquals(1, computeEvenPairCount(2), ONE_TASK_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testThreeValueLength")
     void testThreeValueLength() {
       assertEquals(1, computeOddPairCount(3), ONE_TASK_EXPECTED);
       assertEquals(1, computeEvenPairCount(3), ONE_TASK_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testFourValueLength")
     void testFourValueLength() {
       assertEquals(1, computeOddPairCount(4), ONE_TASK_EXPECTED);
       assertEquals(2, computeEvenPairCount(4), "Two tasks expected");
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMaxValueLength")
     void testMaxValueLength() {
       assertEquals(
           Integer.MAX_VALUE / 2, computeOddPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
@@ -363,8 +295,6 @@ class BrickSortMaxMinParallelTest implements SortProvider {
           Integer.MAX_VALUE / 2, computeEvenPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
           (Integer.MAX_VALUE - 2) / 2,

@@ -148,7 +148,6 @@ public class Deque implements IQueue, IStack, IDeque {
     last = n - 1;
   }
 
-  @Generated
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

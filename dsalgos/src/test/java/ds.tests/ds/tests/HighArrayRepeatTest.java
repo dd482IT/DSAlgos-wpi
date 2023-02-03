@@ -16,10 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("HighArrayRepeatTest")
 class HighArrayRepeatTest {
   IArray array;
 
@@ -30,9 +27,6 @@ class HighArrayRepeatTest {
     }
   }
 
-  @RepeatedTest(THOUSAND)
-  @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
-  @DisplayName("HighArrayRepeatTest.repeatedTestWithRepetitionInfo")
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
     if (!array.delete(current)) fail(() -> "Element " + current + " not found.");

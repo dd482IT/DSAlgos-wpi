@@ -5,7 +5,7 @@ import org.checkerframework.checker.formatter.qual.Format;
 
 public final class TestConstants {
 
-  static final @Format(ConversionCategory.INT) String NOT_AVAILABLE = "%d not available";
+  static final String NOT_AVAILABLE = "%d not available";
 
   static final String MOD_COUNT = "modCount";
 

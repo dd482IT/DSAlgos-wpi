@@ -24,17 +24,11 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("OrdArrayConcurrencyTest")
 class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayConcurrencyTest.class.getName());
 
   @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
-  @ParameterizedTest
-  @MethodSource("provideArraySize")
-  @DisplayName("OrdArrayConcurrencyTest.testConcurrent")
   void testConcurrent(int size) {
     IArray ordArray = new OrdArray(size, true);
     LongStream.rangeClosed(1L, size >> 1)
@@ -81,9 +75,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
-  @ParameterizedTest
-  @MethodSource("provideArraySize")
-  @DisplayName("OrdArrayConcurrencyTest.testConcurrentInserts")
   void testConcurrentInserts(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
@@ -124,8 +115,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
-  @Test
-  @DisplayName("OrdArrayConcurrencyTest.testSyncInserts")
   void testSyncInserts() {
     IArray ordArray = new OrdArray(MYRIAD, true);
     LongStream.rangeClosed(1L, MYRIAD).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
@@ -134,9 +123,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
-  @ParameterizedTest
-  @MethodSource("provideArraySize")
-  @DisplayName("OrdArrayConcurrencyTest.testConcurrentDeletes")
   void testConcurrentDeletes(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
@@ -178,8 +164,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
   }
 
-  @Test
-  @DisplayName("OrdArrayConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
     IArray ordArray = new OrdArray(MYRIAD, true);
     try (LongStream nos = LongStream.rangeClosed(1L, MYRIAD)) {
@@ -192,8 +176,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     assertEquals(0, ordArray.count(), () -> MYRIAD + " elements deleted: " + ordArray.toString());
   }
 
-  @Test
-  @DisplayName("OrdArrayConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
     IArray ordArray = new OrdArray(HUNDRED);
     try (LongStream nos = LongStream.rangeClosed(1L, MYRIAD)) {
@@ -206,8 +188,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     assertEquals(0, ordArray.count(), () -> "All elements deleted: " + ordArray.toString());
   }
 
-  @Test
-  @DisplayName("OrdArrayConcurrencyTest.testConcurrentSyncInsertsDeletes")
   void testConcurrentSyncInsertsDeletes() {
     IArray ordArray = new OrdArray(HUNDRED);
     try (LongStream nos = LongStream.rangeClosed(1L, HUNDRED).unordered().parallel()) {

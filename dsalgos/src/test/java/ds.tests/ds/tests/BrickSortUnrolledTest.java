@@ -24,10 +24,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:classfanoutcomplexity"})
-@DisplayName("BrickSortUnrolledTest")
 class BrickSortUnrolledTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
@@ -39,8 +36,6 @@ class BrickSortUnrolledTest implements SortProvider {
   private static final String COUNT_EQUALS =
       "Comparison count must be same as swap count in reverse ordered array.";
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedOdd255() {
     IArray high = new HighArray(255);
     revRange(1, 255).forEach(i -> high.insert(i));
@@ -60,8 +55,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedEven256() {
     IArray high = new HighArray(256);
     revRange(1, 256).forEach(i -> high.insert(i));
@@ -78,8 +71,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedOdd309() {
     IArray high = new HighArray(309);
     revRange(1, 309).forEach(i -> high.insert(i));
@@ -99,8 +90,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BrickSortUnrolled();
     String className = BrickSortUnrolled.class.getName();
@@ -108,8 +97,6 @@ class BrickSortUnrolledTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testZeroTimeComplexity")
   void testZeroTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
@@ -117,8 +104,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testOneTimeComplexity")
   void testOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
@@ -126,8 +111,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testNMinusOneTimeComplexity")
   void testNMinusOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNMinusOneLengthArray();
@@ -135,8 +118,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testReset")
   void testReset() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternals();
@@ -147,8 +128,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testResetAfterSort")
   void testResetAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternalsAfterSort();
@@ -159,8 +138,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Test
-  @DisplayName("BrickSortUnrolledTest.testStateAfterReset")
   void testStateAfterReset() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
@@ -173,10 +150,7 @@ class BrickSortUnrolledTest implements SortProvider {
     assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
   }
 
-  @Nested
   class MyriadTests {
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testSortRandom")
     void testSortRandom() {
       HighArray arr = new HighArray(MYRIAD);
       try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
@@ -187,8 +161,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(isSorted(sorted), ARRAY_SORTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testStreamUnSorted")
     void testStreamUnSorted() {
       IArray high = new HighArray(MYRIAD);
       IArray ord = new OrdArray(MYRIAD);
@@ -213,8 +185,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testStreamSorted")
     void testStreamSorted() {
       IArray high = new HighArray(MYRIAD);
       IArray ord = new OrdArray(MYRIAD);
@@ -238,8 +208,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testComparisonCountSorted")
     void testComparisonCountSorted() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -250,8 +218,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testComparisonCountUnsorted")
     void testComparisonCountUnsorted() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).parallel().unordered().forEach(i -> high.insert(i));
@@ -264,8 +230,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testReverseSorted")
     void testReverseSorted() {
       IArray high = new HighArray(MYRIAD);
       revRange(1, MYRIAD).forEach(i -> high.insert(i));
@@ -276,8 +240,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd")
     void testReverseSortedOdd() {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -288,8 +250,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testSwapCount")
     void testSwapCount() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -299,8 +259,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testTimeComplexity")
     void testTimeComplexity() {
       IArray high = new HighArray(MYRIAD);
       LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
@@ -310,8 +268,6 @@ class BrickSortUnrolledTest implements SortProvider {
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testReverseSortedOddException")
     void testReverseSortedOddException() {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -320,8 +276,6 @@ class BrickSortUnrolledTest implements SortProvider {
           CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.testReverseSortedOddInterruption")
     void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
       IArray high = new HighArray(MYRIAD + 1);
       revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
@@ -331,18 +285,13 @@ class BrickSortUnrolledTest implements SortProvider {
     }
   }
 
-  @Nested
   class CornerCasesTest {
-    @Test
-    @DisplayName("BrickSortUnrolledTest.CornerCasesTest.testEmptyArray")
     void testEmptyArray() {
       BrickSortComplex bsc = new BrickSortComplex();
       bsc.sortEmptyArray();
       assertTrue(bsc.isSorted(), SORTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.CornerCasesTest.testSingleElementArray")
     void testSingleElementArray() {
       BrickSortComplex bsc = new BrickSortComplex();
       bsc.sortSingleElementArray();
@@ -350,19 +299,13 @@ class BrickSortUnrolledTest implements SortProvider {
     }
   }
 
-  @Nested
-  @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest")
   class ComputeTaskCountTest {
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testZeroLength")
     void testZeroLength() {
       assertEquals(0, computeOddTaskCount(0), ZERO_TASKS_EXPECTED);
       assertEquals(0, computeEvenTaskCount(0), ZERO_TASKS_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testMinusOneLength")
     void testMinusOneLength() {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
@@ -370,8 +313,6 @@ class BrickSortUnrolledTest implements SortProvider {
           IllegalArgumentException.class, () -> computeEvenTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testMinusTwoLength")
     void testMinusTwoLength() {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
@@ -379,8 +320,6 @@ class BrickSortUnrolledTest implements SortProvider {
           IllegalArgumentException.class, () -> computeEvenTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testMinValueLength")
     void testMinValueLength() {
       assertThrows(
           IllegalArgumentException.class,
@@ -392,36 +331,26 @@ class BrickSortUnrolledTest implements SortProvider {
           ILLEGAL_LENGTH_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testOneValueLength")
     void testOneValueLength() {
       assertEquals(0, computeOddTaskCount(1), ZERO_TASKS_EXPECTED);
       assertEquals(0, computeEvenTaskCount(1), ZERO_TASKS_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testTwoValueLength")
     void testTwoValueLength() {
       assertEquals(0, computeOddTaskCount(2), ZERO_TASKS_EXPECTED);
       assertEquals(1, computeEvenTaskCount(2), ONE_TASK_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testThreeValueLength")
     void testThreeValueLength() {
       assertEquals(1, computeOddTaskCount(3), ONE_TASK_EXPECTED);
       assertEquals(1, computeEvenTaskCount(3), ONE_TASK_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testFourValueLength")
     void testFourValueLength() {
       assertEquals(1, computeOddTaskCount(4), ONE_TASK_EXPECTED);
       assertEquals(2, computeEvenTaskCount(4), "Two tasks expected");
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testMaxValueLength")
     void testMaxValueLength() {
       assertEquals(
           Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
@@ -429,8 +358,6 @@ class BrickSortUnrolledTest implements SortProvider {
           Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
-    @Test
-    @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
           (Integer.MAX_VALUE - 2) / 2,

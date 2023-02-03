@@ -14,14 +14,9 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-@DisplayName("RadixSortTest")
 class RadixSortTest implements SortProvider {
 
-  @Test
-  @DisplayName("RadixSortTest.testSort")
   void testSort() {
     int[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     int[] clone = a.clone();
@@ -31,8 +26,6 @@ class RadixSortTest implements SortProvider {
     assertArrayEquals(clone, a, ELEMENTS_SORTED_EQUAL);
   }
 
-  @Test
-  @DisplayName("RadixSortTest.testSortRandom")
   void testSortRandom() {
     int[] arr = new int[MYRIAD];
     int[] ord = new int[MYRIAD];
