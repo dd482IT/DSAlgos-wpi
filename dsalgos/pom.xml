@@ -254,7 +254,7 @@
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
-    <checker.version>3.29.1-SNAPSHOT</checker.version>
+    <checker.version>3.32.1-SNAPSHOT</checker.version>
     <groovy.version>3.0.10</groovy.version>
     <junit.version>5.9.0</junit.version>
     <pitest.version>1.9.9</pitest.version>
@@ -416,7 +416,6 @@
             <verbose>true</verbose>
             <compilerArgs>
               <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
-              <arg>-Awarns</arg>
             </compilerArgs>
           </configuration>
           <executions>
